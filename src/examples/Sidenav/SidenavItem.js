@@ -58,10 +58,10 @@ function SidenavItem({
           }
         >
           <ListItemIcon
-            sx={(theme) => itemIconBox(theme)}
+            sx={(theme) => itemIconBox(theme, { active })}
           >
             {typeof icon === "string" ? (
-              <Icon sx={itemIcon()}>{icon}</Icon>
+              <Icon sx={(theme) => itemIcon(theme, { active })}>{icon}</Icon>
             ) : (
               icon
             )}

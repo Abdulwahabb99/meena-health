@@ -36,11 +36,12 @@ function collapseItem(theme, ownerState) {
 function collapseIconBox(theme, ownerState) {
   const { transitions, functions } = theme;
   const { pxToRem } = functions;
+  const { active } = ownerState;
 
   return {
     minWidth: pxToRem(20),
     minHeight: pxToRem(20),
-    color: "#831ED2",
+    color: active ? "#831ED2" : "inherit",
     borderRadius: pxToRem(8),
     display: "grid",
     placeItems: "center",
@@ -50,14 +51,14 @@ function collapseIconBox(theme, ownerState) {
     }),
 
     "& .material-icons, & .MuiSvgIcon-root, & svg, & svg g": {
-      color: "#831ED2",
+      color: active ? "#831ED2" : "inherit",
       fontSize: "20px !important",
     },
   };
 }
 
 const collapseIcon = (theme, { active }) => ({
-  color: active ? "#831ED2" : "#831ED2",
+  color: active ? "#831ED2" : "inherit",
   fontSize: "20px !important",
 });
 

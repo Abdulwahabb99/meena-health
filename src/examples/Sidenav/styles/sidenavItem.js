@@ -30,14 +30,15 @@ function item(theme, ownerState) {
   };
 }
 
-function itemIconBox(theme) {
+function itemIconBox(theme, ownerState) {
   const { transitions, functions } = theme;
   const { pxToRem } = functions;
+  const { active } = ownerState;
 
   return {
     minWidth: pxToRem(20),
     minHeight: pxToRem(20),
-    color: "#831ED2",
+    color: active ? "#831ED2" : "inherit",
     display: "grid",
     placeItems: "center",
     transition: transitions.create("margin", {
@@ -45,14 +46,14 @@ function itemIconBox(theme) {
       duration: transitions.duration.standard,
     }),
     "& .material-icons, & .MuiSvgIcon-root, & svg": {
-      color: "#831ED2",
+      color: active ? "#831ED2" : "inherit",
       fontSize: "20px !important",
     },
   };
 }
 
-const itemIcon = () => ({
-  color: "#831ED2",
+const itemIcon = (theme, { active }) => ({
+  color: active ? "#831ED2" : "inherit",
   fontSize: "20px !important",
 });
 
@@ -72,6 +73,7 @@ function itemContent(theme, ownerState) {
     marginLeft: pxToRem(18),
     userSelect: "none",
     position: "relative",
+    color: active ? "#6B47F5" : "#AF98DB",
 
     "& .MuiListItemText-root": {
       opacity: miniSidenav ? 0 : 1,
