@@ -47,6 +47,10 @@ function itemContent(theme, ownerState) {
     userSelect: "none",
     position: "relative",
 
+    "& .material-icons, & .MuiSvgIcon-root": {
+      color: "#831ED2",
+      fontSize: "20px !important",
+    },
     "& .MuiListItemText-root": {
       opacity: miniSidenav ? 0 : 1,
       overflow: "hidden",
