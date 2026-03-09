@@ -13,11 +13,13 @@ function navbar(theme, ownerState) {
     boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
     backdropFilter: "none",
     backgroundColor: "#F3EEFF !important",
+    width: "calc(100% + 48px)",
     margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
     paddingLeft: pxToRem(40),
     paddingRight: pxToRem(40),
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+    boxSizing: "border-box",
 
     color: () => {
       let color;
