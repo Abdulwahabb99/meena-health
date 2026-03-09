@@ -37,6 +37,7 @@ function SidenavCollapse({
           sx={(theme) =>
             collapseItem(theme, {
               active,
+              miniSidenav,
               transparentSidenav,
               whiteSidenav,
               darkMode,
@@ -47,6 +48,7 @@ function SidenavCollapse({
             sx={(theme) =>
               collapseIconBox(theme, {
                 active,
+                miniSidenav,
                 transparentSidenav,
                 whiteSidenav,
                 darkMode,

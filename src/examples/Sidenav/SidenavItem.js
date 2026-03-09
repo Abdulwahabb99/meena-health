@@ -37,6 +37,7 @@ function SidenavItem({
           item(theme, {
             active,
             color,
+            miniSidenav,
             transparentSidenav,
             whiteSidenav,
             darkMode,
@@ -58,7 +59,7 @@ function SidenavItem({
           }
         >
           <ListItemIcon
-            sx={(theme) => itemIconBox(theme, { active })}
+            sx={(theme) => itemIconBox(theme, { active, miniSidenav })}
           >
             {typeof icon === "string" ? (
               <Icon sx={(theme) => itemIcon(theme, { active })}>{icon}</Icon>

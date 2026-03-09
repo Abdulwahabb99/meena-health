@@ -1,6 +1,6 @@
 function collapseItem(theme, ownerState) {
   const { transitions, breakpoints, functions } = theme;
-  const { active } = ownerState;
+  const { active, miniSidenav } = ownerState;
 
   const { pxToRem } = functions;
 
@@ -17,7 +17,7 @@ function collapseItem(theme, ownerState) {
     userSelect: "none",
     whiteSpace: "nowrap",
     boxShadow: "none",
-    ...(active && {
+    ...(active && !miniSidenav && {
       borderLeft: "3px solid #831ED2",
       paddingLeft: pxToRem(11),
     }),
@@ -43,13 +43,15 @@ function collapseItem(theme, ownerState) {
 function collapseIconBox(theme, ownerState) {
   const { transitions, functions } = theme;
   const { pxToRem } = functions;
-  const { active } = ownerState;
+  const { active, miniSidenav } = ownerState;
+
+  const hideIconWhenActive = active && !miniSidenav;
 
   return {
-    minWidth: active ? 0 : pxToRem(20),
+    minWidth: hideIconWhenActive ? 0 : pxToRem(20),
     minHeight: pxToRem(20),
-    width: active ? 0 : "auto",
-    padding: active ? 0 : undefined,
+    width: hideIconWhenActive ? 0 : "auto",
+    padding: hideIconWhenActive ? 0 : undefined,
     overflow: "hidden",
     color: active ? "#831ED2" : "inherit",
     borderRadius: pxToRem(8),
@@ -62,8 +64,8 @@ function collapseIconBox(theme, ownerState) {
         duration: transitions.duration.standard,
       }
     ),
-    opacity: active ? 0 : 1,
-    visibility: active ? "hidden" : "visible",
+    opacity: hideIconWhenActive ? 0 : 1,
+    visibility: hideIconWhenActive ? "hidden" : "visible",
 
     "& .material-icons, & .MuiSvgIcon-root, & svg, & svg g": {
       color: active ? "#831ED2" : "inherit",

@@ -1,6 +1,6 @@
 function item(theme, ownerState) {
   const { borders, functions, transitions } = theme;
-  const { active, color } = ownerState;
+  const { active, color, miniSidenav } = ownerState;
 
   const { borderRadius } = borders;
 
@@ -11,7 +11,7 @@ function item(theme, ownerState) {
     width: "100%",
     borderRadius: borderRadius.md,
     cursor: "pointer",
-    ...(active && {
+    ...(active && !miniSidenav && {
       borderLeft: "3px solid #831ED2",
       paddingLeft: "12px",
     }),
@@ -40,13 +40,15 @@ function item(theme, ownerState) {
 function itemIconBox(theme, ownerState) {
   const { transitions, functions } = theme;
   const { pxToRem } = functions;
-  const { active } = ownerState;
+  const { active, miniSidenav } = ownerState;
+
+  const hideIconWhenActive = active && !miniSidenav;
 
   return {
-    minWidth: active ? 0 : pxToRem(20),
+    minWidth: hideIconWhenActive ? 0 : pxToRem(20),
     minHeight: pxToRem(20),
-    width: active ? 0 : "auto",
-    padding: active ? 0 : undefined,
+    width: hideIconWhenActive ? 0 : "auto",
+    padding: hideIconWhenActive ? 0 : undefined,
     overflow: "hidden",
     color: active ? "#831ED2" : "inherit",
     display: "grid",
@@ -58,8 +60,8 @@ function itemIconBox(theme, ownerState) {
         duration: transitions.duration.standard,
       }
     ),
-    opacity: active ? 0 : 1,
-    visibility: active ? "hidden" : "visible",
+    opacity: hideIconWhenActive ? 0 : 1,
+    visibility: hideIconWhenActive ? "hidden" : "visible",
     "& .material-icons, & .MuiSvgIcon-root, & svg": {
       color: active ? "#831ED2" : "inherit",
       fontSize: "20px !important",
@@ -114,7 +116,7 @@ function itemContent(theme, ownerState) {
       top: "50%",
       transform: "translateY(-50%)",
       left: pxToRem(-15),
-      opacity: active ? 0 : 1,
+      opacity: active && !miniSidenav ? 0 : 1,
       borderRadius: "50%",
       fontSize: size.xs,
     },
