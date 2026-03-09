@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
-import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import SidenavCollapse from "examples/Sidenav/SidenavCollapse";
@@ -47,8 +46,6 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
     const parentKey = findParentKey(routes);
     setOpenCollapse(parentKey);
   }, [pathname, routes]);
-
-  const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
     function handleMiniSidenav() {
@@ -192,19 +189,6 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
       ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
     >
       <MDBox pt={3} pb={1} px={3} textAlign="center">
-        <MDBox
-          display={{ xs: "block", xl: "none" }}
-          position="absolute"
-          top={0}
-          right={0}
-          p={1.625}
-          onClick={closeSidenav}
-          sx={{ cursor: "pointer" }}
-        >
-          <MDTypography variant="h6">
-            <Icon sx={{ fontWeight: "bold", color: "#8C56FF" }}>close</Icon>
-          </MDTypography>
-        </MDBox>
         <MDBox
           component={NavLink}
           to="/"

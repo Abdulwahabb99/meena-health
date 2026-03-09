@@ -2,6 +2,7 @@ import { useState, useEffect, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 import Sidenav from "examples/Sidenav";
 import theme from "assets/theme";
 // import themeRTL from "assets/theme/theme-rtl";
@@ -34,8 +35,16 @@ export default function App() {
     darkMode,
   } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const { pathname } = useLocation();
   const { ready } = useAuth();
+
+  useEffect(() => {
+    const checkScreen = () => setIsSmallScreen(window.innerWidth < 1200);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   const MENU_ITEMS = routes;
 
@@ -111,6 +120,20 @@ export default function App() {
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
+            {isSmallScreen && !miniSidenav && (
+              <Box
+                onClick={() => setMiniSidenav(dispatch, true)}
+                sx={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0,0,0,0.2)",
+                  zIndex: 1199,
+                }}
+              />
+            )}
             {/* <Configurator /> */}
             {/* {configsButton} */}
           </>
