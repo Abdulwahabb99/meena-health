@@ -188,14 +188,13 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
       variant="permanent"
       ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
     >
-      <MDBox pt={3} pb={1} px={3} textAlign="center">
+      <MDBox pt={3} pb={1} px={3} textAlign="left">
         <MDBox
           component={NavLink}
           to="/"
           display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
+          alignItems="flex-start"
+          justifyContent="flex-start"
           sx={{ textDecoration: "none" }}
         >
           {brand && (
@@ -203,24 +202,18 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
               component="img"
               src={brand}
               alt="Brand"
-              width="4rem"
-              mb={0.5}
+              sx={{
+                width: "6rem",
+                height: "4rem",
+                minWidth: "6rem",
+                minHeight: "4rem",
+                objectFit: "contain",
+                objectPosition: "left",
+              }}
             />
           )}
-          <MDTypography
-            variant="h6"
-            sx={{
-              color: "#8C56FF",
-              fontWeight: 700,
-              fontSize: "0.85rem",
-              letterSpacing: "0.5px",
-            }}
-          >
-            meena
-          </MDTypography>
         </MDBox>
       </MDBox>
-      <Divider sx={{ borderColor: "rgba(140, 86, 255, 0.12)", mx: 2 }} />
       <List sx={{ px: 0.5 }}>{renderRoutes}</List>
     </SidenavRoot>
   );
