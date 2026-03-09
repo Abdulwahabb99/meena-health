@@ -47,15 +47,19 @@ function itemContent(theme, ownerState) {
     userSelect: "none",
     position: "relative",
 
-    "& span": {
-      color: active ? "#6B47F5" : "#AF98DB",
-      fontWeight: active ? fontWeightRegular : fontWeightLight,
-      fontSize: size.xs,
+    "& .MuiListItemText-root": {
       opacity: miniSidenav ? 0 : 1,
-      transition: transitions.create(["opacity", "color"], {
+      overflow: "hidden",
+      maxWidth: miniSidenav ? 0 : "100%",
+      transition: transitions.create(["opacity", "maxWidth"], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard,
       }),
+    },
+    "& .MuiListItemText-root span": {
+      color: active ? "#6B47F5" : "#AF98DB",
+      fontWeight: active ? fontWeightRegular : fontWeightLight,
+      fontSize: size.xs,
     },
 
     "&::before": {
