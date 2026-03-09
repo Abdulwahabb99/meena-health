@@ -12,14 +12,23 @@ function navbar(theme, ownerState) {
   return {
     boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
     backdropFilter: "none",
-    backgroundColor: "#F3EEFF !important",
-    width: "calc(100% + 48px)",
-    margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
-    paddingLeft: pxToRem(40),
-    paddingRight: pxToRem(40),
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
+    backgroundColor: "inherit",
+    width: "100%",
+    margin: 0,
+    paddingLeft: pxToRem(16),
+    paddingRight: pxToRem(16),
+    borderRadius: borderRadius.xl,
     boxSizing: "border-box",
+
+    [breakpoints.up("xl")]: {
+      backgroundColor: "#F3EEFF !important",
+      width: "calc(100% + 48px)",
+      margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
+      paddingLeft: pxToRem(40),
+      paddingRight: pxToRem(40),
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
 
     color: () => {
       let color;
@@ -38,7 +47,6 @@ function navbar(theme, ownerState) {
     minHeight: pxToRem(54),
     display: "grid",
     alignItems: "center",
-    borderRadius: borderRadius.xl,
     paddingTop: pxToRem(8),
     paddingBottom: pxToRem(8),
 
