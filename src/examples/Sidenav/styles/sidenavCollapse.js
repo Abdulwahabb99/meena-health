@@ -92,13 +92,7 @@ function collapseText(theme, ownerState) {
 
 function collapseArrow(theme, ownerState) {
   const { typography, transitions, breakpoints, functions } = theme;
-  const {
-    noCollapse,
-    transparentSidenav,
-    miniSidenav,
-    open,
-    active,
-  } = ownerState;
+  const { transparentSidenav, miniSidenav, open, active } = ownerState;
 
   const { size } = typography;
   const { pxToRem } = functions;
@@ -115,10 +109,7 @@ function collapseArrow(theme, ownerState) {
     }),
 
     [breakpoints.up("xl")]: {
-      display:
-        noCollapse || (transparentSidenav && miniSidenav) || miniSidenav
-          ? "none !important"
-          : "block !important",
+      display: (transparentSidenav && miniSidenav) || miniSidenav ? "none !important" : "block !important",
     },
   };
 }
