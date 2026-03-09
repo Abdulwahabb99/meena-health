@@ -2,10 +2,7 @@ import { useState, useEffect, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Icon from "@mui/material/Icon";
-import MDBox from "components/MDBox";
 import Sidenav from "examples/Sidenav";
-import Configurator from "examples/Configurator";
 import theme from "assets/theme";
 // import themeRTL from "assets/theme/theme-rtl";
 import themeDark from "assets/theme-dark";
@@ -14,23 +11,18 @@ import themeDark from "assets/theme-dark";
 // import { CacheProvider } from "@emotion/react";
 // import createCache from "@emotion/cache";
 import { routes } from "routes";
-import {
-  useMaterialUIController,
-  setMiniSidenav,
-  setOpenConfigurator,
-} from "context";
-const brandLogo = "/meena-logo.png";
+import { useMaterialUIController, setMiniSidenav } from "context";
 import ProtectedRoutes from "shared/component/ProtectedRoutes";
 import pageRoutes from "page.routes";
 import SignIn from "layouts/authentication/sign-in/SignIn/SignIn";
+import SignUp from "layouts/authentication/sign-up/cover";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useAuth } from "shared/hooks/useAuth";
-import { SUPER_ADMIN } from "constants/names";
-import { sellerRoutes } from "routes";
 import SuspenseLoading from "components/SuspenseLoading/SuspenseLoading";
-import { OPERATOR } from "constants/names";
+
+const brandLogo = "/meena-logo.png";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -38,19 +30,14 @@ export default function App() {
     miniSidenav,
     direction = "ltr",
     layout,
-    openConfigurator,
     sidenavColor,
-    transparentSidenav,
-    whiteSidenav,
     darkMode,
   } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const { pathname } = useLocation();
-  const { user, ready } = useAuth();
+  const { ready } = useAuth();
 
-  const IS_SUPER_ADMIN = user?.role === SUPER_ADMIN;
-  const IS_OPERATOR = user?.role === OPERATOR;
-  const MENU_ITEMS = IS_SUPER_ADMIN || IS_OPERATOR ? routes : sellerRoutes;
+  const MENU_ITEMS = routes;
 
   // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
@@ -69,9 +56,6 @@ export default function App() {
   };
 
   // Change the openConfigurator state
-  const handleConfiguratorOpen = () =>
-    setOpenConfigurator(dispatch, !openConfigurator);
-
   // Setting the dir attribute for the body element
   useEffect(() => {
     document.body.setAttribute("dir", "ltr");
@@ -99,30 +83,6 @@ export default function App() {
 
       return [];
     });
-
-  const configsButton = (
-    <MDBox
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      width="3.25rem"
-      height="3.25rem"
-      bgColor="white"
-      shadow="sm"
-      borderRadius="50%"
-      position="fixed"
-      right="2rem"
-      bottom="2rem"
-      zIndex={99}
-      color="dark"
-      sx={{ cursor: "pointer" }}
-      onClick={handleConfiguratorOpen}
-    >
-      <Icon fontSize="small" color="inherit">
-        settings
-      </Icon>
-    </MDBox>
-  );
 
   if (!ready) {
     return <div>Loading...</div>;
@@ -158,6 +118,7 @@ export default function App() {
         <Suspense fallback={<SuspenseLoading />}>
           <Routes>
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
             {getRoutes(MENU_ITEMS)}
             {pageRoutes.map((route) => (
               <Route
@@ -166,8 +127,8 @@ export default function App() {
                 element={<ProtectedRoutes>{route.component}</ProtectedRoutes>}
               />
             ))}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
         </Suspense>
       </ThemeProvider>

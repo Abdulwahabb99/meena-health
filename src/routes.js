@@ -1,132 +1,103 @@
-import NewProduct from "layouts/ecommerce/products/new-product";
 import Icon from "@mui/material/Icon";
-import Dashboard from "layouts/Dashboard/Dashboard";
-import Users from "layouts/Users/Users";
-import React, { lazy } from "react";
-import Orders from "layouts/Orders/Orders";
-import Categories from "layouts/Categories/Categories";
+import React from "react";
 
-const Roles = lazy(() => import("layouts/Roles/Roles"));
-const Permissions = lazy(() => import("layouts/Permissions/Permissions"));
-const Products = lazy(() => import("layouts/Products/Products"));
+import Home from "layouts/Home/Home";
+import News from "layouts/News/News";
+import QuickLinks from "layouts/QuickLinks/QuickLinks";
+import Departments from "layouts/Departments/Departments";
+import DocumentHub from "layouts/DocumentHub/DocumentHub";
+import PoliciesProcedures from "layouts/DocumentHub/PoliciesProcedures";
+import FormsTemplates from "layouts/DocumentHub/FormsTemplates";
+import StaffDirectory from "layouts/StaffDirectory/StaffDirectory";
+import HelpSupport from "layouts/HelpSupport/HelpSupport";
 
 export const routes = [
   {
     type: "collapse",
-    name: "الرئيسية",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
+    name: "Home",
+    key: "home",
+    icon: <Icon fontSize="small">home</Icon>,
+    route: "/home",
+    component: <Home />,
     noCollapse: true,
     protected: true,
   },
   {
     type: "collapse",
-    name: "المنتجات",
-    key: "products",
-    route: "/products",
-    icon: <Icon fontSize="small">shop</Icon>,
-    component: <Products />,
+    name: "News & Announcements",
+    key: "news",
+    icon: <Icon fontSize="small">newspaper</Icon>,
+    route: "/news",
+    component: <News />,
     noCollapse: true,
     protected: true,
   },
   {
     type: "collapse",
-    name: "التصنيفات",
-    key: "categories",
-    icon: <Icon fontSize="small">category</Icon>,
-    route: "/categories",
-    component: <Categories />,
+    name: "Quick Links",
+    key: "quick-links",
+    icon: <Icon fontSize="small">link</Icon>,
+    route: "/quick-links",
+    component: <QuickLinks />,
     noCollapse: true,
     protected: true,
   },
   {
     type: "collapse",
-    name: "الطلبات",
-    key: "orders",
-    icon: <Icon fontSize="small">shopping_cart</Icon>,
-    route: "/orders",
-    component: <Orders />,
+    name: "Departments",
+    key: "departments",
+    icon: <Icon fontSize="small">business</Icon>,
+    route: "/departments",
+    component: <Departments />,
     noCollapse: true,
     protected: true,
   },
   {
     type: "collapse",
-    name: "إدارة المستخدمين",
-    key: "users management",
-    icon: <Icon fontSize="small">manage_accounts</Icon>,
-    component: <Users />,
+    name: "Document Hub",
+    key: "document-hub",
+    icon: <Icon fontSize="small">folder</Icon>,
+    route: "/documents",
+    component: <DocumentHub />,
+    noCollapse: false,
     collapse: [
       {
-        name: "المستخدمين",
-        key: "users",
+        name: "Policies & Procedures",
+        key: "policies",
         noCollapse: true,
-        icon: <Icon fontSize="small">group</Icon>,
-        route: "/users",
-        component: <Users />,
+        icon: <Icon fontSize="small">description</Icon>,
+        route: "/documents/policies",
+        component: <PoliciesProcedures />,
         protected: true,
       },
       {
-        name: "الأدوار",
-        key: "roles",
+        name: "Forms & Templates",
+        key: "forms",
         noCollapse: true,
-        icon: <Icon fontSize="small">admin_panel_settings</Icon>,
-        route: "/roles",
-        component: <Roles />,
-        protected: true,
-      },
-      {
-        name: "الصلاحيات",
-        key: "permissions",
-        noCollapse: true,
-        icon: <Icon fontSize="small">lock</Icon>,
-        route: "/permissions",
-        component: <Permissions />,
+        icon: <Icon fontSize="small">assignment</Icon>,
+        route: "/documents/forms",
+        component: <FormsTemplates />,
         protected: true,
       },
     ],
   },
-];
-
-export const sellerRoutes = [
   {
     type: "collapse",
-    name: "الرئيسية",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
+    name: "Staff Directory",
+    key: "staff",
+    icon: <Icon fontSize="small">people</Icon>,
+    route: "/staff",
+    component: <StaffDirectory />,
     noCollapse: true,
     protected: true,
   },
   {
     type: "collapse",
-    name: "المنتجات",
-    key: "products",
-    route: "/products",
-    icon: <Icon fontSize="small">shop</Icon>,
-    component: <Products />,
-    noCollapse: true,
-    protected: true,
-  },
-  {
-    type: "collapse",
-    name: "التصنيفات",
-    key: "categories",
-    icon: <Icon fontSize="small">category</Icon>,
-    route: "/categories",
-    component: <Categories />,
-    noCollapse: true,
-    protected: true,
-  },
-  {
-    type: "collapse",
-    name: "الطلبات",
-    key: "orders",
-    icon: <Icon fontSize="small">shopping_cart</Icon>,
-    route: "/orders",
-    component: <Orders />,
+    name: "Help & Support",
+    key: "help",
+    icon: <Icon fontSize="small">help</Icon>,
+    route: "/help",
+    component: <HelpSupport />,
     noCollapse: true,
     protected: true,
   },

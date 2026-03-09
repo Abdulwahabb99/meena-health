@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import bgImage from "assets/images/illustrations/Background.png";
@@ -20,9 +20,10 @@ import { useAuth } from "shared/hooks/useAuth";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import MDTypography from "components/MDTypography";
 import widgetImage from "assets/images/illustrations/Widget.png";
-const logo = "/meena-logo.png";
 import { useLoginMutation } from "services/mutations/useLoginMutation";
 import { toast } from "react-toastify";
+
+const logo = "/meena-logo.png";
 
 function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
