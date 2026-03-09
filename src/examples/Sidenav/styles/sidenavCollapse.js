@@ -40,7 +40,7 @@ function collapseIconBox(theme, ownerState) {
   return {
     minWidth: pxToRem(20),
     minHeight: pxToRem(20),
-    color: "inherit",
+    color: "#831ED2",
     borderRadius: pxToRem(8),
     display: "grid",
     placeItems: "center",
@@ -49,8 +49,9 @@ function collapseIconBox(theme, ownerState) {
       duration: transitions.duration.standard,
     }),
 
-    "& svg, svg g": {
-      color: "inherit",
+    "& .material-icons, & .MuiSvgIcon-root, & svg, & svg g": {
+      color: "#831ED2",
+      fontSize: "20px !important",
     },
   };
 }
