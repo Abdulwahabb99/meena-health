@@ -20,7 +20,7 @@ import { useAuth } from "shared/hooks/useAuth";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import MDTypography from "components/MDTypography";
 import widgetImage from "assets/images/illustrations/Widget.png";
-import logo from "assets/images/mainLogo.png";
+const logo = "/meena-logo.png";
 import { useLoginMutation } from "services/mutations/useLoginMutation";
 import { toast } from "react-toastify";
 

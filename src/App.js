@@ -19,8 +19,7 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
-import brandWhite from "assets/images/tajhiz-logo.png";
-import brandDark from "assets/images/tajhiz-logo.png";
+const brandLogo = "/meena-logo.png";
 import ProtectedRoutes from "shared/component/ProtectedRoutes";
 import pageRoutes from "page.routes";
 import SignIn from "layouts/authentication/sign-in/SignIn/SignIn";
@@ -147,11 +146,7 @@ export default function App() {
           <>
             <Sidenav
               color={sidenavColor}
-              brand={
-                (transparentSidenav && !darkMode) || whiteSidenav
-                  ? brandDark
-                  : brandWhite
-              }
+              brand={brandLogo}
               routes={MENU_ITEMS}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
