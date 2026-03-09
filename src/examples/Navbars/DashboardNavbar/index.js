@@ -108,7 +108,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
       anchorReference={null}
       anchorOrigin={{
         vertical: "top",
-        horizontal: "left",
+        horizontal: "right",
       }}
       open={settingMenu.open}
       onClose={settingMenu.onClose}
