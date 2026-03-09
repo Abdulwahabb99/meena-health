@@ -11,14 +11,13 @@ function navbar(theme, ownerState) {
 
   return {
     boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
-    backdropFilter:
-      transparentNavbar || absolute
-        ? "none"
-        : `saturate(200%) blur(${pxToRem(30)})`,
-    backgroundColor:
-      transparentNavbar || absolute
-        ? `${transparent.main} !important`
-        : rgba(darkMode ? background.default : white.main, 0.8),
+    backdropFilter: "none",
+    backgroundColor: "#F3EEFF !important",
+    margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
+    paddingLeft: pxToRem(40),
+    paddingRight: pxToRem(40),
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
 
     color: () => {
       let color;
@@ -33,15 +32,13 @@ function navbar(theme, ownerState) {
 
       return color;
     },
-    top: absolute ? 0 : pxToRem(12),
+    top: 0,
     minHeight: pxToRem(54),
     display: "grid",
     alignItems: "center",
     borderRadius: borderRadius.xl,
     paddingTop: pxToRem(8),
     paddingBottom: pxToRem(8),
-    paddingRight: absolute ? pxToRem(8) : 0,
-    paddingLeft: absolute ? pxToRem(16) : 0,
 
     "& > *": {
       transition: transitions.create("all", {

@@ -53,6 +53,11 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     "& .MuiDrawer-paper": {
       boxShadow: "none",
       border: "none",
+      height: "100vh",
+      top: 0,
+      bottom: 0,
+      margin: 0,
+      borderRadius: 0,
       ...(miniSidenav ? drawerCloseStyles() : drawerOpenStyles()),
     },
   };
