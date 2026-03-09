@@ -39,7 +39,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     [breakpoints.up("xl")]: {
       boxShadow: "none",
       left: "0",
-      width: pxToRem(96),
+      width: pxToRem(73),
       overflowX: "hidden",
       transform: "translateX(0)",
       transition: transitions.create(["width", "background-color"], {

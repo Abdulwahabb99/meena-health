@@ -31,7 +31,7 @@ function DashboardLayout({ children }) {
         overflow: "visible",
 
         [breakpoints.up("xl")]: {
-          marginLeft: miniSidenav ? pxToRem(104) : pxToRem(228),
+          marginLeft: miniSidenav ? pxToRem(73) : pxToRem(240),
           transition: transitions.create(["margin-left", "margin-right"], {
             easing: transitions.easing.easeInOut,
             duration: transitions.duration.standard,
