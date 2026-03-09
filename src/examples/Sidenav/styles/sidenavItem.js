@@ -11,6 +11,10 @@ function item(theme, ownerState) {
     width: "100%",
     borderRadius: borderRadius.md,
     cursor: "pointer",
+    ...(active && {
+      borderLeft: "3px solid #831ED2",
+      paddingLeft: "12px",
+    }),
     backgroundColor: () => {
       if (active === "isParent") {
         return "rgba(140, 86, 255, 0.08)";
@@ -19,10 +23,13 @@ function item(theme, ownerState) {
       }
       return "transparent";
     },
-    transition: transitions.create("background-color", {
-      easing: transitions.easing.easeInOut,
-      duration: transitions.duration.sharp,
-    }),
+    transition: transitions.create(
+      ["background-color", "border-color", "padding"],
+      {
+        easing: transitions.easing.easeInOut,
+        duration: transitions.duration.sharp,
+      }
+    ),
 
     "&:hover, &:focus": {
       backgroundColor: !active && "rgba(140, 86, 255, 0.06)",
@@ -36,15 +43,23 @@ function itemIconBox(theme, ownerState) {
   const { active } = ownerState;
 
   return {
-    minWidth: pxToRem(20),
+    minWidth: active ? 0 : pxToRem(20),
     minHeight: pxToRem(20),
+    width: active ? 0 : "auto",
+    padding: active ? 0 : undefined,
+    overflow: "hidden",
     color: active ? "#831ED2" : "inherit",
     display: "grid",
     placeItems: "center",
-    transition: transitions.create("margin", {
-      easing: transitions.easing.easeInOut,
-      duration: transitions.duration.standard,
-    }),
+    transition: transitions.create(
+      ["margin", "min-width", "width", "padding", "opacity"],
+      {
+        easing: transitions.easing.easeInOut,
+        duration: transitions.duration.standard,
+      }
+    ),
+    opacity: active ? 0 : 1,
+    visibility: active ? "hidden" : "visible",
     "& .material-icons, & .MuiSvgIcon-root, & svg": {
       color: active ? "#831ED2" : "inherit",
       fontSize: "20px !important",
@@ -99,7 +114,7 @@ function itemContent(theme, ownerState) {
       top: "50%",
       transform: "translateY(-50%)",
       left: pxToRem(-15),
-      opacity: 1,
+      opacity: active ? 0 : 1,
       borderRadius: "50%",
       fontSize: size.xs,
     },

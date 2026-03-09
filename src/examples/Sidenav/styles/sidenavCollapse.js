@@ -17,12 +17,19 @@ function collapseItem(theme, ownerState) {
     userSelect: "none",
     whiteSpace: "nowrap",
     boxShadow: "none",
+    ...(active && {
+      borderLeft: "3px solid #831ED2",
+      paddingLeft: pxToRem(11),
+    }),
 
     [breakpoints.up("xl")]: {
-      transition: transitions.create(["box-shadow", "background-color"], {
-        easing: transitions.easing.easeInOut,
-        duration: transitions.duration.shorter,
-      }),
+      transition: transitions.create(
+        ["box-shadow", "background-color", "border", "padding"],
+        {
+          easing: transitions.easing.easeInOut,
+          duration: transitions.duration.shorter,
+        }
+      ),
     },
 
     "&:hover, &:focus": {
@@ -39,16 +46,24 @@ function collapseIconBox(theme, ownerState) {
   const { active } = ownerState;
 
   return {
-    minWidth: pxToRem(20),
+    minWidth: active ? 0 : pxToRem(20),
     minHeight: pxToRem(20),
+    width: active ? 0 : "auto",
+    padding: active ? 0 : undefined,
+    overflow: "hidden",
     color: active ? "#831ED2" : "inherit",
     borderRadius: pxToRem(8),
     display: "grid",
     placeItems: "center",
-    transition: transitions.create("margin", {
-      easing: transitions.easing.easeInOut,
-      duration: transitions.duration.standard,
-    }),
+    transition: transitions.create(
+      ["margin", "min-width", "width", "padding", "opacity"],
+      {
+        easing: transitions.easing.easeInOut,
+        duration: transitions.duration.standard,
+      }
+    ),
+    opacity: active ? 0 : 1,
+    visibility: active ? "hidden" : "visible",
 
     "& .material-icons, & .MuiSvgIcon-root, & svg, & svg g": {
       color: active ? "#831ED2" : "inherit",
