@@ -25,6 +25,9 @@ import { toast } from "react-toastify";
 
 const logo = "/meena-logo.png";
 
+// TODO: Set to false when implementing real auth with API
+const SKIP_API_LOGIN = true;
+
 function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleTogglePasswordVisibility = () => setShowPassword((v) => !v);
@@ -38,9 +41,21 @@ function SignIn() {
     },
     validationSchema: signInValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      // TODO: Remove this block when implementing real auth - use API login below
+      if (SKIP_API_LOGIN) {
+        login({
+          data: {
+            id: 1,
+            email: values.email || "dev@meena.com",
+            role: "user",
+          },
+        });
+        return;
+      }
+
       loginMutation.mutate(values, {
-        onSuccess: () => {
-          login();
+        onSuccess: (data) => {
+          login(data);
         },
         onError: (error) => {
           console.error("Login error (test):", error);
