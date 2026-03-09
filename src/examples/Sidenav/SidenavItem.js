@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import Collapse from "@mui/material/Collapse";
 import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
@@ -8,6 +9,8 @@ import {
   item,
   itemContent,
   itemArrow,
+  itemIconBox,
+  itemIcon,
 } from "examples/Sidenav/styles/sidenavItem";
 import { useMaterialUIController } from "context";
 
@@ -54,7 +57,15 @@ function SidenavItem({
             })
           }
         >
-          {icon}
+          <ListItemIcon
+            sx={(theme) => itemIconBox(theme)}
+          >
+            {typeof icon === "string" ? (
+              <Icon sx={itemIcon()}>{icon}</Icon>
+            ) : (
+              icon
+            )}
+          </ListItemIcon>
           <ListItemText sx={{ margin: "0 5px" }} primary={name} />
           {children && (
             <Icon
