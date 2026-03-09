@@ -36,8 +36,8 @@ function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "user@meenahealth.com",
+      password: "password",
     },
     validationSchema: signInValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {

@@ -117,7 +117,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
       <NotificationItem
         onClick={() => logout()}
         icon={<Icon>logout</Icon>}
-        title="نسجيل خروج"
+        title="Sign out"
       />
     </Menu>
   );
