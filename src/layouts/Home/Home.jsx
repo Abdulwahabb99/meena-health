@@ -28,7 +28,7 @@ function Home() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox py={3} sx={{ bgcolor: "#F8F7FC", minHeight: "100vh" }}>
+      <MDBox p={3}>
         <Grid container spacing={3}>
           {/* Container 1: Main content (left) - first image */}
           <Grid item xs={12} lg={8}>
@@ -60,8 +60,7 @@ function Home() {
                     icon={action.icon}
                     label={action.label}
                     onClick={() => {
-                      if (action.label === "Documents")
-                        navigate("/documents");
+                      if (action.label === "Documents") navigate("/documents");
                     }}
                   />
                 ))}
