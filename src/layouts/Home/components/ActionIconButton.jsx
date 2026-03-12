@@ -15,13 +15,13 @@ function ActionIconButton({ icon, label, onClick }) {
     >
       <IconButton
         sx={{
-          width: 48,
-          height: 48,
-          bgcolor: "#F3EEFF",
-          color: "#831ED2",
+          width: 56,
+          height: 56,
+          bgcolor: "#8C56FF",
+          color: "white",
           "&:hover": {
-            bgcolor: "rgba(140, 86, 255, 0.12)",
-            color: "#6B47F5",
+            bgcolor: "#6B47F5",
+            color: "white",
           },
         }}
       >

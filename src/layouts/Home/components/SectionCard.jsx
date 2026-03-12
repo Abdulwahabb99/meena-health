@@ -7,8 +7,8 @@ function SectionCard({ children, sx = {}, noPadding, ...rest }) {
     <Card
       sx={{
         borderRadius: 2,
-        boxShadow: "none",
-        border: "1px solid rgba(140, 86, 255, 0.1)",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+        border: "1px solid rgba(140, 86, 255, 0.08)",
         overflow: "hidden",
         bgcolor: "white",
         ...sx,

@@ -2,18 +2,14 @@ import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import SectionCard from "./SectionCard";
-import EventCard from "./EventCard";
 
-function EventPanel({ featuredEvent, events }) {
+function EventPanel({ featuredEvent, eventDateItems }) {
   return (
     <MDBox>
-      <MDTypography variant="h6" fontWeight="bold" color="dark" mb={2}>
-        Event
-      </MDTypography>
-
       <SectionCard sx={{ mb: 2 }} noPadding>
         <MDBox
           p={2}
@@ -24,8 +20,18 @@ function EventPanel({ featuredEvent, events }) {
               "--fc-button-border-color": "#8C56FF",
               "--fc-button-hover-bg-color": "#6B47F5",
               "--fc-button-hover-border-color": "#6B47F5",
-              "--fc-today-bg-color": "rgba(140, 86, 255, 0.08)",
-              "--fc-neutral-bg-color": "#F3EEFF",
+              "--fc-today-bg-color": "rgba(140, 86, 255, 0.06)",
+            },
+            "& .fc .fc-day-today .fc-daygrid-day-number": {
+              backgroundColor: "#8C56FF !important",
+              color: "white !important",
+              borderRadius: "50% !important",
+              width: 28,
+              height: 28,
+              display: "flex !important",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto",
             },
             "& .fc .fc-button": {
               backgroundColor: "#8C56FF !important",
@@ -65,14 +71,45 @@ function EventPanel({ featuredEvent, events }) {
       </SectionCard>
 
       {featuredEvent && (
-        <MDBox mb={2}>
-          <EventCard event={featuredEvent} isFeatured />
+        <MDBox
+          mb={2}
+          sx={{
+            p: 1.5,
+            borderRadius: 1.5,
+            border: "1px solid rgba(140, 86, 255, 0.2)",
+            bgcolor: "white",
+            cursor: "pointer",
+          }}
+        >
+          <MDTypography variant="button" fontWeight="medium" color="dark">
+            {featuredEvent.title}
+          </MDTypography>
         </MDBox>
       )}
 
-      <MDBox display="flex" flexDirection="column" gap={1}>
-        {events.map((event) => (
-          <EventCard key={event.id} event={event} isFeatured={false} />
+      <MDTypography variant="h6" fontWeight="bold" color="dark" mb={2}>
+        Event Date
+      </MDTypography>
+
+      <MDBox display="flex" flexDirection="column" gap={1.5}>
+        {eventDateItems.map((item) => (
+          <SectionCard key={item.id} sx={{ py: 1.5 }}>
+            <MDBox display="flex" alignItems="center" gap={1.5}>
+              <MDBox
+                sx={{
+                  fontSize: "1.5rem",
+                  lineHeight: 1,
+                  minWidth: 32,
+                  textAlign: "center",
+                }}
+              >
+                {item.emoji}
+              </MDBox>
+              <MDTypography variant="body2" color="dark" fontWeight="medium">
+                {item.title}
+              </MDTypography>
+            </MDBox>
+          </SectionCard>
         ))}
       </MDBox>
     </MDBox>
@@ -83,15 +120,13 @@ EventPanel.propTypes = {
   featuredEvent: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
     isFeatured: PropTypes.bool,
   }),
-  events: PropTypes.arrayOf(
+  eventDateItems: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      emoji: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      isFeatured: PropTypes.bool,
     })
   ).isRequired,
 };

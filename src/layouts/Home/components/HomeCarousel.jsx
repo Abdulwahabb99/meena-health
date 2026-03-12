@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Icon from "@mui/material/Icon";
 import IconButton from "@mui/material/IconButton";
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 
 import "swiper/css";
 
@@ -47,26 +46,6 @@ function HomeCarousel({ slides }) {
                   objectFit: "cover",
                 }}
               />
-              <MDBox
-                position="absolute"
-                bottom={0}
-                left={0}
-                right={0}
-                p={2}
-                sx={{
-                  background:
-                    "linear-gradient(transparent, rgba(0,0,0,0.6))",
-                }}
-              >
-                <MDTypography variant="h6" color="white" fontWeight="bold">
-                  {slide.title}
-                </MDTypography>
-                {slide.subtitle && (
-                  <MDTypography variant="caption" color="white">
-                    {slide.subtitle}
-                  </MDTypography>
-                )}
-              </MDBox>
             </MDBox>
           </SwiperSlide>
         ))}
@@ -75,35 +54,35 @@ function HomeCarousel({ slides }) {
         onClick={handlePrev}
         sx={{
           position: "absolute",
-          left: 8,
+          left: 12,
           top: "50%",
           transform: "translateY(-50%)",
           zIndex: 2,
-          width: 36,
-          height: 36,
-          bgcolor: "white",
-          boxShadow: 2,
-          "&:hover": { bgcolor: "grey.100" },
+          width: 40,
+          height: 40,
+          bgcolor: "#8C56FF",
+          color: "white",
+          "&:hover": { bgcolor: "#6B47F5", color: "white" },
         }}
       >
-        <Icon sx={{ color: "#831ED2" }}>chevron_left</Icon>
+        <Icon>chevron_left</Icon>
       </IconButton>
       <IconButton
         onClick={handleNext}
         sx={{
           position: "absolute",
-          right: 8,
+          right: 12,
           top: "50%",
           transform: "translateY(-50%)",
           zIndex: 2,
-          width: 36,
-          height: 36,
-          bgcolor: "white",
-          boxShadow: 2,
-          "&:hover": { bgcolor: "grey.100" },
+          width: 40,
+          height: 40,
+          bgcolor: "#8C56FF",
+          color: "white",
+          "&:hover": { bgcolor: "#6B47F5", color: "white" },
         }}
       >
-        <Icon sx={{ color: "#831ED2" }}>chevron_right</Icon>
+        <Icon>chevron_right</Icon>
       </IconButton>
     </MDBox>
   );
