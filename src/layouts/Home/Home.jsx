@@ -48,22 +48,31 @@ function Home() {
 
               {/* Quick actions + Learning & Development pill */}
               <MDBox
-                display="flex"
-                alignItems="center"
-                gap={3}
-                flexWrap="wrap"
                 mb={3}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                {QUICK_ACTIONS.map((action) => (
-                  <ActionIconButton
-                    key={action.id}
-                    icon={action.icon}
-                    label={action.label}
-                    onClick={() => {
-                      if (action.label === "Documents") navigate("/documents");
-                    }}
-                  />
-                ))}
+                {" "}
+                <MDBox
+                  display="flex"
+                  alignItems="center"
+                  gap={3}
+                  flexWrap="wrap"
+                  mb={3}
+                >
+                  {QUICK_ACTIONS.map((action) => (
+                    <ActionIconButton
+                      key={action.id}
+                      icon={action.icon}
+                      label={action.label}
+                      onClick={() => {
+                        if (action.label === "Documents")
+                          navigate("/documents");
+                      }}
+                    />
+                  ))}
+                </MDBox>
                 <MDBox ml={{ xs: 0, md: 2 }}>
                   <LearningPillButton
                     label={HIGHLIGHTED_CATEGORY.label}
