@@ -28,89 +28,110 @@ function Home() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      {/* Page header: Hala to Meena | Event */}
-      <MDBox
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        flexWrap="wrap"
-        gap={2}
-        p={3}
-      >
-        <MDTypography variant="h4" fontWeight="bold" color="dark">
-          Hala to Meena
-        </MDTypography>
-        <MDBox display="flex" alignItems="center" gap={1}>
-          <Icon sx={{ color: "#8C56FF", fontSize: 24 }}>event</Icon>
-          <MDTypography variant="h6" fontWeight="medium" color="dark">
-            Event
-          </MDTypography>
-        </MDBox>
-      </MDBox>
+      <MDBox py={3} sx={{ bgcolor: "#F8F7FC", minHeight: "100vh" }}>
+        <Grid container spacing={3}>
+          {/* Container 1: Main content (left) - first image */}
+          <Grid item xs={12} lg={8}>
+            <MDBox
+              sx={{
+                p: 3,
+                borderRadius: 2,
+                bgcolor: "white",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                border: "1px solid rgba(140, 86, 255, 0.08)",
+                height: "100%",
+              }}
+            >
+              <MDTypography variant="h4" fontWeight="bold" color="dark" mb={3}>
+                Hala to Meena
+              </MDTypography>
 
-      {/* Quick actions + Learning & Development pill (same row) */}
-      <MDBox display="flex" alignItems="center" gap={3} flexWrap="wrap" mb={3}>
-        {QUICK_ACTIONS.map((action) => (
-          <ActionIconButton
-            key={action.id}
-            icon={action.icon}
-            label={action.label}
-            onClick={() => {
-              if (action.label === "Documents") navigate("/documents");
-            }}
-          />
-        ))}
-        <MDBox ml={{ xs: 0, md: 2 }}>
-          <LearningPillButton
-            label={HIGHLIGHTED_CATEGORY.label}
-            icon={HIGHLIGHTED_CATEGORY.icon}
-          />
-        </MDBox>
-      </MDBox>
-
-      <Grid container spacing={3}>
-        {/* Left + Center: Carousel and Jobs */}
-        <Grid item xs={12} lg={8}>
-          {/* Carousel */}
-          <MDBox mb={3}>
-            <HomeCarousel slides={CAROUSEL_SLIDES} />
-          </MDBox>
-
-          {/* Jobs section */}
-          <SectionHeader
-            title="New Job"
-            action={
+              {/* Quick actions + Learning & Development pill */}
               <MDBox
-                component="span"
-                sx={{
-                  fontSize: "0.875rem",
-                  color: "#831ED2",
-                  cursor: "pointer",
-                  fontWeight: 500,
-                }}
-                onClick={() => navigate("/departments")}
+                display="flex"
+                alignItems="center"
+                gap={3}
+                flexWrap="wrap"
+                mb={3}
               >
-                Show more
+                {QUICK_ACTIONS.map((action) => (
+                  <ActionIconButton
+                    key={action.id}
+                    icon={action.icon}
+                    label={action.label}
+                    onClick={() => {
+                      if (action.label === "Documents")
+                        navigate("/documents");
+                    }}
+                  />
+                ))}
+                <MDBox ml={{ xs: 0, md: 2 }}>
+                  <LearningPillButton
+                    label={HIGHLIGHTED_CATEGORY.label}
+                    icon={HIGHLIGHTED_CATEGORY.icon}
+                  />
+                </MDBox>
               </MDBox>
-            }
-          />
-          <Grid container spacing={2}>
-            {JOBS.map((job) => (
-              <Grid item xs={12} sm={6} key={job.id}>
-                <JobCard job={job} />
+
+              {/* Carousel */}
+              <MDBox mb={3}>
+                <HomeCarousel slides={CAROUSEL_SLIDES} />
+              </MDBox>
+
+              {/* Jobs section */}
+              <SectionHeader
+                title="New Job"
+                action={
+                  <MDBox
+                    component="span"
+                    sx={{
+                      fontSize: "0.875rem",
+                      color: "#831ED2",
+                      cursor: "pointer",
+                      fontWeight: 500,
+                    }}
+                    onClick={() => navigate("/departments")}
+                  >
+                    Show more
+                  </MDBox>
+                }
+              />
+              <Grid container spacing={2}>
+                {JOBS.map((job) => (
+                  <Grid item xs={12} sm={6} key={job.id}>
+                    <JobCard job={job} />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            </MDBox>
+          </Grid>
+
+          {/* Container 2: Event panel (right) - second image */}
+          <Grid item xs={12} lg={4}>
+            <MDBox
+              sx={{
+                p: 3,
+                borderRadius: 2,
+                bgcolor: "white",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                border: "1px solid rgba(140, 86, 255, 0.08)",
+                height: "100%",
+              }}
+            >
+              <MDBox display="flex" alignItems="center" gap={1} mb={2}>
+                <Icon sx={{ color: "#8C56FF", fontSize: 24 }}>event</Icon>
+                <MDTypography variant="h6" fontWeight="bold" color="dark">
+                  Event
+                </MDTypography>
+              </MDBox>
+              <EventPanel
+                featuredEvent={FEATURED_EVENT}
+                eventDateItems={EVENT_DATE_ITEMS}
+              />
+            </MDBox>
           </Grid>
         </Grid>
-
-        {/* Right: Event panel */}
-        <Grid item xs={12} lg={4}>
-          <EventPanel
-            featuredEvent={FEATURED_EVENT}
-            eventDateItems={EVENT_DATE_ITEMS}
-          />
-        </Grid>
-      </Grid>
+      </MDBox>
     </DashboardLayout>
   );
 }
