@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    navigate("/sign-in", { replace: true });
   };
 
   const IS_ADMIN = user?.role === ADMIN;

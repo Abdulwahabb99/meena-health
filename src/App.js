@@ -30,6 +30,7 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const { pathname } = useLocation();
+  const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
   const { ready } = useAuth();
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export default function App() {
         bodyClassName="custom-toast-body"
       />
 
-      {layout === "dashboard" && (
+      {!isAuthPage && layout === "dashboard" && (
         <>
           <Sidenav
             color={sidenavColor}

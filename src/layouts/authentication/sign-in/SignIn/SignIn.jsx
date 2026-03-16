@@ -23,7 +23,7 @@ import EyeOutlineIcon from "icons/EyeOutlineicon";
 
 const SKIP_API_LOGIN = true;
 const LOGO_PATH = "/meena-logo.png";
-const LOGIN_IMAGE_PATH = "/meena-logo.png";
+const LOGIN_IMAGE_PATH = "/login-image.png";
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +64,8 @@ function SignIn() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
+        overflow: { xs: "auto", md: "hidden" },
         display: "flex",
         flexDirection: {
           xs: "column",
@@ -77,14 +78,14 @@ function SignIn() {
       {/* Image Panel - Left in RTL, Right in LTR */}
       <Box
         sx={{
-          width: { xs: "100%", md: "50%" },
-          minHeight: { xs: 200, md: "100vh" },
+          width: { xs: "100%", md: "55%" },
+          height: { xs: 200, md: "100vh" },
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: (theme) =>
             theme.palette?.meena?.sidenavBg || "#F3EEFF",
-          p: { xs: 4, md: 6, lg: 10 },
+          p: { xs: 2, md: 0 },
         }}
       >
         <Box
@@ -93,10 +94,10 @@ function SignIn() {
           alt="Meena Intranet"
           sx={{
             width: "100%",
-            height: "auto",
-            maxHeight: { xs: 180, md: 400, lg: 500 },
+            height: { xs: "100%", md: "100%" },
+            maxHeight: { xs: 200, md: "100vh" },
             objectFit: "contain",
-            display: { xs: "block", md: "block" },
+            display: "block",
           }}
         />
       </Box>
@@ -104,11 +105,12 @@ function SignIn() {
       {/* Form Panel - Right in RTL, Left in LTR */}
       <Box
         sx={{
-          width: { xs: "100%", md: "50%" },
+          width: { xs: "100%", md: "45%" },
+          height: { xs: "auto", md: "100vh" },
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          minHeight: { xs: "auto", md: "100vh" },
+          overflow: { xs: "auto", md: "hidden" },
           px: { xs: 3, md: 6, lg: 10 },
           py: { xs: 4, md: 6 },
           backgroundColor: "background.paper",
