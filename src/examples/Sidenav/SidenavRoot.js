@@ -16,10 +16,11 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter,
     }),
+    ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
+    width: sidebarWidth,
 
     [breakpoints.up("xl")]: {
       boxShadow: "none",
-      ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
       width: sidebarWidth,
       transform: "translateX(0)",
       transition: transitions.create(["width", "background-color"], {
@@ -36,10 +37,11 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter,
     }),
+    ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
+    width: sidebarWidth,
 
     [breakpoints.up("xl")]: {
       boxShadow: "none",
-      ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
       width: pxToRem(73),
       overflowX: "hidden",
       transform: "translateX(0)",

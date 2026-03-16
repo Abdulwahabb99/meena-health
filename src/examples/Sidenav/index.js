@@ -208,6 +208,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
     <SidenavRoot
       {...rest}
       variant="permanent"
+      anchor={isRTL ? "right" : "left"}
       ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode, isRTL }}
     >
       <MDBox pt={3} pb={1} px={3} sx={{ textAlign: isRTL ? "right" : "left" }}>
