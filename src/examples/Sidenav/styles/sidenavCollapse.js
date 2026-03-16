@@ -83,21 +83,26 @@ const collapseIcon = (theme, { active }) => ({
 });
 
 function collapseText(theme, ownerState) {
-  const { typography, transitions, breakpoints, functions, palette } = theme;
+  const { typography, transitions, breakpoints, functions, palette, direction } = theme;
   const { miniSidenav, transparentSidenav, active } = ownerState;
   const { meena } = palette;
-
+  const isRTL = direction === "rtl";
   const { size, fontWeightMedium, fontWeightRegular } = typography;
   const { pxToRem } = functions;
 
   return {
-    marginInlineStart: pxToRem(10),
+    flex: 1,
+    marginInlineStart: isRTL ? 0 : pxToRem(10),
+    marginInlineEnd: isRTL ? pxToRem(10) : 0,
+    textAlign: isRTL ? "right" : "left",
 
     [breakpoints.up("xl")]: {
       opacity: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : 1,
       maxWidth: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : "100%",
       marginInlineStart:
-        miniSidenav || (miniSidenav && transparentSidenav) ? 0 : pxToRem(10),
+        miniSidenav || (miniSidenav && transparentSidenav) ? 0 : (isRTL ? 0 : pxToRem(10)),
+      marginInlineEnd:
+        miniSidenav || (miniSidenav && transparentSidenav) ? 0 : (isRTL ? pxToRem(10) : 0),
       transition: transitions.create(["opacity", "margin"], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard,

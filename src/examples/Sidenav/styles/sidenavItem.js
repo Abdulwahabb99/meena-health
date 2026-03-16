@@ -90,7 +90,8 @@ function itemContent(theme, ownerState) {
     justifyContent: "space-between",
     width: "100%",
     padding: `${pxToRem(8)} ${pxToRem(12)}`,
-    marginInlineStart: pxToRem(18),
+    marginInlineStart: isRTL ? 0 : pxToRem(18),
+    marginInlineEnd: isRTL ? pxToRem(18) : 0,
     userSelect: "none",
     position: "relative",
     color: active ? (meena?.secondary || "#6B47F5") : (meena?.tertiary || "#AF98DB"),
@@ -99,6 +100,8 @@ function itemContent(theme, ownerState) {
       opacity: miniSidenav ? 0 : 1,
       overflow: "hidden",
       maxWidth: miniSidenav ? 0 : "100%",
+      textAlign: isRTL ? "right" : "left",
+      flex: 1,
       transition: transitions.create(["opacity", "maxWidth"], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard,
