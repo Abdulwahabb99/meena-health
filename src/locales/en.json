@@ -9,5 +9,20 @@
   },
   "home": {
     "title": "Hala to Meena"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "welcome": "Welcome back",
+    "description": "Sign in to your account to access the Meena Intranet",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Sign in",
+    "brandTitle": "Meena Intranet",
+    "brandTagline": "Your internal platform",
+    "emailInvalid": "Please enter a valid email",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required"
   }
 }

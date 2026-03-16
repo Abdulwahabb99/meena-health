@@ -1,15 +1,19 @@
 import * as yup from "yup";
 
+export const getSignInValidationSchema = (t) =>
+  yup.object({
+    email: yup
+      .string()
+      .email(t("auth.emailInvalid"))
+      .required(t("auth.emailRequired")),
+    password: yup.string().required(t("auth.passwordRequired")),
+  });
+
+// Fallback for non-i18n usage
 export const signInValidationSchema = yup.object({
   email: yup
     .string()
-    .email("من فضلك أدخل بريدًا إلكترونيًا صحيحًا")
-    .required("البريد الإلكتروني مطلوب"),
-  password: yup
-    .string()
-    // .min(8, "كلمة المرور يجب ألا تقل عن 8 أحرف")
-    // .matches(/[A-Z]/, "يجب أن تحتوي على حرف كبير واحد على الأقل")
-    // .matches(/[a-z]/, "يجب أن تحتوي على حرف صغير واحد على الأقل")
-    // .matches(/\d/, "يجب أن تحتوي على رقم واحد على الأقل")
-    .required("كلمة المرور مطلوبة"),
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  password: yup.string().required("Password is required"),
 });

@@ -1,36 +1,34 @@
-import React from "react";
-import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
-import bgImage from "assets/images/illustrations/Background.png";
+import React, { useState } from "react";
 import {
   Box,
-  Grid,
-  InputAdornment,
+  Stack,
   TextField,
   Typography,
+  InputAdornment,
+  CircularProgress,
 } from "@mui/material";
+import MDButton from "components/MDButton";
+import { useFormik } from "formik";
+import { getSignInValidationSchema } from "./signInValidation";
+import { useAuth } from "shared/hooks/useAuth";
+import { useLoginMutation } from "services/mutations/useLoginMutation";
+import { toast } from "react-toastify";
+import useTranslate from "shared/hooks/useTranslate";
+import useLocales from "shared/hooks/useLocales";
+import AuthLanguageSwitcher from "layouts/authentication/components/AuthLanguageSwitcher";
 import EmailIcon from "icons/EmailIcon";
 import PasswordIcon from "icons/PasswordIcon";
 import EyeIcon from "icons/EyeIcon";
 import EyeOutlineIcon from "icons/EyeOutlineicon";
-import { useFormik } from "formik";
-import { signInValidationSchema } from "./signInValidation";
-import { CircularProgress } from "@mui/material";
-import { useAuth } from "shared/hooks/useAuth";
-import PageLayout from "examples/LayoutContainers/PageLayout";
-import MDTypography from "components/MDTypography";
-import widgetImage from "assets/images/illustrations/Widget.png";
-import { useLoginMutation } from "services/mutations/useLoginMutation";
-import { toast } from "react-toastify";
 
-const logo = "/meena-logo.png";
-
-// TODO: Set to false when implementing real auth with API
 const SKIP_API_LOGIN = true;
+const LOGO_PATH = "/meena-logo.png";
+const LOGIN_IMAGE_PATH = "/meena-logo.png";
 
 function SignIn() {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleTogglePasswordVisibility = () => setShowPassword((v) => !v);
+  const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslate();
+  const { isRTL } = useLocales();
   const { login } = useAuth();
   const loginMutation = useLoginMutation();
 
@@ -39,9 +37,8 @@ function SignIn() {
       email: "user@meenahealth.com",
       password: "password",
     },
-    validationSchema: signInValidationSchema,
+    validationSchema: getSignInValidationSchema(t),
     onSubmit: async (values, { setSubmitting }) => {
-      // TODO: Remove this block when implementing real auth - use API login below
       if (SKIP_API_LOGIN) {
         login({
           data: {
@@ -58,7 +55,6 @@ function SignIn() {
           login(data);
         },
         onError: (error) => {
-          console.error("Login error (test):", error);
           toast.error(error.message);
         },
       });
@@ -66,212 +62,293 @@ function SignIn() {
   });
 
   return (
-    <PageLayout background="white">
-      <Grid
-        container
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: {
+          xs: "column",
+          md: isRTL ? "row" : "row-reverse",
+        },
+        direction: isRTL ? "rtl" : "ltr",
+        backgroundColor: "background.default",
+      }}
+    >
+      {/* Image Panel - Left in RTL, Right in LTR */}
+      <Box
         sx={{
-          backgroundColor: ({ palette: { white } }) => white.main,
+          width: { xs: "100%", md: "50%" },
+          minHeight: { xs: 200, md: "100vh" },
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: (theme) =>
+            theme.palette?.meena?.sidenavBg || "#F3EEFF",
+          p: { xs: 4, md: 6, lg: 10 },
         }}
       >
-        <Box display={{ xs: "none", lg: "flex" }}>
-          <Box
-            component="img"
-            src={logo}
-            alt="Company Logo"
-            sx={{
-              height: "86.382px",
-              width: "123px",
-              position: "absolute",
-              top: "30px",
-              left: "30px",
-            }}
-          />
-        </Box>
-        <Grid item xs={11} sm={8} md={6} lg={4} xl={3} sx={{ mx: "auto" }}>
-          <MDBox
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            height="100vh"
-          >
-            <MDBox py={3} px={3} textAlign="center">
-              <MDBox mb={1} textAlign="center">
-                <Typography variant="h4" fontWeight="bold">
-                  تسجيل الدخول إلى حسابك
-                </Typography>
-              </MDBox>
-              <MDTypography variant="body2" color="text"></MDTypography>
-            </MDBox>
-            <MDBox p={3}>
-              {" "}
-              <MDBox
-                component="form"
-                role="form"
-                onSubmit={formik.handleSubmit}
-              >
-                <MDBox mb={2}>
-                  <Typography
-                    fontSize="14px"
-                    fontWeight="400"
-                    mb="4px"
-                    color="#1E1F24"
-                  >
-                    البريد الإلكتروني
-                  </Typography>
+        <Box
+          component="img"
+          src={LOGIN_IMAGE_PATH}
+          alt="Meena Intranet"
+          sx={{
+            width: "100%",
+            height: "auto",
+            maxHeight: { xs: 180, md: 400, lg: 500 },
+            objectFit: "contain",
+            display: { xs: "block", md: "block" },
+          }}
+        />
+      </Box>
 
-                  <TextField
-                    name="email"
-                    placeholder="ادخل بريدك الالكتروني"
-                    fullWidth
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={Boolean(formik.touched.email && formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <EmailIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#379C7C",
-                          borderWidth: "1.5px",
-                        },
-                      },
-                    }}
-                  />
-                </MDBox>
+      {/* Form Panel - Right in RTL, Left in LTR */}
+      <Box
+        sx={{
+          width: { xs: "100%", md: "50%" },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          minHeight: { xs: "auto", md: "100vh" },
+          px: { xs: 3, md: 6, lg: 10 },
+          py: { xs: 4, md: 6 },
+          backgroundColor: "background.paper",
+        }}
+      >
+        {/* Header: Logo + Language */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            flexDirection: isRTL ? "row" : "row-reverse",
+            mb: 2,
+          }}
+        >
+          <AuthLanguageSwitcher />
 
-                <MDBox mb={2}>
-                  <Typography
-                    fontSize="14px"
-                    fontWeight="400"
-                    mb="4px"
-                    color="#1E1F24"
-                  >
-                    كلمة المرور{" "}
-                  </Typography>
-                  <TextField
-                    name="password"
-                    placeholder="ادخل كلمة المرور"
-                    type={showPassword ? "text" : "password"}
-                    fullWidth
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={Boolean(
-                      formik.touched.password && formik.errors.password
-                    )}
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PasswordIcon />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment
-                          position="end"
-                          onClick={handleTogglePasswordVisibility}
-                          sx={{ cursor: "pointer" }}
-                        >
-                          {showPassword ? <EyeIcon /> : <EyeOutlineIcon />}
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#379C7C",
-                          borderWidth: "1.5px",
-                        },
-                      },
-                    }}
-                  />
-                </MDBox>
-                <MDBox mt={4} mb={1}>
-                  <MDButton
-                    variant="gradient"
-                    size="large"
-                    type="submit"
-                    fullWidth
-                    sx={{
-                      color: "#FFF",
-                      fontSize: "16px",
-                      borderRadius: "12px",
-                      background:
-                        "linear-gradient(90deg, #3C9D76 100%, #0097C1 100%)",
-                      boxShadow: "none",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(90deg, #3C9D76 100%, #0097C1 100%)",
-                        opacity: 0.9,
-                      },
-                    }}
-                  >
-                    {loginMutation.isPending ? (
-                      <CircularProgress
-                        size={24}
-                        sx={{
-                          color: "#FFF",
-                        }}
-                      />
-                    ) : (
-                      "تسجيل الدخول"
-                    )}
-                  </MDButton>
-                </MDBox>
-              </MDBox>
-            </MDBox>
-          </MDBox>
-        </Grid>
-        <Grid item xs={12} lg={6} pr={1} pt={0.8}>
-          <MDBox
-            display={{ xs: "none", lg: "flex" }}
-            flexDirection="column"
+          <Stack
+            direction="row"
             alignItems="center"
-            justifyContent="center"
-            textAlign="center"
+            gap={1}
             sx={{
-              height: "calc(98vh)",
-              backgroundImage: `url(${bgImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              overflow: "hidden",
-              borderTopRightRadius: "12px",
-              borderBottomRightRadius: "12px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              textAlign: isRTL ? "right" : "left",
             }}
           >
-            <Box sx={{ mt: 8, color: "#FFF !important" }}>
-              <Typography fontSize={"32px"} fontWeight="600" mb={1}>
-                مرحبًا بك في تجهيز بلس!{" "}
-              </Typography>
-              <Typography fontSize={"22px"} mb={4}>
-                سجّل الدخول لإدارة نشاطك التجاري والوصول إلى كل المزايا.{" "}
-              </Typography>
-              <Box
-                component="img"
-                src={widgetImage}
-                alt="Widget"
+            <Box
+              component="img"
+              src={LOGO_PATH}
+              alt="Meena"
+              sx={{
+                width: 48,
+                height: 40,
+                objectFit: "contain",
+                flexShrink: 0,
+              }}
+            />
+            <Box>
+              <Typography
+                variant="h6"
                 sx={{
-                  maxWidth: "90%",
-                  height: "auto",
+                  fontWeight: 700,
+                  fontSize: "1rem",
+                  lineHeight: 1.2,
+                  color: "text.primary",
+                }}
+              >
+                {t("auth.brandTitle")}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "text.secondary",
+                  display: "block",
+                  lineHeight: 1.3,
+                }}
+              >
+                {t("auth.brandTagline")}
+              </Typography>
+            </Box>
+          </Stack>
+        </Stack>
+
+        {/* Form */}
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            maxWidth: 420,
+            width: "100%",
+            mx: "auto",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              mb: 1,
+              fontWeight: 700,
+              fontSize: { xs: "1.5rem", md: "1.75rem" },
+              textAlign: isRTL ? "right" : "left",
+              color: "text.primary",
+            }}
+          >
+            {t("auth.welcome")}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 4,
+              color: "text.secondary",
+              textAlign: isRTL ? "right" : "left",
+            }}
+          >
+            {t("auth.description")}
+          </Typography>
+
+          <Box
+            component="form"
+            onSubmit={formik.handleSubmit}
+            sx={{ width: "100%" }}
+          >
+            <Box mb={2}>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 1,
+                  fontWeight: 500,
+                  color: "text.primary",
+                  textAlign: isRTL ? "right" : "left",
+                }}
+              >
+                {t("auth.email")}
+              </Typography>
+              <TextField
+                name="email"
+                placeholder={t("auth.emailPlaceholder")}
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={Boolean(formik.touched.email && formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                    bgcolor: "grey.50",
+                    "&.Mui-focused": {
+                      bgcolor: "background.paper",
+                      "& fieldset": {
+                        borderColor: "primary.main",
+                        borderWidth: 2,
+                      },
+                    },
+                  },
                 }}
               />
             </Box>
-          </MDBox>
-        </Grid>
-      </Grid>
-    </PageLayout>
+
+            <Box mb={3}>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 1,
+                  fontWeight: 500,
+                  color: "text.primary",
+                  textAlign: isRTL ? "right" : "left",
+                }}
+              >
+                {t("auth.password")}
+              </Typography>
+              <TextField
+                name="password"
+                placeholder={t("auth.passwordPlaceholder")}
+                type={showPassword ? "text" : "password"}
+                fullWidth
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={Boolean(
+                  formik.touched.password && formik.errors.password
+                )}
+                helperText={
+                  formik.touched.password && formik.errors.password
+                }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PasswordIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      onClick={() => setShowPassword((v) => !v)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {showPassword ? <EyeIcon /> : <EyeOutlineIcon />}
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                    bgcolor: "grey.50",
+                    "&.Mui-focused": {
+                      bgcolor: "background.paper",
+                      "& fieldset": {
+                        borderColor: "primary.main",
+                        borderWidth: 2,
+                      },
+                    },
+                  },
+                }}
+              />
+            </Box>
+
+            <MDButton
+              variant="gradient"
+              color="primary"
+              size="large"
+              type="submit"
+              fullWidth
+              sx={{
+                py: 1.5,
+                borderRadius: 2,
+                fontSize: "1rem",
+                fontWeight: 600,
+              }}
+            >
+              {loginMutation.isPending ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                t("auth.submit")
+              )}
+            </MDButton>
+          </Box>
+        </Box>
+
+        {/* Footer */}
+        <Typography
+          variant="caption"
+          sx={{
+            pt: 4,
+            textAlign: "center",
+            color: "text.secondary",
+          }}
+        >
+          © {new Date().getFullYear()} Meena Health. All rights reserved.
+        </Typography>
+      </Box>
+    </Box>
   );
 }
 
