@@ -217,7 +217,15 @@ function SignIn() {
                 helperText={formik.touched.email && formik.errors.email}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment
+                      position="start"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginInlineEnd: 0,
+                        "& svg": { width: 20, height: 20, flexShrink: 0 },
+                      }}
+                    >
                       <EmailIcon />
                     </InputAdornment>
                   ),
@@ -226,6 +234,7 @@ function SignIn() {
                   "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
                     bgcolor: "grey.50",
+                    alignItems: "center",
                     "&.Mui-focused": {
                       bgcolor: "background.paper",
                       "& fieldset": {
@@ -264,7 +273,15 @@ function SignIn() {
                 helperText={formik.touched.password && formik.errors.password}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment
+                      position="start"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        mr: 0,
+                        "& svg": { width: 20, height: 20, flexShrink: 0 },
+                      }}
+                    >
                       <PasswordIcon />
                     </InputAdornment>
                   ),
@@ -272,7 +289,13 @@ function SignIn() {
                     <InputAdornment
                       position="end"
                       onClick={() => setShowPassword((v) => !v)}
-                      sx={{ cursor: "pointer" }}
+                      sx={{
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        ml: 0,
+                        "& svg": { width: 20, height: 20, flexShrink: 0 },
+                      }}
                     >
                       {showPassword ? <EyeIcon /> : <EyeOutlineIcon />}
                     </InputAdornment>
@@ -282,6 +305,7 @@ function SignIn() {
                   "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
                     bgcolor: "grey.50",
+                    alignItems: "center",
                     "&.Mui-focused": {
                       bgcolor: "background.paper",
                       "& fieldset": {
