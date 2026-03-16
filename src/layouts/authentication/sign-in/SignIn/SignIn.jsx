@@ -69,50 +69,61 @@ function SignIn() {
         display: "flex",
         flexDirection: {
           xs: "column",
-          md: isRTL ? "row" : "row-reverse",
+          lg: isRTL ? "row" : "row-reverse",
         },
         direction: isRTL ? "rtl" : "ltr",
         backgroundColor: "background.default",
       }}
     >
-      {/* Image Panel - Left in RTL, Right in LTR */}
+      {/* Image Panel - Hidden on small/medium, visible on lg+ */}
       <Box
         sx={{
-          width: { xs: "100%", md: "55%" },
-          height: { xs: 200, md: "100vh" },
-          display: "flex",
+          width: "50%",
+          height: "100vh",
+          display: { xs: "none", lg: "flex" },
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: (theme) =>
-            theme.palette?.meena?.sidenavBg || "#F3EEFF",
-          p: { xs: 2, md: 0 },
+          backgroundColor: "background.paper",
+          p: 4,
         }}
       >
         <Box
-          component="img"
-          src={LOGIN_IMAGE_PATH}
-          alt="Meena Intranet"
           sx={{
             width: "100%",
-            height: { xs: "100%", md: "100%" },
-            maxHeight: { xs: 200, md: "100vh" },
-            objectFit: "contain",
-            display: "block",
+            height: "100%",
+            maxHeight: "100vh",
+            borderRadius: 4,
+            overflow: "hidden",
           }}
-        />
+        >
+          <Box
+            component="img"
+            src={LOGIN_IMAGE_PATH}
+            alt="Meena Intranet"
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "",
+              display: "block",
+              verticalAlign: "middle",
+            }}
+          />
+        </Box>
       </Box>
 
-      {/* Form Panel - Right in RTL, Left in LTR */}
+      {/* Form Panel - Full width when image hidden, 45% on lg+ */}
       <Box
         sx={{
-          width: { xs: "100%", md: "45%" },
-          height: { xs: "auto", md: "100vh" },
+          width: { xs: "100%", lg: "45%" },
+          minHeight: { xs: "100vh", lg: "auto" },
+          height: { xs: "100vh", lg: "100vh" },
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          overflow: { xs: "auto", md: "hidden" },
+          justifyContent: { xs: "center", lg: "space-between" },
+          overflow: { xs: "auto", lg: "hidden" },
           px: { xs: 3, md: 6, lg: 10 },
-          py: { xs: 4, md: 6 },
+          py: { xs: 5, md: 6 },
+          pt: { xs: 8, lg: 6 },
           backgroundColor: "background.paper",
         }}
       >
@@ -123,55 +134,24 @@ function SignIn() {
           justifyContent="space-between"
           sx={{
             flexDirection: isRTL ? "row" : "row-reverse",
-            mb: 2,
+            mb: { xs: 5, lg: 2 },
+            flexShrink: 0,
           }}
         >
           <AuthLanguageSwitcher />
 
-          <Stack
-            direction="row"
-            alignItems="center"
-            gap={1}
+          <Box
+            component="img"
+            src={LOGO_PATH}
+            alt="Meena"
             sx={{
-              flexDirection: isRTL ? "row-reverse" : "row",
-              textAlign: isRTL ? "right" : "left",
+              width: 160,
+              height: "auto",
+              maxHeight: 56,
+              objectFit: "contain",
+              flexShrink: 0,
             }}
-          >
-            <Box
-              component="img"
-              src={LOGO_PATH}
-              alt="Meena"
-              sx={{
-                width: 48,
-                height: 40,
-                objectFit: "contain",
-                flexShrink: 0,
-              }}
-            />
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  lineHeight: 1.2,
-                  color: "text.primary",
-                }}
-              >
-                {t("auth.brandTitle")}
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  display: "block",
-                  lineHeight: 1.3,
-                }}
-              >
-                {t("auth.brandTagline")}
-              </Typography>
-            </Box>
-          </Stack>
+          />
         </Stack>
 
         {/* Form */}
@@ -279,11 +259,9 @@ function SignIn() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={Boolean(
-                  formik.touched.password && formik.errors.password
+                  formik.touched.password && formik.errors.password,
                 )}
-                helperText={
-                  formik.touched.password && formik.errors.password
-                }
+                helperText={formik.touched.password && formik.errors.password}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
