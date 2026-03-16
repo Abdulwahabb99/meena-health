@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "الرئيسية",
+    "settings": "الإعدادات",
+    "signOut": "تسجيل الخروج",
+    "language": "اللغة",
+    "arabic": "العربية",
+    "english": "English"
+  },
+  "home": {
+    "title": "هلا بمينا"
+  }
+}

@@ -6,6 +6,7 @@ export const routes = [
   {
     type: "collapse",
     name: "Home",
+    nameKey: "common.home",
     key: "home",
     icon: <Icon fontSize="small">home</Icon>,
     route: "/",

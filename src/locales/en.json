@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "Home",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "language": "Language",
+    "arabic": "Arabic",
+    "english": "English"
+  },
+  "home": {
+    "title": "Hala to Meena"
+  }
+}

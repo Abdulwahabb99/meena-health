@@ -3,10 +3,12 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import useTranslate from "shared/hooks/useTranslate";
 
 function Home() {
   const theme = useTheme();
   const meena = theme.palette?.meena || {};
+  const { t } = useTranslate();
 
   return (
     <DashboardLayout>
@@ -22,7 +24,7 @@ function Home() {
           }}
         >
           <MDTypography variant="h4" fontWeight="bold" color="dark">
-            Hala to Meena
+            {t("home.title")}
           </MDTypography>
         </MDBox>
       </MDBox>

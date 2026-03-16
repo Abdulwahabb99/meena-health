@@ -5,7 +5,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Sidenav from "examples/Sidenav";
 import theme from "assets/theme";
+import themeRtl from "assets/theme/theme-rtl";
 import themeDark from "assets/theme-dark";
+import themeDarkRtl from "assets/theme-dark/theme-rtl";
 import { routes } from "routes";
 import { useMaterialUIController, setMiniSidenav } from "context";
 import ProtectedRoutes from "shared/component/ProtectedRoutes";
@@ -16,19 +18,15 @@ import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useAuth } from "shared/hooks/useAuth";
+import useLocales from "shared/hooks/useLocales";
 import SuspenseLoading from "components/SuspenseLoading/SuspenseLoading";
 
 const brandLogo = "/meena-logo.png";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
-  const {
-    miniSidenav,
-    direction = "ltr",
-    layout,
-    sidenavColor,
-    darkMode,
-  } = controller;
+  const { miniSidenav, layout, sidenavColor, darkMode } = controller;
+  const { isRTL } = useLocales();
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const { pathname } = useLocation();
@@ -58,8 +56,8 @@ export default function App() {
   };
 
   useEffect(() => {
-    document.body.setAttribute("dir", "ltr");
-  }, [direction]);
+    document.body.setAttribute("dir", isRTL ? "rtl" : "ltr");
+  }, [isRTL]);
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -84,8 +82,16 @@ export default function App() {
     return <div>Loading...</div>;
   }
 
+  const currentTheme = darkMode
+    ? isRTL
+      ? themeDarkRtl
+      : themeDark
+    : isRTL
+      ? themeRtl
+      : theme;
+
   return (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
+    <ThemeProvider theme={currentTheme}>
       <CssBaseline />
       <ToastContainer
         position="top-right"

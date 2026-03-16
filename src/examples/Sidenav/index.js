@@ -17,9 +17,11 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
+import useTranslate from "shared/hooks/useTranslate";
 
 function Sidenav({ color = "info", brand = "", routes, ...rest }) {
   const theme = useTheme();
+  const { t } = useTranslate();
   const [openCollapse, setOpenCollapse] = useState(false);
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
@@ -68,13 +70,14 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
   }, [dispatch, transparentSidenav, whiteSidenav]);
 
   const renderCollapse = (collapseItems, parentKey) =>
-    collapseItems?.map(({ name, key, route, href, icon, collapse }) => {
+    collapseItems?.map(({ name, nameKey, key, route, href, icon, collapse }) => {
+      const displayName = nameKey ? t(nameKey) : name;
       if (collapse) {
         return (
           <SidenavItem
             key={key}
             color={color}
-            name={name}
+            name={displayName}
             icon={icon}
             active={openCollapse === key}
             open={openCollapse === key}
@@ -98,13 +101,13 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
             rel="noreferrer"
             sx={{ textDecoration: "none" }}
           >
-            <SidenavItem
-              color={color}
-              name={name}
-              icon={icon}
-              active={pathname === route}
-              nested
-            />
+          <SidenavItem
+            color={color}
+            name={displayName}
+            icon={icon}
+            active={pathname === route}
+            nested
+          />
           </Link>
         );
       }
@@ -113,7 +116,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
         <NavLink to={route} key={key} style={{ textDecoration: "none" }}>
           <SidenavItem
             color={color}
-            name={name}
+            name={displayName}
             icon={icon}
             active={pathname === route}
             nested
@@ -123,7 +126,19 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
     });
 
   const renderRoutes = routes.map(
-    ({ type, name, icon, title, noCollapse, key, href, route, collapse }) => {
+    ({
+      type,
+      name,
+      nameKey,
+      icon,
+      title,
+      noCollapse,
+      key,
+      href,
+      route,
+      collapse,
+    }) => {
+      const displayName = nameKey ? t(nameKey) : name;
       if (type === "title") {
         return (
           <MDTypography
@@ -157,7 +172,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
           return (
             <NavLink to={route} key={key} style={{ textDecoration: "none" }}>
               <SidenavCollapse
-                name={name}
+                name={displayName}
                 icon={icon}
                 noCollapse
                 active={pathname === route}
@@ -169,7 +184,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
         return (
           <SidenavCollapse
             key={key}
-            name={name}
+            name={displayName}
             icon={icon}
             active={openCollapse === key}
             open={openCollapse === key}

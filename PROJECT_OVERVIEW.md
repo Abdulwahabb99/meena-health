@@ -137,10 +137,12 @@ src/
 │   ├── api/                # API functions
 │   ├── queries/            # React Query hooks (example kept)
 │   └── mutations/          # React Query mutations (example kept)
+├── locales/                # i18n JSON files (en.json, ar.json)
+├── i18n/                   # i18n config (config.js, index.js)
 ├── shared/
 │   ├── component/          # ProtectedRoutes, etc.
 │   ├── context/            # AuthContext
-│   ├── hooks/
+│   ├── hooks/              # useTranslate, useLocales, useAuth, etc.
 │   └── functions/
 ├── utils/
 ├── App.js
@@ -180,6 +182,76 @@ src/
 - **React Query (TanStack Query)** for data fetching
 - **Formik** for forms
 - **Axios** for HTTP (with interceptors for auth)
+- **react-i18next** for internationalization (i18n)
+
+---
+
+## Internationalization (i18n)
+
+### Supported Languages
+
+| Code | Language | Direction |
+|------|----------|-----------|
+| `en` | English | LTR |
+| `ar` | Arabic | RTL |
+
+### Structure
+
+```
+src/
+├── locales/                # Translation JSON files (keys aligned)
+│   ├── en.json
+│   └── ar.json
+├── i18n/
+│   ├── index.js            # i18next init & config
+│   └── config.js           # LOCALES, LOCALE_SETTINGS, STORAGE_KEY
+└── shared/hooks/
+    ├── useTranslate.js      # t(key) for translations
+    └── useLocales.js        # currentLang, isRTL, changeLocale, allLangs
+```
+
+### Usage
+
+**Translation keys** – All text uses keys from JSON files. Keys are shared; only values differ per language.
+
+```jsx
+import useTranslate from "shared/hooks/useTranslate";
+
+function MyComponent() {
+  const { t } = useTranslate();
+  return <h1>{t("home.title")}</h1>;
+}
+```
+
+**Locale & RTL** – Use `useLocales` for current language and direction:
+
+```jsx
+import useLocales from "shared/hooks/useLocales";
+
+function MyComponent() {
+  const { locale, isRTL, changeLocale, allLangs } = useLocales();
+  // isRTL: true when Arabic, false when English
+  // changeLocale("ar") or changeLocale("en") to switch
+}
+```
+
+### Language Switcher
+
+- **Location:** Navbar, next to the settings icon
+- **Icon:** `language` (MUI)
+- **Behavior:** Dropdown with Arabic / English options
+- **Persistence:** Selected locale stored in `localStorage` (`meena-locale`)
+
+### RTL / LTR
+
+- **English:** LTR layout, `document.body.dir="ltr"`
+- **Arabic:** RTL layout, `document.body.dir="rtl"`
+- MUI theme switches between `theme` / `theme-rtl` and `themeDark` / `themeDarkRtl` based on locale and dark mode.
+
+### Adding New Translations
+
+1. Add the key to both `src/locales/en.json` and `src/locales/ar.json`
+2. Use `t("namespace.key")` in components
 
 ---
 

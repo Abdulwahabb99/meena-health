@@ -26,9 +26,12 @@ import {
 } from "context";
 import { useDisclosure } from "shared/hooks/useDisclosure";
 import { useAuth } from "shared/hooks/useAuth";
+import useTranslate from "shared/hooks/useTranslate";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
   const { logout } = useAuth();
+  const { t } = useTranslate();
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -117,7 +120,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
       <NotificationItem
         onClick={() => logout()}
         icon={<Icon>logout</Icon>}
-        title="Sign out"
+        title={t("common.signOut")}
       />
     </Menu>
   );
@@ -184,6 +187,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
+              <LanguageSwitcher iconsStyle={iconsStyle} buttonSx={navbarIconButton} />
               <IconButton
                 size="small"
                 disableRipple
