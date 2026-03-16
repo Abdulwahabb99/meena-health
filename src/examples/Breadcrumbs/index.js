@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 
 // @mui material components
 import { Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
-import Icon from "@mui/material/Icon";
 
 // Material Dashboard 3 PRO React components
 import MDBox from "components/MDBox";

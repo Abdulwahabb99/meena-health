@@ -3,11 +3,11 @@ function navbar(theme, ownerState) {
   const { palette, boxShadows, functions, transitions, breakpoints, borders } =
     theme;
   const { meena } = palette;
-  const { transparentNavbar, absolute, light, darkMode, isRTL = false } = ownerState;
+  const { transparentNavbar, absolute, light, isRTL = false } = ownerState;
 
-  const { dark, white, text, transparent, background } = palette;
+  const { dark, white, text } = palette;
   const { navbarBoxShadow } = boxShadows;
-  const { rgba, pxToRem } = functions;
+  const { pxToRem } = functions;
   const { borderRadius } = borders;
 
   return {

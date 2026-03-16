@@ -1,6 +1,6 @@
 function item(theme, ownerState) {
-  const { borders, functions, transitions, palette } = theme;
-  const { active, color, miniSidenav } = ownerState;
+  const { borders, transitions, palette } = theme;
+  const { active, miniSidenav } = ownerState;
   const { meena } = palette;
   const { borderRadius } = borders;
 

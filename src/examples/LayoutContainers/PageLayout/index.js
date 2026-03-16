@@ -20,7 +20,7 @@ function PageLayout({ background = "default", children }) {
 
   useEffect(() => {
     setLayout(dispatch, "page");
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   return (
     <MDBox

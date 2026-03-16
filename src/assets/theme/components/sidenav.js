@@ -2,13 +2,11 @@
 
 // Material Dashboard 3 PRO React base styles
 import colors from "assets/theme/base/colors";
-import borders from "assets/theme/base/borders";
 
 // Material Dashboard 3 PRO React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const { white } = colors;
-const { borderRadius } = borders;
 
 const sidenav = {
   styleOverrides: {

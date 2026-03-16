@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
-import MDBadge from "components/MDBadge";
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 import {
@@ -22,7 +21,6 @@ import {
   useMaterialUIController,
   setTransparentNavbar,
   setMiniSidenav,
-  setOpenConfigurator,
 } from "context";
 import { useAuth } from "shared/hooks/useAuth";
 import useTranslate from "shared/hooks/useTranslate";
@@ -38,7 +36,6 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
     miniSidenav,
     transparentNavbar,
     fixedNavbar,
-    openConfigurator,
     darkMode,
   } = controller;
   const { isRTL } = useLocales();
@@ -74,9 +71,6 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleConfiguratorOpen = () =>
-    setOpenConfigurator(dispatch, !openConfigurator);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
   const handleOpenSettingsMenu = (event) => {
     setSettingsAnchorEl(event.currentTarget);

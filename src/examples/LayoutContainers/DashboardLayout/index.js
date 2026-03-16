@@ -23,7 +23,7 @@ function DashboardLayout({ children }) {
 
   useEffect(() => {
     setLayout(dispatch, "dashboard");
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   const sidenavMargin = miniSidenav ? 73 : 240;
 
