@@ -1,7 +1,1 @@
-export { default as ActionIconButton } from "./ActionIconButton";
-export { default as SectionCard } from "./SectionCard";
-export { default as SectionHeader } from "./SectionHeader";
-export { default as LearningPillButton } from "./LearningPillButton";
-export { default as HomeCarousel } from "./HomeCarousel";
-export { default as JobCard } from "./JobCard";
-export { default as EventPanel } from "./EventPanel";
+// Home page components - add exports when needed
