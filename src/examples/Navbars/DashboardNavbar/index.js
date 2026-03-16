@@ -24,7 +24,6 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
-import { useDisclosure } from "shared/hooks/useDisclosure";
 import { useAuth } from "shared/hooks/useAuth";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
@@ -44,6 +43,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
   } = controller;
   const { isRTL } = useLocales();
   const [openMenu, setOpenMenu] = useState(false);
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
   const route = useLocation().pathname.split("/").slice(1);
 
   useEffect(() => {
@@ -78,9 +78,11 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
     setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
-  const settingMenu = useDisclosure();
   const handleOpenSettingsMenu = (event) => {
-    settingMenu.onOpen(event);
+    setSettingsAnchorEl(event.currentTarget);
+  };
+  const handleCloseSettingsMenu = () => {
+    setSettingsAnchorEl(null);
   };
 
   // Render the notifications menu
@@ -109,15 +111,18 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
   );
   const settingsMenu = () => (
     <Menu
-      anchorEl={settingMenu.open}
-      anchorReference={null}
+      anchorEl={settingsAnchorEl}
+      open={Boolean(settingsAnchorEl)}
+      onClose={handleCloseSettingsMenu}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: "bottom",
+        horizontal: isRTL ? "left" : "right",
       }}
-      open={settingMenu.open}
-      onClose={settingMenu.onClose}
-      sx={{ mt: 7 }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: isRTL ? "left" : "right",
+      }}
+      PaperProps={{ sx: { mt: 0.5 } }}
     >
       <NotificationItem
         onClick={() => logout()}
