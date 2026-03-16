@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 
 export default styled(Drawer)(({ theme, ownerState }) => {
   const { transitions, breakpoints, functions, palette } = theme;
-  const { miniSidenav } = ownerState;
+  const { miniSidenav, isRTL = false } = ownerState;
   const { meena } = palette;
 
   const sidebarWidth = 240;
@@ -19,7 +19,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
     [breakpoints.up("xl")]: {
       boxShadow: "none",
-      left: "0",
+      ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
       width: sidebarWidth,
       transform: "translateX(0)",
       transition: transitions.create(["width", "background-color"], {
@@ -31,7 +31,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
   const drawerCloseStyles = () => ({
     background: meena?.sidenavBg || "#F3EEFF",
-    transform: `translateX(${pxToRem(-320)})`,
+    transform: isRTL ? `translateX(${pxToRem(320)})` : `translateX(${pxToRem(-320)})`,
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter,
@@ -39,7 +39,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
     [breakpoints.up("xl")]: {
       boxShadow: "none",
-      left: "0",
+      ...(isRTL ? { right: "0", left: "auto" } : { left: "0" }),
       width: pxToRem(73),
       overflowX: "hidden",
       transform: "translateX(0)",

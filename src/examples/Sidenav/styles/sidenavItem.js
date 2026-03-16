@@ -5,15 +5,15 @@ function item(theme, ownerState) {
   const { borderRadius } = borders;
 
   return {
-    pl: "15px",
+    paddingInlineStart: "15px",
     mt: 0.375,
     mb: 0.3,
     width: "100%",
     borderRadius: borderRadius.md,
     cursor: "pointer",
     ...(active && !miniSidenav && {
-      borderLeft: `3px solid ${meena?.icon || "#831ED2"}`,
-      paddingLeft: "12px",
+      borderInlineStart: `3px solid ${meena?.icon || "#831ED2"}`,
+      paddingInlineStart: "12px",
     }),
     backgroundColor: () => {
       if (active === "isParent") {
@@ -76,19 +76,21 @@ const itemIcon = (theme, { active }) => ({
 });
 
 function itemContent(theme, ownerState) {
-  const { typography, transitions, functions, palette } = theme;
+  const { typography, transitions, functions, palette, direction } = theme;
   const { miniSidenav, active } = ownerState;
   const { meena } = palette;
   const { size, fontWeightRegular, fontWeightLight } = typography;
   const { pxToRem } = functions;
+  const isRTL = direction === "rtl";
 
   return {
     display: "flex",
+    flexDirection: isRTL ? "row-reverse" : "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
     padding: `${pxToRem(8)} ${pxToRem(12)}`,
-    marginLeft: pxToRem(18),
+    marginInlineStart: pxToRem(18),
     userSelect: "none",
     position: "relative",
     color: active ? (meena?.secondary || "#6B47F5") : (meena?.tertiary || "#AF98DB"),
@@ -116,7 +118,7 @@ function itemContent(theme, ownerState) {
       position: "absolute",
       top: "50%",
       transform: "translateY(-50%)",
-      left: pxToRem(-15),
+      insetInlineStart: pxToRem(-15),
       opacity: active && !miniSidenav ? 0 : 1,
       borderRadius: "50%",
       fontSize: size.xs,

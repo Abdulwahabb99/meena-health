@@ -27,6 +27,7 @@ import {
 import { useDisclosure } from "shared/hooks/useDisclosure";
 import { useAuth } from "shared/hooks/useAuth";
 import useTranslate from "shared/hooks/useTranslate";
+import useLocales from "shared/hooks/useLocales";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
@@ -41,6 +42,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
     openConfigurator,
     darkMode,
   } = controller;
+  const { isRTL } = useLocales();
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
 
@@ -146,7 +148,7 @@ function DashboardNavbar({ absolute = false, light = false, isMini = false }) {
       position={absolute ? "absolute" : navbarType}
       color="inherit"
       sx={(theme) =>
-        navbar(theme, { transparentNavbar, absolute, light, darkMode })
+        navbar(theme, { transparentNavbar, absolute, light, darkMode, isRTL })
       }
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>

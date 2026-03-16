@@ -3,7 +3,7 @@ function navbar(theme, ownerState) {
   const { palette, boxShadows, functions, transitions, breakpoints, borders } =
     theme;
   const { meena } = palette;
-  const { transparentNavbar, absolute, light, darkMode } = ownerState;
+  const { transparentNavbar, absolute, light, darkMode, isRTL = false } = ownerState;
 
   const { dark, white, text, transparent, background } = palette;
   const { navbarBoxShadow } = boxShadows;
@@ -16,8 +16,8 @@ function navbar(theme, ownerState) {
     backgroundColor: "inherit",
     width: "100%",
     margin: 0,
-    paddingLeft: pxToRem(16),
-    paddingRight: pxToRem(16),
+    paddingInlineStart: pxToRem(16),
+    paddingInlineEnd: pxToRem(16),
     borderRadius: borderRadius.xl,
     boxSizing: "border-box",
 
@@ -25,10 +25,11 @@ function navbar(theme, ownerState) {
       backgroundColor: `${meena?.sidenavBg || "#F3EEFF"} !important`,
       width: "calc(100% + 48px)",
       margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
-      paddingLeft: pxToRem(40),
-      paddingRight: pxToRem(40),
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
+      paddingInlineStart: pxToRem(40),
+      paddingInlineEnd: pxToRem(40),
+      ...(isRTL
+        ? { borderTopRightRadius: 0, borderBottomRightRadius: 0 }
+        : { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
     },
 
     color: () => {
@@ -116,7 +117,7 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
     [breakpoints.up("sm")]: {
       display: "inline-block",
       lineHeight: 1.2,
-      ml: 0.5,
+      marginInlineStart: 0.5,
     },
   },
 });

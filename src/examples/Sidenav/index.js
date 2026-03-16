@@ -18,10 +18,12 @@ import {
   setWhiteSidenav,
 } from "context";
 import useTranslate from "shared/hooks/useTranslate";
+import useLocales from "shared/hooks/useLocales";
 
 function Sidenav({ color = "info", brand = "", routes, ...rest }) {
   const theme = useTheme();
   const { t } = useTranslate();
+  const { isRTL } = useLocales();
   const [openCollapse, setOpenCollapse] = useState(false);
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
@@ -147,11 +149,14 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
             variant="caption"
             fontWeight="bold"
             textTransform="uppercase"
-            pl={2}
-            mt={2}
-            mb={1}
-            ml={1}
-            sx={{ color: theme.palette?.meena?.tertiary || "#AF98DB", letterSpacing: "0.5px" }}
+            sx={{
+              paddingInlineStart: 2,
+              mt: 2,
+              mb: 1,
+              marginInlineStart: 1,
+              color: theme.palette?.meena?.tertiary || "#AF98DB",
+              letterSpacing: "0.5px",
+            }}
           >
             {title}
           </MDTypography>
@@ -203,9 +208,9 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
     <SidenavRoot
       {...rest}
       variant="permanent"
-      ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
+      ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode, isRTL }}
     >
-      <MDBox pt={3} pb={1} px={3} textAlign="left">
+      <MDBox pt={3} pb={1} px={3} sx={{ textAlign: isRTL ? "right" : "left" }}>
         <MDBox
           component={NavLink}
           to="/"
@@ -225,7 +230,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
                 minWidth: "6rem",
                 minHeight: "4rem",
                 objectFit: "contain",
-                objectPosition: "left",
+                objectPosition: isRTL ? "right" : "left",
               }}
             />
           )}

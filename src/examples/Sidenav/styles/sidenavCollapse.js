@@ -1,25 +1,28 @@
 function collapseItem(theme, ownerState) {
-  const { transitions, breakpoints, functions, palette } = theme;
+  const { transitions, breakpoints, functions, palette, direction } = theme;
   const { active, miniSidenav } = ownerState;
   const { meena } = palette;
   const { pxToRem } = functions;
+  const isRTL = direction === "rtl";
 
   return {
+    flexDirection: isRTL ? "row-reverse" : "row",
     background: active ? (meena?.activeBg || "rgba(140, 86, 255, 0.12)") : "transparent",
     color: active ? (meena?.secondary || "#6B47F5") : (meena?.tertiary || "#AF98DB"),
     display: "flex",
     alignItems: "center",
     width: "100%",
     padding: `${pxToRem(10)} ${pxToRem(14)}`,
-    margin: `${pxToRem(2)} ${pxToRem(10)}`,
+    marginBlock: pxToRem(2),
+    marginInline: pxToRem(10),
     borderRadius: pxToRem(12),
     cursor: "pointer",
     userSelect: "none",
     whiteSpace: "nowrap",
     boxShadow: "none",
     ...(active && !miniSidenav && {
-      borderLeft: `3px solid ${meena?.icon || "#831ED2"}`,
-      paddingLeft: pxToRem(11),
+      borderInlineStart: `3px solid ${meena?.icon || "#831ED2"}`,
+      paddingInlineStart: pxToRem(11),
     }),
 
     [breakpoints.up("xl")]: {
@@ -88,12 +91,12 @@ function collapseText(theme, ownerState) {
   const { pxToRem } = functions;
 
   return {
-    marginLeft: pxToRem(10),
+    marginInlineStart: pxToRem(10),
 
     [breakpoints.up("xl")]: {
       opacity: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : 1,
       maxWidth: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : "100%",
-      marginLeft:
+      marginInlineStart:
         miniSidenav || (miniSidenav && transparentSidenav) ? 0 : pxToRem(10),
       transition: transitions.create(["opacity", "margin"], {
         easing: transitions.easing.easeInOut,

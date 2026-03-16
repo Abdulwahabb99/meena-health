@@ -13,15 +13,19 @@ import MDBox from "components/MDBox";
 
 // Material Dashboard 3 PRO React context
 import { useMaterialUIController, setLayout } from "context";
+import useLocales from "shared/hooks/useLocales";
 
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav } = controller;
   const { pathname } = useLocation();
+  const { isRTL } = useLocales();
 
   useEffect(() => {
     setLayout(dispatch, "dashboard");
   }, [pathname]);
+
+  const sidenavMargin = miniSidenav ? 73 : 240;
 
   return (
     <MDBox
@@ -31,7 +35,9 @@ function DashboardLayout({ children }) {
         overflow: "visible",
 
         [breakpoints.up("xl")]: {
-          marginLeft: miniSidenav ? pxToRem(73) : pxToRem(240),
+          ...(isRTL
+            ? { marginRight: pxToRem(sidenavMargin) }
+            : { marginLeft: pxToRem(sidenavMargin) }),
           transition: transitions.create(["margin-left", "margin-right"], {
             easing: transitions.easing.easeInOut,
             duration: transitions.duration.standard,
