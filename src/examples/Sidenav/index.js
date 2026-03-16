@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, NavLink } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -18,6 +19,7 @@ import {
 } from "context";
 
 function Sidenav({ color = "info", brand = "", routes, ...rest }) {
+  const theme = useTheme();
   const [openCollapse, setOpenCollapse] = useState(false);
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
@@ -134,7 +136,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
             mt={2}
             mb={1}
             ml={1}
-            sx={{ color: "#AF98DB", letterSpacing: "0.5px" }}
+            sx={{ color: theme.palette?.meena?.tertiary || "#AF98DB", letterSpacing: "0.5px" }}
           >
             {title}
           </MDTypography>
@@ -145,7 +147,7 @@ function Sidenav({ color = "info", brand = "", routes, ...rest }) {
         return (
           <Divider
             key={key}
-            sx={{ borderColor: "rgba(140, 86, 255, 0.1)", my: 1 }}
+            sx={{ borderColor: theme.palette?.meena?.border || "rgba(140, 86, 255, 0.1)", my: 1 }}
           />
         );
       }

@@ -2,6 +2,7 @@
 function navbar(theme, ownerState) {
   const { palette, boxShadows, functions, transitions, breakpoints, borders } =
     theme;
+  const { meena } = palette;
   const { transparentNavbar, absolute, light, darkMode } = ownerState;
 
   const { dark, white, text, transparent, background } = palette;
@@ -21,7 +22,7 @@ function navbar(theme, ownerState) {
     boxSizing: "border-box",
 
     [breakpoints.up("xl")]: {
-      backgroundColor: "#F3EEFF !important",
+      backgroundColor: `${meena?.sidenavBg || "#F3EEFF"} !important`,
       width: "calc(100% + 48px)",
       margin: `${pxToRem(-24)} ${pxToRem(-24)} 0 ${pxToRem(-24)}`,
       paddingLeft: pxToRem(40),

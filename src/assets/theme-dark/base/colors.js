@@ -7,6 +7,20 @@
  */
 
 const colors = {
+  // Meena brand colors - use theme.palette.meena
+  meena: {
+    sidenavBg: "#F3EEFF",
+    primary: "#8C56FF",
+    secondary: "#6B47F5",
+    icon: "#831ED2",
+    tertiary: "#AF98DB",
+    fourth: "#9389F7",
+    background: "#F8F7FC",
+    activeBg: "rgba(140, 86, 255, 0.12)",
+    hoverBg: "rgba(140, 86, 255, 0.06)",
+    border: "rgba(140, 86, 255, 0.1)",
+  },
+
   background: {
     default: "#171717",
     sidenav: "#1d1d1d",

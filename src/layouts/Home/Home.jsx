@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -24,6 +25,8 @@ import {
 
 function Home() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const meena = theme.palette?.meena || {};
 
   return (
     <DashboardLayout>
@@ -38,7 +41,7 @@ function Home() {
                 borderRadius: 2,
                 bgcolor: "white",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                border: "1px solid rgba(140, 86, 255, 0.08)",
+                border: `1px solid ${meena.border || "rgba(140, 86, 255, 0.08)"}`,
                 height: "100%",
               }}
             >
@@ -94,7 +97,7 @@ function Home() {
                     component="span"
                     sx={{
                       fontSize: "0.875rem",
-                      color: "#831ED2",
+                      color: meena.icon || "#831ED2",
                       cursor: "pointer",
                       fontWeight: 500,
                     }}
@@ -122,12 +125,12 @@ function Home() {
                 borderRadius: 2,
                 bgcolor: "white",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                border: "1px solid rgba(140, 86, 255, 0.08)",
+                border: `1px solid ${meena.border || "rgba(140, 86, 255, 0.08)"}`,
                 height: "100%",
               }}
             >
               <MDBox display="flex" alignItems="center" gap={1} mb={2}>
-                <Icon sx={{ color: "#8C56FF", fontSize: 24 }}>event</Icon>
+                <Icon sx={{ color: meena.primary || "#8C56FF", fontSize: 24 }}>event</Icon>
                 <MDTypography variant="h6" fontWeight="bold" color="dark">
                   Event
                 </MDTypography>

@@ -5,12 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Sidenav from "examples/Sidenav";
 import theme from "assets/theme";
-// import themeRTL from "assets/theme/theme-rtl";
 import themeDark from "assets/theme-dark";
-// import themeDarkRTL from "assets/theme-dark/theme-rtl";
-// import rtlPlugin from "stylis-plugin-rtl";
-// import { CacheProvider } from "@emotion/react";
-// import createCache from "@emotion/cache";
 import { routes } from "routes";
 import { useMaterialUIController, setMiniSidenav } from "context";
 import ProtectedRoutes from "shared/component/ProtectedRoutes";
@@ -48,7 +43,6 @@ export default function App() {
 
   const MENU_ITEMS = routes;
 
-  // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
     if (miniSidenav && !onMouseEnter) {
       setMiniSidenav(dispatch, false);
@@ -56,7 +50,6 @@ export default function App() {
     }
   };
 
-  // Close sidenav when mouse leave mini sidenav
   const handleOnMouseLeave = () => {
     if (onMouseEnter) {
       setMiniSidenav(dispatch, true);
@@ -64,13 +57,10 @@ export default function App() {
     }
   };
 
-  // Change the openConfigurator state
-  // Setting the dir attribute for the body element
   useEffect(() => {
     document.body.setAttribute("dir", "ltr");
   }, [direction]);
 
-  // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -79,17 +69,14 @@ export default function App() {
   const getRoutes = (allRoutes) =>
     allRoutes.flatMap((route) => {
       if (route.collapse) return getRoutes(route.collapse);
-
       if (route.route) {
         const Element = route.protected ? (
           <ProtectedRoutes>{route.component}</ProtectedRoutes>
         ) : (
           route.component
         );
-
         return <Route key={route.key} path={route.route} element={Element} />;
       }
-
       return [];
     });
 
@@ -111,107 +98,47 @@ export default function App() {
         bodyClassName="custom-toast-body"
       />
 
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={brandLogo}
-              routes={MENU_ITEMS}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
+      {layout === "dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={brandLogo}
+            routes={MENU_ITEMS}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          {isSmallScreen && !miniSidenav && (
+            <Box
+              onClick={() => setMiniSidenav(dispatch, true)}
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0,0,0,0.2)",
+                zIndex: 1199,
+              }}
             />
-            {isSmallScreen && !miniSidenav && (
-              <Box
-                onClick={() => setMiniSidenav(dispatch, true)}
-                sx={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundColor: "rgba(0,0,0,0.2)",
-                  zIndex: 1199,
-                }}
-              />
-            )}
-            {/* <Configurator /> */}
-            {/* {configsButton} */}
-          </>
-        )}
-        <Suspense fallback={<SuspenseLoading />}>
-          <Routes>
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            {getRoutes(MENU_ITEMS)}
-            {pageRoutes.map((route) => (
-              <Route
-                key={route.id}
-                path={route.route}
-                element={<ProtectedRoutes>{route.component}</ProtectedRoutes>}
-              />
-            ))}
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route path="*" element={<Navigate to="/home" replace />} />
-          </Routes>
-        </Suspense>
-      </ThemeProvider>
+          )}
+        </>
+      )}
+      <Suspense fallback={<SuspenseLoading />}>
+        <Routes>
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          {getRoutes(MENU_ITEMS)}
+          {pageRoutes.map((route) => (
+            <Route
+              key={route.id}
+              path={route.route}
+              element={<ProtectedRoutes>{route.component}</ProtectedRoutes>}
+            />
+          ))}
+          <Route path="/home" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </ThemeProvider>
   );
-
-  // direction === "rtl" ? (
-  //   <CacheProvider value={rtlCache}>
-  //     <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-  //       <CssBaseline />
-  //       {layout === "dashboard" && (
-  //         <>
-  //           <Sidenav
-  //             color={sidenavColor}
-  //             brand={
-  //               (transparentSidenav && !darkMode) || whiteSidenav
-  //                 ? brandDark
-  //                 : brandWhite
-  //             }
-  //             brandName="Creative Tim"
-  //             routes={routes}
-  //             onMouseEnter={handleOnMouseEnter}
-  //             onMouseLeave={handleOnMouseLeave}
-  //           />
-  //           <Configurator />
-  //           {configsButton}
-  //         </>
-  //       )}
-  //       {layout === "vr" && <Configurator />}
-  //       <Routes>
-  //         {getRoutes(routes)}
-  //         <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
-  //       </Routes>
-  //     </ThemeProvider>
-  //   </CacheProvider>
-  // ) : (
-  //   <ThemeProvider theme={darkMode ? themeDark : theme}>
-  //     <CssBaseline />
-  //     {layout === "dashboard" && (
-  //       <>
-  //         <Sidenav
-  //           color={sidenavColor}
-  //           brand={
-  //             (transparentSidenav && !darkMode) || whiteSidenav
-  //               ? brandDark
-  //               : brandWhite
-  //           }
-  //           brandName="Creative Tim"
-  //           routes={routes}
-  //           onMouseEnter={handleOnMouseEnter}
-  //           onMouseLeave={handleOnMouseLeave}
-  //         />
-  //         <Configurator />
-  //         {configsButton}
-  //       </>
-  //     )}
-  //     {layout === "vr" && <Configurator />}
-  //     <Routes>
-  //       {getRoutes(routes)}
-  //       <Route path="*" element={<Navigate to="/dashboards/analytics" />} />
-  //     </Routes>
-  //   </ThemeProvider>
-  // );
 }

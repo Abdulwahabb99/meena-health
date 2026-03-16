@@ -1,12 +1,12 @@
 function collapseItem(theme, ownerState) {
-  const { transitions, breakpoints, functions } = theme;
+  const { transitions, breakpoints, functions, palette } = theme;
   const { active, miniSidenav } = ownerState;
-
+  const { meena } = palette;
   const { pxToRem } = functions;
 
   return {
-    background: active ? "rgba(140, 86, 255, 0.12)" : "transparent",
-    color: active ? "#6B47F5" : "#AF98DB",
+    background: active ? (meena?.activeBg || "rgba(140, 86, 255, 0.12)") : "transparent",
+    color: active ? (meena?.secondary || "#6B47F5") : (meena?.tertiary || "#AF98DB"),
     display: "flex",
     alignItems: "center",
     width: "100%",
@@ -18,7 +18,7 @@ function collapseItem(theme, ownerState) {
     whiteSpace: "nowrap",
     boxShadow: "none",
     ...(active && !miniSidenav && {
-      borderLeft: "3px solid #831ED2",
+      borderLeft: `3px solid ${meena?.icon || "#831ED2"}`,
       paddingLeft: pxToRem(11),
     }),
 
@@ -34,17 +34,17 @@ function collapseItem(theme, ownerState) {
 
     "&:hover, &:focus": {
       backgroundColor: active
-        ? "rgba(140, 86, 255, 0.15)"
-        : "rgba(140, 86, 255, 0.06)",
+        ? (meena?.activeBg || "rgba(140, 86, 255, 0.15)")
+        : (meena?.hoverBg || "rgba(140, 86, 255, 0.06)"),
     },
   };
 }
 
 function collapseIconBox(theme, ownerState) {
-  const { transitions, functions } = theme;
+  const { transitions, functions, palette } = theme;
   const { pxToRem } = functions;
   const { active, miniSidenav } = ownerState;
-
+  const iconColor = palette?.meena?.icon || "#831ED2";
   const hideIconWhenActive = active && !miniSidenav;
 
   return {
@@ -53,7 +53,7 @@ function collapseIconBox(theme, ownerState) {
     width: hideIconWhenActive ? 0 : "auto",
     padding: hideIconWhenActive ? 0 : undefined,
     overflow: "hidden",
-    color: active ? "#831ED2" : "inherit",
+    color: active ? iconColor : "inherit",
     borderRadius: pxToRem(8),
     display: "grid",
     placeItems: "center",
@@ -68,20 +68,21 @@ function collapseIconBox(theme, ownerState) {
     visibility: hideIconWhenActive ? "hidden" : "visible",
 
     "& .material-icons, & .MuiSvgIcon-root, & svg, & svg g": {
-      color: active ? "#831ED2" : "inherit",
+      color: active ? iconColor : "inherit",
       fontSize: "20px !important",
     },
   };
 }
 
 const collapseIcon = (theme, { active }) => ({
-  color: active ? "#831ED2" : "inherit",
+  color: active ? (theme.palette?.meena?.icon || "#831ED2") : "inherit",
   fontSize: "20px !important",
 });
 
 function collapseText(theme, ownerState) {
-  const { typography, transitions, breakpoints, functions } = theme;
+  const { typography, transitions, breakpoints, functions, palette } = theme;
   const { miniSidenav, transparentSidenav, active } = ownerState;
+  const { meena } = palette;
 
   const { size, fontWeightMedium, fontWeightRegular } = typography;
   const { pxToRem } = functions;
@@ -104,15 +105,15 @@ function collapseText(theme, ownerState) {
       fontWeight: active ? fontWeightMedium : fontWeightRegular,
       fontSize: size.sm,
       lineHeight: 0,
-      color: active ? "#6B47F5" : "#AF98DB",
+      color: active ? (meena?.secondary || "#6B47F5") : (meena?.tertiary || "#AF98DB"),
     },
   };
 }
 
 function collapseArrow(theme, ownerState) {
-  const { typography, transitions, breakpoints, functions } = theme;
+  const { typography, transitions, breakpoints, functions, palette } = theme;
   const { transparentSidenav, miniSidenav, open, active } = ownerState;
-
+  const { meena } = palette;
   const { size } = typography;
   const { pxToRem } = functions;
 
@@ -121,7 +122,7 @@ function collapseArrow(theme, ownerState) {
     fontWeight: 700,
     marginBottom: pxToRem(-1),
     transform: open ? "rotate(0)" : "rotate(-180deg)",
-    color: open || active ? "#8C56FF" : "#AF98DB",
+    color: open || active ? (meena?.primary || "#8C56FF") : (meena?.tertiary || "#AF98DB"),
     transition: transitions.create(["color", "transform", "opacity"], {
       easing: transitions.easing.easeInOut,
       duration: transitions.duration.shorter,

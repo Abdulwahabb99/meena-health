@@ -1,9 +1,13 @@
 import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 function LearningPillButton({ label, icon = "school", onClick }) {
+  const theme = useTheme();
+  const meena = theme.palette?.meena || {};
+
   return (
     <MDBox
       component="button"
@@ -15,12 +19,12 @@ function LearningPillButton({ label, icon = "school", onClick }) {
         px: 2,
         py: 1,
         borderRadius: "9999px",
-        bgcolor: "#8C56FF",
+        bgcolor: meena.primary || "#8C56FF",
         color: "white",
         border: "none",
         cursor: "pointer",
         "&:hover": {
-          bgcolor: "#6B47F5",
+          bgcolor: meena.secondary || "#6B47F5",
         },
       }}
     >

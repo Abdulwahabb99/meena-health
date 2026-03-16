@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
@@ -7,12 +8,14 @@ import SectionCard from "./SectionCard";
 
 function JobCard({ job }) {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const meena = theme.palette?.meena || {};
 
   return (
     <SectionCard
       sx={{
         "&:hover": {
-          borderColor: "rgba(140, 86, 255, 0.3)",
+          borderColor: meena.border || "rgba(140, 86, 255, 0.3)",
           boxShadow: "0 2px 8px rgba(140, 86, 255, 0.1)",
         },
       }}
@@ -33,7 +36,7 @@ function JobCard({ job }) {
           px: 1.5,
           py: 0.5,
           borderRadius: "9999px",
-          bgcolor: "#8C56FF",
+          bgcolor: meena.primary || "#8C56FF",
           color: "white",
           fontSize: "0.75rem",
           fontWeight: 500,
@@ -62,8 +65,8 @@ function JobCard({ job }) {
           size="small"
           onClick={() => navigate("/departments")}
           sx={{
-            bgcolor: "#8C56FF",
-            "&:hover": { bgcolor: "#6B47F5" },
+            bgcolor: meena.primary || "#8C56FF",
+            "&:hover": { bgcolor: meena.secondary || "#6B47F5" },
           }}
         >
           Apply

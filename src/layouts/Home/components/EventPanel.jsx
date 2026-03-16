@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -8,6 +9,9 @@ import MDTypography from "components/MDTypography";
 import SectionCard from "./SectionCard";
 
 function EventPanel({ featuredEvent, eventDateItems }) {
+  const theme = useTheme();
+  const meena = theme.palette?.meena || {};
+
   return (
     <MDBox>
       <SectionCard sx={{ mb: 2 }} noPadding>
@@ -15,15 +19,15 @@ function EventPanel({ featuredEvent, eventDateItems }) {
           p={2}
           sx={{
             "& .fc": {
-              "--fc-border-color": "rgba(140, 86, 255, 0.15)",
-              "--fc-button-bg-color": "#8C56FF",
-              "--fc-button-border-color": "#8C56FF",
-              "--fc-button-hover-bg-color": "#6B47F5",
-              "--fc-button-hover-border-color": "#6B47F5",
-              "--fc-today-bg-color": "rgba(140, 86, 255, 0.06)",
+              "--fc-border-color": meena.border || "rgba(140, 86, 255, 0.15)",
+              "--fc-button-bg-color": meena.primary || "#8C56FF",
+              "--fc-button-border-color": meena.primary || "#8C56FF",
+              "--fc-button-hover-bg-color": meena.secondary || "#6B47F5",
+              "--fc-button-hover-border-color": meena.secondary || "#6B47F5",
+              "--fc-today-bg-color": meena.hoverBg || "rgba(140, 86, 255, 0.06)",
             },
             "& .fc .fc-day-today .fc-daygrid-day-number": {
-              backgroundColor: "#8C56FF !important",
+              backgroundColor: `${meena.primary || "#8C56FF"} !important`,
               color: "white !important",
               borderRadius: "50% !important",
               width: 28,
@@ -34,12 +38,12 @@ function EventPanel({ featuredEvent, eventDateItems }) {
               margin: "0 auto",
             },
             "& .fc .fc-button": {
-              backgroundColor: "#8C56FF !important",
-              borderColor: "#8C56FF !important",
+              backgroundColor: `${meena.primary || "#8C56FF"} !important`,
+              borderColor: `${meena.primary || "#8C56FF"} !important`,
             },
             "& .fc .fc-button:hover": {
-              backgroundColor: "#6B47F5 !important",
-              borderColor: "#6B47F5 !important",
+              backgroundColor: `${meena.secondary || "#6B47F5"} !important`,
+              borderColor: `${meena.secondary || "#6B47F5"} !important`,
             },
             "& .fc-toolbar-title": {
               fontSize: "0.95rem !important",
@@ -76,7 +80,7 @@ function EventPanel({ featuredEvent, eventDateItems }) {
           sx={{
             p: 1.5,
             borderRadius: 1.5,
-            border: "1px solid rgba(140, 86, 255, 0.2)",
+            border: `1px solid ${meena.border || "rgba(140, 86, 255, 0.2)"}`,
             bgcolor: "white",
             cursor: "pointer",
           }}

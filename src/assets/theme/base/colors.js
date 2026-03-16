@@ -1,12 +1,25 @@
 /**
- * The base colors for the Material Dashboard 3 PRO React.
- * You can add new color using this file.
- * You can customized the colors for the entire Material Dashboard 3 PRO React using thie file.
+ * Meena Intranet - Global colors
+ * Use these colors across the application via theme.palette.meena
  */
 
 const colors = {
+  // Meena brand colors - use theme.palette.meena
+  meena: {
+    sidenavBg: "#F3EEFF",
+    primary: "#8C56FF",
+    secondary: "#6B47F5",
+    icon: "#831ED2",
+    tertiary: "#AF98DB",
+    fourth: "#9389F7",
+    background: "#F8F7FC",
+    activeBg: "rgba(140, 86, 255, 0.12)",
+    hoverBg: "rgba(140, 86, 255, 0.06)",
+    border: "rgba(140, 86, 255, 0.1)",
+  },
+
   background: {
-    default: "#f5f5f5",
+    default: "#F8F7FC",
   },
 
   text: {
@@ -30,13 +43,13 @@ const colors = {
   },
 
   primary: {
-    main: "#e91e63",
-    focus: "#e91e63",
+    main: "#8C56FF",
+    focus: "#6B47F5",
   },
 
   secondary: {
-    main: "#7b809a",
-    focus: "#8f93a9",
+    main: "#6B47F5",
+    focus: "#8C56FF",
   },
 
   info: {
@@ -60,8 +73,8 @@ const colors = {
   },
 
   light: {
-    main: "#f0f2f5",
-    focus: "#f0f2f5",
+    main: "#F3EEFF",
+    focus: "#F3EEFF",
   },
 
   dark: {
@@ -122,7 +135,7 @@ const colors = {
     600: "#B42318",
     700: "#912018",
   },
-  
+
   blue: {
     50: "#E0F2F7",
     100: "#C9ECF6",
@@ -138,40 +151,33 @@ const colors = {
 
   gradients: {
     primary: {
-      main: "#EC407A",
-      state: "#D81B60",
+      main: "#8C56FF",
+      state: "#6B47F5",
     },
-
     secondary: {
       main: "#747b8a",
       state: "#495361",
     },
-
     info: {
       main: "#42424a",
       state: "#191919",
     },
-
     success: {
       main: "#66BB6A",
       state: "#43A047",
     },
-
     warning: {
       main: "#FFA726",
       state: "#FB8C00",
     },
-
     error: {
       main: "#EF5350",
       state: "#E53935",
     },
-
     light: {
-      main: "#EBEFF4",
-      state: "#CED4DA",
+      main: "#F3EEFF",
+      state: "#AF98DB",
     },
-
     dark: {
       main: "#42424a",
       state: "#191919",
@@ -179,112 +185,34 @@ const colors = {
   },
 
   socialMediaColors: {
-    facebook: {
-      main: "#3b5998",
-      dark: "#344e86",
-    },
-
-    twitter: {
-      main: "#55acee",
-      dark: "#3ea1ec",
-    },
-
-    instagram: {
-      main: "#125688",
-      dark: "#0e456d",
-    },
-
-    linkedin: {
-      main: "#0077b5",
-      dark: "#00669c",
-    },
-
-    pinterest: {
-      main: "#cc2127",
-      dark: "#b21d22",
-    },
-
-    youtube: {
-      main: "#e52d27",
-      dark: "#d41f1a",
-    },
-
-    vimeo: {
-      main: "#1ab7ea",
-      dark: "#13a3d2",
-    },
-
-    slack: {
-      main: "#3aaf85",
-      dark: "#329874",
-    },
-
-    dribbble: {
-      main: "#ea4c89",
-      dark: "#e73177",
-    },
-
-    github: {
-      main: "#24292e",
-      dark: "#171a1d",
-    },
-
-    reddit: {
-      main: "#ff4500",
-      dark: "#e03d00",
-    },
-
-    tumblr: {
-      main: "#35465c",
-      dark: "#2a3749",
-    },
+    facebook: { main: "#3b5998", dark: "#344e86" },
+    twitter: { main: "#55acee", dark: "#3ea1ec" },
+    instagram: { main: "#125688", dark: "#0e456d" },
+    linkedin: { main: "#0077b5", dark: "#00669c" },
+    pinterest: { main: "#cc2127", dark: "#b21d22" },
+    youtube: { main: "#e52d27", dark: "#d41f1a" },
+    vimeo: { main: "#1ab7ea", dark: "#13a3d2" },
+    slack: { main: "#3aaf85", dark: "#329874" },
+    dribbble: { main: "#ea4c89", dark: "#e73177" },
+    github: { main: "#24292e", dark: "#171a1d" },
+    reddit: { main: "#ff4500", dark: "#e03d00" },
+    tumblr: { main: "#35465c", dark: "#2a3749" },
   },
 
   badgeColors: {
-    primary: {
-      background: "#f8b3ca",
-      text: "#cc084b",
-    },
-
-    secondary: {
-      background: "#d7d9e1",
-      text: "#6c757d",
-    },
-
-    info: {
-      background: "#aecef7",
-      text: "#095bc6",
-    },
-
-    success: {
-      background: "#bce2be",
-      text: "#339537",
-    },
-
-    warning: {
-      background: "#ffd59f",
-      text: "#c87000",
-    },
-
-    error: {
-      background: "#fcd3d0",
-      text: "#f61200",
-    },
-
-    light: {
-      background: "#ffffff",
-      text: "#c7d3de",
-    },
-
-    dark: {
-      background: "#8097bf",
-      text: "#1e2e4a",
-    },
+    primary: { background: "#F3EEFF", text: "#8C56FF" },
+    secondary: { background: "#d7d9e1", text: "#6c757d" },
+    info: { background: "#aecef7", text: "#095bc6" },
+    success: { background: "#bce2be", text: "#339537" },
+    warning: { background: "#ffd59f", text: "#c87000" },
+    error: { background: "#fcd3d0", text: "#f61200" },
+    light: { background: "#ffffff", text: "#c7d3de" },
+    dark: { background: "#8097bf", text: "#1e2e4a" },
   },
 
   coloredShadows: {
-    primary: "#e91e62",
-    secondary: "#110e0e",
+    primary: "#8C56FF",
+    secondary: "#6B47F5",
     info: "#191919",
     success: "#4caf4f",
     warning: "#ff9900",

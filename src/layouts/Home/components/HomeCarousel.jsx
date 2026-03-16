@@ -1,5 +1,6 @@
 import { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Icon from "@mui/material/Icon";
 import IconButton from "@mui/material/IconButton";
@@ -9,6 +10,8 @@ import "swiper/css";
 
 function HomeCarousel({ slides }) {
   const swiperRef = useRef(null);
+  const theme = useTheme();
+  const meena = theme.palette?.meena || {};
 
   const handlePrev = useCallback(() => {
     swiperRef.current?.swiper?.slidePrev();
@@ -34,7 +37,7 @@ function HomeCarousel({ slides }) {
                 borderRadius: 2,
                 overflow: "hidden",
                 height: 280,
-                bgcolor: "#F3EEFF",
+                bgcolor: meena.sidenavBg || "#F3EEFF",
               }}
             >
               <img
@@ -60,9 +63,9 @@ function HomeCarousel({ slides }) {
           zIndex: 2,
           width: 40,
           height: 40,
-          bgcolor: "#8C56FF",
+          bgcolor: meena.primary || "#8C56FF",
           color: "white",
-          "&:hover": { bgcolor: "#6B47F5", color: "white" },
+          "&:hover": { bgcolor: meena.secondary || "#6B47F5", color: "white" },
         }}
       >
         <Icon>chevron_left</Icon>
@@ -77,9 +80,9 @@ function HomeCarousel({ slides }) {
           zIndex: 2,
           width: 40,
           height: 40,
-          bgcolor: "#8C56FF",
+          bgcolor: meena.primary || "#8C56FF",
           color: "white",
-          "&:hover": { bgcolor: "#6B47F5", color: "white" },
+          "&:hover": { bgcolor: meena.secondary || "#6B47F5", color: "white" },
         }}
       >
         <Icon>chevron_right</Icon>

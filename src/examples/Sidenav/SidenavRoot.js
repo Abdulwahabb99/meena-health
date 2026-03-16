@@ -2,14 +2,15 @@ import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 
 export default styled(Drawer)(({ theme, ownerState }) => {
-  const { transitions, breakpoints, functions } = theme;
+  const { transitions, breakpoints, functions, palette } = theme;
   const { miniSidenav } = ownerState;
+  const { meena } = palette;
 
   const sidebarWidth = 240;
   const { pxToRem } = functions;
 
   const drawerOpenStyles = () => ({
-    background: "#F3EEFF",
+    background: meena?.sidenavBg || "#F3EEFF",
     transform: "translateX(0)",
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,
@@ -29,7 +30,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
   });
 
   const drawerCloseStyles = () => ({
-    background: "#F3EEFF",
+    background: meena?.sidenavBg || "#F3EEFF",
     transform: `translateX(${pxToRem(-320)})`,
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,
