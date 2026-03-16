@@ -72,7 +72,7 @@ function SignIn() {
           lg: isRTL ? "row" : "row-reverse",
         },
         direction: isRTL ? "rtl" : "ltr",
-        backgroundColor: "background.default",
+        backgroundColor: "#ffffff",
       }}
     >
       {/* Image Panel - Hidden on small/medium, visible on lg+ */}
