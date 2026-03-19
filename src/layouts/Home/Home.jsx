@@ -25,6 +25,7 @@ function Home() {
     updateQuantity,
     removeMedication,
     totalItems,
+    totalPrice,
   } = useCart();
 
   const handleAddMedication = useCallback(
@@ -120,6 +121,8 @@ function Home() {
                   drugCode: t("home.drugCode"),
                   drugName: t("home.drugName"),
                   quantity: t("home.quantity"),
+                  price: t("home.price"),
+                  subtotal: t("home.subtotal"),
                   actions: t("home.actions"),
                 }}
                 isRTL={isRTL}
@@ -131,6 +134,7 @@ function Home() {
 
       <CheckoutBar
         itemCount={totalItems}
+        totalPrice={totalPrice}
         onCheckout={handleCheckout}
         itemsLabel={t("home.itemsInCart")}
         checkoutLabel={t("home.proceedToCheckout")}

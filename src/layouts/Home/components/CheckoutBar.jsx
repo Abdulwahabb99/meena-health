@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 import { useMaterialUIController } from "context";
 import useLocales from "shared/hooks/useLocales";
 
-function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
+const formatPrice = (amount) =>
+  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "0.00 ر.س";
+
+function CheckoutBar({ itemCount, totalPrice = 0, onCheckout, itemsLabel, checkoutLabel }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
   const { isRTL } = useLocales();
@@ -35,21 +38,31 @@ function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
         zIndex: 1200,
       })}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Icon
-          sx={{
-            fontSize: 24,
-            color: disabled ? "grey.400" : "primary.main",
-          }}
-        >
-          shopping_cart
-        </Icon>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "flex-start", sm: "center" }, gap: 0.25 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Icon
+            sx={{
+              fontSize: 24,
+              color: disabled ? "grey.400" : "primary.main",
+            }}
+          >
+            shopping_cart
+          </Icon>
+          <MDTypography
+            variant="body1"
+            color={disabled ? "text.secondary" : "dark"}
+            sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+          >
+            {itemCount} {itemsLabel}
+          </MDTypography>
+        </Box>
         <MDTypography
-          variant="body1"
-          color={disabled ? "text.secondary" : "dark"}
-          sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+          variant="body2"
+          color="primary.main"
+          fontWeight="bold"
+          sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}
         >
-          {itemCount} {itemsLabel}
+          {formatPrice(totalPrice)}
         </MDTypography>
       </Box>
       <MDButton
@@ -75,6 +88,7 @@ function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
 
 CheckoutBar.propTypes = {
   itemCount: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number,
   onCheckout: PropTypes.func.isRequired,
   itemsLabel: PropTypes.string.isRequired,
   checkoutLabel: PropTypes.string.isRequired,

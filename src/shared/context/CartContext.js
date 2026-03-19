@@ -43,6 +43,11 @@ export function CartProvider({ children }) {
     setMedications([]);
   }, []);
 
+  const totalPrice = medications.reduce(
+    (sum, m) => sum + (m.price || 0) * (m.quantity || 0),
+    0
+  );
+
   const value = {
     medications,
     setMedications: setMedicationsDirect,
@@ -51,6 +56,7 @@ export function CartProvider({ children }) {
     removeMedication,
     clearCart,
     totalItems: medications.reduce((sum, m) => sum + m.quantity, 0),
+    totalPrice,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

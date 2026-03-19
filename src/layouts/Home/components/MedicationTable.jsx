@@ -9,6 +9,9 @@ import DataTable from "examples/Tables/DataTable";
 import QuantityControl from "./QuantityControl";
 import PropTypes from "prop-types";
 
+const formatPrice = (amount) =>
+  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "—";
+
 function MedicationTable({
   medications,
   onUpdateQuantity,
@@ -22,7 +25,7 @@ function MedicationTable({
       {
         Header: columns.drugCode,
         accessor: "code",
-        width: "20%",
+        width: "15%",
         align: isRTL ? "right" : "left",
         Cell: ({ value }) => (
           <Box
@@ -45,7 +48,7 @@ function MedicationTable({
       {
         Header: columns.drugName,
         accessor: "name",
-        width: "35%",
+        width: "25%",
         align: isRTL ? "right" : "left",
         Cell: ({ value }) => (
           <MDTypography variant="body2" color="dark">
@@ -56,7 +59,7 @@ function MedicationTable({
       {
         Header: columns.quantity,
         accessor: "quantity",
-        width: "25%",
+        width: "15%",
         align: "center",
         Cell: ({ value, row }) => (
           <QuantityControl
@@ -69,9 +72,34 @@ function MedicationTable({
         ),
       },
       {
+        Header: columns.price,
+        accessor: "price",
+        width: "15%",
+        align: isRTL ? "left" : "right",
+        Cell: ({ value }) => (
+          <MDTypography variant="body2" color="dark" fontWeight={500}>
+            {formatPrice(value)}
+          </MDTypography>
+        ),
+      },
+      {
+        Header: columns.subtotal,
+        accessor: "subtotal",
+        width: "15%",
+        align: isRTL ? "left" : "right",
+        Cell: ({ row }) => {
+          const subtotal = (row.original.price || 0) * (row.original.quantity || 0);
+          return (
+            <MDTypography variant="body2" color="primary.main" fontWeight={600}>
+              {formatPrice(subtotal)}
+            </MDTypography>
+          );
+        },
+      },
+      {
         Header: columns.actions,
         accessor: "actions",
-        width: "20%",
+        width: "10%",
         align: isRTL ? "left" : "right",
         Cell: ({ row }) => (
           <IconButton
@@ -155,6 +183,9 @@ function MedicationTable({
               >
                 {m.name}
               </MDTypography>
+              <MDTypography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.25 }}>
+                {formatPrice(m.price)} × {m.quantity} = {formatPrice((m.price || 0) * m.quantity)}
+              </MDTypography>
             </Box>
             <QuantityControl
               quantity={m.quantity}
@@ -196,6 +227,7 @@ MedicationTable.propTypes = {
       code: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
+      price: PropTypes.number,
     })
   ).isRequired,
   onUpdateQuantity: PropTypes.func.isRequired,
@@ -205,6 +237,8 @@ MedicationTable.propTypes = {
     drugCode: PropTypes.string.isRequired,
     drugName: PropTypes.string.isRequired,
     quantity: PropTypes.string.isRequired,
+    price: PropTypes.string,
+    subtotal: PropTypes.string,
     actions: PropTypes.string.isRequired,
   }).isRequired,
   isRTL: PropTypes.bool,

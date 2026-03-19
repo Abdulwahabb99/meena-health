@@ -13,13 +13,16 @@ import useLocales from "shared/hooks/useLocales";
 import { useMaterialUIController } from "context";
 import { useCart } from "shared/context/CartContext";
 
+const formatPrice = (amount) =>
+  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "0.00 ر.س";
+
 function Checkout() {
   const { t } = useTranslate();
   const { isRTL } = useLocales();
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
-  const { medications, totalItems, clearCart } = useCart();
+  const { medications, totalItems, totalPrice, clearCart } = useCart();
   const sidenavMargin = miniSidenav ? 73 : 240;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -183,14 +186,10 @@ function Checkout() {
                       >
                         {m.name}
                       </MDTypography>
+                      <MDTypography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.25 }}>
+                        {formatPrice(m.price)} × {m.quantity} = {formatPrice((m.price || 0) * m.quantity)}
+                      </MDTypography>
                     </Box>
-                    <MDTypography
-                      variant="body2"
-                      fontWeight="bold"
-                      color="dark"
-                    >
-                      x{m.quantity}
-                    </MDTypography>
                   </Box>
                 ))}
               </Box>
@@ -220,9 +219,9 @@ function Checkout() {
                     <tr>
                       <th>{t("home.drugCode")}</th>
                       <th>{t("home.drugName")}</th>
-                      <th style={{ textAlign: "center" }}>
-                        {t("home.quantity")}
-                      </th>
+                      <th style={{ textAlign: "center" }}>{t("home.quantity")}</th>
+                      <th style={{ textAlign: isRTL ? "left" : "right" }}>{t("home.price")}</th>
+                      <th style={{ textAlign: isRTL ? "left" : "right" }}>{t("home.subtotal")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -251,12 +250,18 @@ function Checkout() {
                           </MDTypography>
                         </td>
                         <td style={{ textAlign: "center" }}>
-                          <MDTypography
-                            variant="body2"
-                            fontWeight="bold"
-                            color="dark"
-                          >
+                          <MDTypography variant="body2" fontWeight="bold" color="dark">
                             {m.quantity}
+                          </MDTypography>
+                        </td>
+                        <td style={{ textAlign: isRTL ? "left" : "right" }}>
+                          <MDTypography variant="body2" color="dark">
+                            {formatPrice(m.price)}
+                          </MDTypography>
+                        </td>
+                        <td style={{ textAlign: isRTL ? "left" : "right" }}>
+                          <MDTypography variant="body2" fontWeight="bold" color="primary.main">
+                            {formatPrice((m.price || 0) * m.quantity)}
                           </MDTypography>
                         </td>
                       </tr>
@@ -286,19 +291,30 @@ function Checkout() {
             px: { xs: 2, sm: 4, md: 6 },
             py: { xs: 1.5, sm: 2 },
             bgcolor: "white",
+            boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
             borderTop: "1px solid",
             borderColor: "grey.200",
             zIndex: 1200,
           })}
         >
-          <MDTypography
-            variant="body1"
-            fontWeight="bold"
-            color="dark"
-            sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
-          >
-            {totalItems} {t("checkout.items")}
-          </MDTypography>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "flex-start", sm: "center" }, gap: 0.25 }}>
+            <MDTypography
+              variant="body1"
+              fontWeight="bold"
+              color="dark"
+              sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+            >
+              {t("checkout.total")}: {totalItems} {t("checkout.items")}
+            </MDTypography>
+            <MDTypography
+              variant="h6"
+              fontWeight="bold"
+              color="primary.main"
+              sx={{ fontSize: { xs: "1rem", sm: "1.25rem" } }}
+            >
+              {formatPrice(totalPrice)}
+            </MDTypography>
+          </Box>
           <MDButton
             variant="gradient"
             color="primary"
