@@ -34,6 +34,7 @@ function DataTable({
   entriesPerPage = { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
   canSearch = false,
   showTotalEntries = true,
+  showPagination = true,
   table,
   pagination = { variant: "gradient", color: "info" },
   isSorted = true,
@@ -75,7 +76,9 @@ function DataTable({
   } = tableInstance;
 
   // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue, setPageSize]);
+  useEffect(() => {
+    setPageSize(showPagination ? (defaultValue || 10) : 9999);
+  }, [defaultValue, setPageSize, showPagination]);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
@@ -148,7 +151,8 @@ function DataTable({
       sx={{ boxShadow: "none", direction: "rtl" }}
       dir={isRTL ? "rtl" : "ltr"}
     >
-      {entriesPerPage || canSearch ? (
+      {/* Pagination: entries per page selector + search - hidden when showPagination=false */}
+      {showPagination && (entriesPerPage || canSearch) ? (
         <MDBox
           display="flex"
           justifyContent="space-between"
@@ -230,6 +234,8 @@ function DataTable({
         </TableBody>
       </Table>
 
+      {/* Pagination footer: total entries + page navigation - hidden when showPagination=false */}
+      {showPagination && (
       <MDBox
         display="flex"
         flexDirection={{ xs: "column", sm: "row" }}
@@ -281,6 +287,7 @@ function DataTable({
           </MDPagination>
         )}
       </MDBox>
+      )}
     </TableContainer>
   );
 }
@@ -296,6 +303,7 @@ DataTable.propTypes = {
   ]),
   canSearch: PropTypes.bool,
   showTotalEntries: PropTypes.bool,
+  showPagination: PropTypes.bool,
   table: PropTypes.objectOf(PropTypes.array).isRequired,
   pagination: PropTypes.shape({
     variant: PropTypes.oneOf(["contained", "gradient"]),

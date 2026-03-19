@@ -106,7 +106,8 @@ function MedicationTable({
     <DataTable
       table={table}
       canSearch={false}
-      showTotalEntries={true}
+      showTotalEntries={false}
+      showPagination={false}
       entriesPerPage={{ defaultValue: 10, entries: [5, 10, 15, 20, 25] }}
       isSorted={false}
       isRTL={isRTL}
