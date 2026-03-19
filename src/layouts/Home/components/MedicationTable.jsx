@@ -21,7 +21,7 @@ function MedicationTable({
         Header: columns.drugCode,
         accessor: "code",
         width: "20%",
-        align: "left",
+        align: isRTL ? "right" : "left",
         Cell: ({ value }) => (
           <Box
             component="span"
@@ -44,7 +44,7 @@ function MedicationTable({
         Header: columns.drugName,
         accessor: "name",
         width: "35%",
-        align: "left",
+        align: isRTL ? "right" : "left",
         Cell: ({ value }) => (
           <MDTypography variant="body2" color="dark">
             {value}
@@ -70,7 +70,7 @@ function MedicationTable({
         Header: columns.actions,
         accessor: "actions",
         width: "20%",
-        align: "right",
+        align: isRTL ? "left" : "right",
         Cell: ({ row }) => (
           <IconButton
             size="small"
@@ -90,7 +90,7 @@ function MedicationTable({
     }));
 
     return { columns: cols, rows };
-  }, [medications, columns, onUpdateQuantity, onRemove]);
+  }, [medications, columns, onUpdateQuantity, onRemove, isRTL]);
 
   if (medications.length === 0) {
     return (

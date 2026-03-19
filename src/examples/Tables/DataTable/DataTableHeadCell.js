@@ -48,8 +48,8 @@ function DataTableHeadCell({
           <MDBox
             position="absolute"
             top={0}
-            right={align !== "right" ? "16px" : 0}
-            left={align === "right" ? "-5px" : "unset"}
+            right={align !== "right" && align !== "end" ? "16px" : 0}
+            left={align === "right" || align === "end" ? "-5px" : "unset"}
             sx={({ typography: { size } }) => ({
               fontSize: size.lg,
             })}
@@ -82,7 +82,7 @@ DataTableHeadCell.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.node.isRequired,
   sorted: PropTypes.oneOf([false, "none", "asce", "desc"]),
-  align: PropTypes.oneOf(["left", "right", "center"]),
+  align: PropTypes.oneOf(["left", "right", "center", "start", "end"]),
 };
 
 export default DataTableHeadCell;

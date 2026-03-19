@@ -39,7 +39,7 @@ function DataTable({
   pagination = { variant: "gradient", color: "info" },
   isSorted = true,
   noEndBorder = false,
-  isRTL = true,
+  isRTL = false,
 }) {
   const defaultValue = entriesPerPage.defaultValue
     ? entriesPerPage.defaultValue
@@ -148,8 +148,10 @@ function DataTable({
 
   return (
     <TableContainer
-      sx={{ boxShadow: "none", direction: "rtl" }}
-      dir={isRTL ? "rtl" : "ltr"}
+      sx={{
+        boxShadow: "none",
+        direction: isRTL ? "rtl" : "ltr",
+      }}
     >
       {/* Pagination: entries per page selector + search - hidden when showPagination=false */}
       {showPagination && (entriesPerPage || canSearch) ? (
@@ -193,7 +195,7 @@ function DataTable({
           )}
         </MDBox>
       ) : null}
-      <Table sx={{ direction: "ltr" }} {...getTableProps()}>
+      <Table {...getTableProps()}>
         <MDBox component="thead">
           {headerGroups.map((headerGroup, key) => (
             <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
@@ -320,6 +322,7 @@ DataTable.propTypes = {
   }),
   isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
+  isRTL: PropTypes.bool,
 };
 
 export default DataTable;
