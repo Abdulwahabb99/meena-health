@@ -10,13 +10,17 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
+import { useMaterialUIController } from "context";
 import { useCart } from "shared/context/CartContext";
 
 function Checkout() {
   const { t } = useTranslate();
   const { isRTL } = useLocales();
   const navigate = useNavigate();
+  const [controller] = useMaterialUIController();
+  const { miniSidenav } = controller;
   const { medications, totalItems, clearCart } = useCart();
+  const sidenavMargin = miniSidenav ? 73 : 240;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -65,7 +69,7 @@ function Checkout() {
           flexDirection: "column",
           minHeight: "calc(100vh - 120px)",
           p: { xs: 1.5, sm: 2, md: 3 },
-          pb: { xs: 20, sm: 24 },
+          pb: { xs: 16, sm: 20 },
         }}
       >
         <MDBox
@@ -80,7 +84,9 @@ function Checkout() {
           }}
           onClick={handleBack}
         >
-          <Icon sx={{ fontSize: 24 }}>{isRTL ? "arrow_forward" : "arrow_back"}</Icon>
+          <Icon sx={{ fontSize: 24 }}>
+            {isRTL ? "arrow_forward" : "arrow_back"}
+          </Icon>
           <MDTypography variant="body1" fontWeight="medium" color="dark">
             {t("checkout.backToHome")}
           </MDTypography>
@@ -105,9 +111,16 @@ function Checkout() {
             border: "1px solid",
             borderColor: "grey.200",
             overflow: "hidden",
+            mb: 2,
           }}
         >
-          <MDBox sx={{ p: { xs: 2, sm: 3 }, borderBottom: 1, borderColor: "grey.200" }}>
+          <MDBox
+            sx={{
+              p: { xs: 2, sm: 3 },
+              borderBottom: 1,
+              borderColor: "grey.200",
+            }}
+          >
             <MDTypography variant="h6" fontWeight="bold" color="dark">
               {t("checkout.orderSummary")}
             </MDTypography>
@@ -118,7 +131,14 @@ function Checkout() {
 
           <MDBox sx={{ maxHeight: 400, overflowY: "auto" }}>
             {isMobile ? (
-              <Box sx={{ display: "flex", flexDirection: "column", p: 2, gap: 1.5 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  p: 2,
+                  gap: 1.5,
+                }}
+              >
                 {medications.map((m, index) => (
                   <Box
                     key={`${m.code}-${index}`}
@@ -164,7 +184,11 @@ function Checkout() {
                         {m.name}
                       </MDTypography>
                     </Box>
-                    <MDTypography variant="body2" fontWeight="bold" color="dark">
+                    <MDTypography
+                      variant="body2"
+                      fontWeight="bold"
+                      color="dark"
+                    >
                       x{m.quantity}
                     </MDTypography>
                   </Box>
@@ -196,7 +220,9 @@ function Checkout() {
                     <tr>
                       <th>{t("home.drugCode")}</th>
                       <th>{t("home.drugName")}</th>
-                      <th style={{ textAlign: "center" }}>{t("home.quantity")}</th>
+                      <th style={{ textAlign: "center" }}>
+                        {t("home.quantity")}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -225,7 +251,11 @@ function Checkout() {
                           </MDTypography>
                         </td>
                         <td style={{ textAlign: "center" }}>
-                          <MDTypography variant="body2" fontWeight="bold" color="dark">
+                          <MDTypography
+                            variant="body2"
+                            fontWeight="bold"
+                            color="dark"
+                          >
                             {m.quantity}
                           </MDTypography>
                         </td>
@@ -236,37 +266,56 @@ function Checkout() {
               </MDBox>
             )}
           </MDBox>
+        </MDBox>
 
-          <MDBox
+        <Box
+          sx={({ breakpoints, functions: { pxToRem } }) => ({
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            [breakpoints.up("xl")]: {
+              ...(isRTL
+                ? { right: pxToRem(sidenavMargin) }
+                : { left: pxToRem(sidenavMargin) }),
+            },
+            display: "flex",
+            flexDirection: isRTL ? "row-reverse" : "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            px: { xs: 2, sm: 4, md: 6 },
+            py: { xs: 1.5, sm: 2 },
+            bgcolor: "white",
+            borderTop: "1px solid",
+            borderColor: "grey.200",
+            zIndex: 1200,
+          })}
+        >
+          <MDTypography
+            variant="body1"
+            fontWeight="bold"
+            color="dark"
+            sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+          >
+            {totalItems} {t("checkout.items")}
+          </MDTypography>
+          <MDButton
+            variant="gradient"
+            color="primary"
+            onClick={handlePay}
             sx={{
-              p: { xs: 2, sm: 3 },
-              borderTop: 1,
-              borderColor: "grey.200",
-              bgcolor: "grey.50",
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              justifyContent: "space-between",
-              alignItems: { xs: "stretch", sm: "center" },
-              gap: 2,
+              borderRadius: 2,
+              px: { xs: 2, sm: 3 },
+              py: { xs: 1.25, sm: 1.5 },
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+              fontWeight: 600,
+              flexShrink: 0,
+              minWidth: { xs: 120, sm: 180 },
             }}
           >
-            <MDTypography variant="h6" fontWeight="bold" color="dark">
-              {t("checkout.total")}: {totalItems} {t("checkout.items")}
-            </MDTypography>
-            <MDButton
-              variant="gradient"
-              color="primary"
-              onClick={handlePay}
-              sx={{
-                minWidth: { xs: "100%", sm: 200 },
-                py: 1.5,
-                fontWeight: 600,
-              }}
-            >
-              {t("checkout.payNow")}
-            </MDButton>
-          </MDBox>
-        </MDBox>
+            {t("checkout.payNow")}
+          </MDButton>
+        </Box>
       </MDBox>
     </DashboardLayout>
   );
