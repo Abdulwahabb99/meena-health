@@ -2,8 +2,9 @@ import { Box, IconButton } from "@mui/material";
 import MDTypography from "components/MDTypography";
 import PropTypes from "prop-types";
 
-function QuantityControl({ quantity, onIncrease, onDecrease, min = 1 }) {
+function QuantityControl({ quantity, onIncrease, onDecrease, min = 1, compact = false }) {
   const canDecrease = quantity > min;
+  const size = compact ? 28 : 32;
 
   return (
     <Box
@@ -11,7 +12,7 @@ function QuantityControl({ quantity, onIncrease, onDecrease, min = 1 }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: 0.5,
+        gap: compact ? 0.25 : 0.5,
       }}
     >
       <IconButton
@@ -19,8 +20,8 @@ function QuantityControl({ quantity, onIncrease, onDecrease, min = 1 }) {
         onClick={onDecrease}
         disabled={!canDecrease}
         sx={{
-          width: 32,
-          height: 32,
+          width: size,
+          height: size,
           bgcolor: "grey.200",
           "&:hover": { bgcolor: "grey.300" },
           "&.Mui-disabled": { bgcolor: "grey.100", color: "grey.400" },
@@ -28,15 +29,23 @@ function QuantityControl({ quantity, onIncrease, onDecrease, min = 1 }) {
       >
         −
       </IconButton>
-      <MDTypography variant="button" fontWeight="bold" sx={{ minWidth: 24, textAlign: "center" }}>
+      <MDTypography
+        variant="button"
+        fontWeight="bold"
+        sx={{
+          minWidth: compact ? 20 : 24,
+          textAlign: "center",
+          fontSize: compact ? "0.8rem" : "inherit",
+        }}
+      >
         {quantity}
       </MDTypography>
       <IconButton
         size="small"
         onClick={onIncrease}
         sx={{
-          width: 32,
-          height: 32,
+          width: size,
+          height: size,
           bgcolor: "grey.200",
           "&:hover": { bgcolor: "grey.300" },
         }}
@@ -52,6 +61,7 @@ QuantityControl.propTypes = {
   onIncrease: PropTypes.func.isRequired,
   onDecrease: PropTypes.func.isRequired,
   min: PropTypes.number,
+  compact: PropTypes.bool,
 };
 
 export default QuantityControl;

@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { Box } from "@mui/material";
 import Icon from "@mui/material/Icon";
 import IconButton from "@mui/material/IconButton";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import MDTypography from "components/MDTypography";
 import DataTable from "examples/Tables/DataTable";
 import QuantityControl from "./QuantityControl";
@@ -92,12 +94,84 @@ function MedicationTable({
     return { columns: cols, rows };
   }, [medications, columns, onUpdateQuantity, onRemove, isRTL]);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   if (medications.length === 0) {
     return (
       <Box sx={{ py: 6, textAlign: "center" }}>
         <MDTypography variant="body1" color="text.secondary">
           {emptyMessage}
         </MDTypography>
+      </Box>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+        {medications.map((m, index) => (
+          <Box
+            key={`${m.code}-${index}`}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 1.5,
+              p: 1.5,
+              borderRadius: 2,
+              bgcolor: "grey.50",
+              border: "1px solid",
+              borderColor: "grey.200",
+            }}
+          >
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Box
+                component="span"
+                sx={{
+                  display: "inline-block",
+                  px: 1,
+                  py: 0.25,
+                  borderRadius: 1,
+                  bgcolor: "#F0E8FF",
+                  color: "primary.main",
+                  fontSize: "0.75rem",
+                  fontWeight: 500,
+                  mb: 0.5,
+                }}
+              >
+                {m.code}
+              </Box>
+              <MDTypography
+                variant="body2"
+                color="dark"
+                sx={{
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {m.name}
+              </MDTypography>
+            </Box>
+            <QuantityControl
+              quantity={m.quantity}
+              onIncrease={() => onUpdateQuantity(index, m.quantity + 1)}
+              onDecrease={() => onUpdateQuantity(index, Math.max(1, m.quantity - 1))}
+              compact
+            />
+            <IconButton
+              size="small"
+              onClick={() => onRemove(index)}
+              sx={{ color: "error.main", flexShrink: 0 }}
+              aria-label="delete"
+            >
+              <Icon sx={{ fontSize: 20 }}>delete</Icon>
+            </IconButton>
+          </Box>
+        ))}
       </Box>
     );
   }

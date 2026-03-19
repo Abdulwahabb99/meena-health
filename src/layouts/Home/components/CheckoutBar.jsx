@@ -27,8 +27,8 @@ function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
         flexDirection: isRTL ? "row-reverse" : "row",
         justifyContent: "space-between",
         alignItems: "center",
-        px: 8,
-        py: 2,
+        px: { xs: 2, sm: 4, md: 6 },
+        py: { xs: 1.5, sm: 2 },
         bgcolor: "#FFFF",
         borderTop: "1px solid",
         borderColor: "grey.200",
@@ -44,7 +44,11 @@ function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
         >
           shopping_cart
         </Icon>
-        <MDTypography variant="body1" color={disabled ? "text.secondary" : "dark"}>
+        <MDTypography
+          variant="body1"
+          color={disabled ? "text.secondary" : "dark"}
+          sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+        >
           {itemCount} {itemsLabel}
         </MDTypography>
       </Box>
@@ -55,12 +59,12 @@ function CheckoutBar({ itemCount, onCheckout, itemsLabel, checkoutLabel }) {
         onClick={onCheckout}
         sx={{
           borderRadius: 2,
-          px: 3,
-          py: 1.5,
-          fontSize: "1rem",
+          px: { xs: 2, sm: 3 },
+          py: { xs: 1.25, sm: 1.5 },
+          fontSize: { xs: "0.875rem", sm: "1rem" },
           fontWeight: 600,
           flexShrink: 0,
-          minWidth: 180,
+          minWidth: { xs: 120, sm: 180 },
         }}
       >
         {checkoutLabel}

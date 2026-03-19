@@ -50,16 +50,26 @@ function MedicationInput({
 
   return (
     <Box>
-      <MDTypography variant="h5" fontWeight="bold" color="dark" mb={1}>
+      <MDTypography
+        variant="h5"
+        fontWeight="bold"
+        color="dark"
+        mb={1}
+        sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem" } }}
+      >
         {title}
       </MDTypography>
-      <MDTypography variant="body2" color="text" sx={{ mb: 2 }}>
+      <MDTypography
+        variant="body2"
+        color="text"
+        sx={{ mb: 2, fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+      >
         {description}
       </MDTypography>
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", sm: "row" },
           direction: "inherit",
           gap: 1.5,
           alignItems: "stretch",
@@ -103,7 +113,7 @@ function MedicationInput({
             }),
           }}
           sx={{
-            width: 480,
+            width: { xs: "100%", sm: 480 },
             maxWidth: "100%",
             flexShrink: 1,
             minWidth: 0,
@@ -124,6 +134,8 @@ function MedicationInput({
             alignItems: "center",
             direction: "inherit",
             gap: 1,
+            width: { xs: "100%", sm: "auto" },
+            justifyContent: { xs: "center", sm: "flex-start" },
             "&:hover": {
               backgroundColor: "primary.main",
             },

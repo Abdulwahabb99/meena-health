@@ -62,7 +62,7 @@ function Home() {
 
   const totalItems = medications.reduce((sum, m) => sum + m.quantity, 0);
   const cardStyle = {
-    p: 3,
+    p: { xs: 2, sm: 3 },
     borderRadius: 2,
     bgcolor: "white",
     boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -77,8 +77,8 @@ function Home() {
           display: "flex",
           flexDirection: "column",
           minHeight: "calc(100vh - 120px)",
-          p: 3,
-          pb: 20,
+          p: { xs: 1.5, sm: 2, md: 3 },
+          pb: { xs: 16, sm: 20 },
         }}
       >
         <MDBox
@@ -88,7 +88,13 @@ function Home() {
             overflowY: "auto",
           }}
         >
-          <MDTypography variant="h4" fontWeight="bold" color="dark" mb={3}>
+          <MDTypography
+            variant="h4"
+            fontWeight="bold"
+            color="dark"
+            mb={{ xs: 2, sm: 3 }}
+            sx={{ fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" } }}
+          >
             {t("home.title")}
           </MDTypography>
 
@@ -107,7 +113,7 @@ function Home() {
                 notFound: t("home.errors.notFound"),
               }}
             />
-            <MDBox sx={{ borderTop: 1, borderColor: "grey.200", mt: 3, pt: 3 }}>
+            <MDBox sx={{ borderTop: 1, borderColor: "grey.200", mt: { xs: 2, sm: 3 }, pt: { xs: 2, sm: 3 } }}>
               <MedicationTable
                 medications={medications}
                 onUpdateQuantity={handleUpdateQuantity}
