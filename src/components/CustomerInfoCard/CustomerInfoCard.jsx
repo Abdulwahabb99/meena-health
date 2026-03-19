@@ -15,7 +15,7 @@ function CustomerInfoCard({ customer, sx }) {
       sx={{
         mb: 3,
         borderRadius: 2,
-        bgcolor: "white",
+        bgcolor: "inherit",
         boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
         border: "1px solid",
         borderColor: "grey.200",

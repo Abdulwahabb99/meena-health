@@ -1,17 +1,16 @@
 
 function navbar(theme, ownerState) {
-  const { palette, boxShadows, functions, transitions, breakpoints, borders } =
-    theme;
+  const { palette, functions, transitions, breakpoints, borders } = theme;
   const { meena } = palette;
   const { transparentNavbar, absolute, light, isRTL = false } = ownerState;
 
   const { dark, white, text } = palette;
-  const { navbarBoxShadow } = boxShadows;
   const { pxToRem } = functions;
   const { borderRadius } = borders;
 
   return {
-    boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
+    // Always flat: theme’s navbar shadow used an inset white edge that looked like a border on scroll
+    boxShadow: "none",
     backdropFilter: "none",
     backgroundColor: "inherit",
     width: "100%",

@@ -38,21 +38,21 @@ function Home() {
       addMedication(drug);
       return { success: true };
     },
-    [t, addMedication]
+    [t, addMedication],
   );
 
   const handleUpdateQuantity = useCallback(
     (index, newQuantity) => {
       updateQuantity(index, newQuantity);
     },
-    [updateQuantity]
+    [updateQuantity],
   );
 
   const handleRemove = useCallback(
     (index) => {
       removeMedication(index);
     },
-    [removeMedication]
+    [removeMedication],
   );
 
   const handleCheckout = useCallback(() => {
@@ -63,7 +63,7 @@ function Home() {
   const cardStyle = {
     p: { xs: 2, sm: 3 },
     borderRadius: 2,
-    bgcolor: "white",
+    bgcolor: "inherit",
     boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
     border: `1px solid ${meena.border || "rgba(140, 86, 255, 0.08)"}`,
   };
@@ -85,6 +85,8 @@ function Home() {
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
+            // Scrollable padding so the last row(s) sit above the fixed footer with a clear gap
+            pb: { xs: 4, sm: 5 },
           }}
         >
           <MDTypography
@@ -112,7 +114,15 @@ function Home() {
                 notFound: t("home.errors.notFound"),
               }}
             />
-            <MDBox sx={{ borderTop: 1, borderColor: "grey.200", mt: { xs: 2, sm: 3 }, pt: { xs: 2, sm: 3 } }}>
+            <MDBox
+              sx={{
+                // my: 2,
+                borderTop: 1,
+                borderColor: "grey.200",
+                mt: { xs: 2, sm: 3 },
+                pt: { xs: 2, sm: 3 },
+              }}
+            >
               <MedicationTable
                 medications={medications}
                 onUpdateQuantity={handleUpdateQuantity}
@@ -131,16 +141,16 @@ function Home() {
             </MDBox>
           </MDBox>
         </MDBox>
-      </MDBox>
 
-      <CartFooterBar
-        leftIcon="shopping_cart"
-        summaryText={`${totalItems} ${t("home.itemsInCart")}`}
-        totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
-        actionLabel={t("home.proceedToCheckout")}
-        onAction={handleCheckout}
-        disabled={totalItems === 0}
-      />
+        <CartFooterBar
+          leftIcon="shopping_cart"
+          summaryText={`${totalItems} ${t("home.itemsInCart")}`}
+          totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
+          actionLabel={t("home.proceedToCheckout")}
+          onAction={handleCheckout}
+          disabled={totalItems === 0}
+        />
+      </MDBox>
     </DashboardLayout>
   );
 }
