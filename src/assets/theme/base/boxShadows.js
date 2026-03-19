@@ -12,7 +12,7 @@ import colors from "assets/theme/base/colors";
 // Material Dashboard 3 PRO React Helper Functions
 import boxShadow from "assets/theme/functions/boxShadow";
 
-const { black, white, tabs, coloredShadows } = colors;
+const { black, tabs, coloredShadows } = colors;
 
 const boxShadows = {
   xs: boxShadow([0, 1], [2, 0], black.main, 0.05),

@@ -2,7 +2,7 @@
 function navbar(theme, ownerState) {
   const { palette, functions, transitions, breakpoints, borders } = theme;
   const { meena } = palette;
-  const { transparentNavbar, absolute, light, isRTL = false } = ownerState;
+  const { transparentNavbar, light, isRTL = false } = ownerState;
 
   const { dark, white, text } = palette;
   const { pxToRem } = functions;
