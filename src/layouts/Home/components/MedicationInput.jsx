@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import {
+  Box,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import { alpha } from "@mui/material/styles";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
@@ -16,7 +21,7 @@ function MedicationInput({
   isRTL,
   errorMessages = {},
 }) {
-  const [value, setValue] = useState("123456");
+  const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
@@ -86,13 +91,30 @@ function MedicationInput({
           variant="outlined"
           size="medium"
           InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: 22,
+                  }}
+                  aria-hidden
+                />
+              </InputAdornment>
+            ),
             sx: (theme) => ({
               height: 48,
               borderRadius: 2,
-              bgcolor: "#F4F5F7",
+              // حالة عادية (بدون focus): يبان إنه input
+              bgcolor: theme.palette.common.white,
               "& fieldset": {
-                border: "none",
+                borderWidth: 1,
+                borderColor: theme.palette.grey[300],
               },
+              "&:hover:not(.Mui-focused) fieldset": {
+                borderColor: theme.palette.grey[400],
+              },
+              // نفس منطق الـ focus القديم
               "&.Mui-focused": {
                 bgcolor: "#F4F5F7",
                 "& fieldset": {
@@ -106,9 +128,6 @@ function MedicationInput({
                   border: "none",
                   boxShadow: `0 0 0 2px ${theme.palette.primary.main}, 0 0 0 6px ${alpha(theme.palette.primary.main, 0.2)}`,
                 },
-              },
-              "&:hover fieldset": {
-                border: "none",
               },
             }),
           }}
