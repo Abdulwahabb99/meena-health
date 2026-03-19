@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
 import Icon from "@mui/material/Icon";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -9,6 +8,7 @@ import MDButton from "components/MDButton";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
 import CartFooterBar from "components/CartFooterBar";
+import CustomerInfoCard from "components/CustomerInfoCard";
 import MedicationOrderList from "components/MedicationOrderList";
 import { useCart } from "shared/context/CartContext";
 import { useAuth } from "shared/hooks/useAuth";
@@ -106,127 +106,7 @@ function Checkout() {
           {t("checkout.title")}
         </MDTypography>
 
-        <MDBox
-          sx={{
-            mb: 3,
-            borderRadius: 2,
-            bgcolor: "white",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            border: "1px solid",
-            borderColor: "grey.200",
-            overflow: "hidden",
-          }}
-        >
-          <MDBox
-            sx={{
-              p: { xs: 2, sm: 3 },
-              borderBottom: 1,
-              borderColor: "grey.200",
-              bgcolor: "grey.50",
-            }}
-          >
-            <MDTypography
-              variant="h6"
-              fontWeight="bold"
-              color="dark"
-              sx={{ fontSize: "1rem" }}
-            >
-              {t("checkout.customerInfo")}
-            </MDTypography>
-            <MDTypography
-              variant="caption"
-              color="text.secondary"
-              sx={{ display: "block", mt: 0.25 }}
-            >
-              {t("checkout.customerInfoSubtitle")}
-            </MDTypography>
-          </MDBox>
-          <MDBox
-            sx={{
-              p: { xs: 2, sm: 3 },
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "1fr 1fr",
-                md: "1fr 1fr 1fr",
-              },
-              gap: 2,
-            }}
-          >
-            <Box>
-              <MDTypography
-                variant="caption"
-                color="text.secondary"
-                fontWeight="bold"
-                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
-              >
-                {t("checkout.customerName")}
-              </MDTypography>
-              <MDTypography
-                variant="body2"
-                fontWeight={500}
-                color="dark"
-                sx={{ fontSize: "0.8125rem" }}
-              >
-                {customer.name}
-              </MDTypography>
-            </Box>
-            <Box>
-              <MDTypography
-                variant="caption"
-                color="text.secondary"
-                fontWeight="bold"
-                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
-              >
-                {t("checkout.customerEmail")}
-              </MDTypography>
-              <MDTypography
-                variant="body2"
-                fontWeight={500}
-                color="dark"
-                sx={{ fontSize: "0.8125rem" }}
-              >
-                {customer.email}
-              </MDTypography>
-            </Box>
-            <Box>
-              <MDTypography
-                variant="caption"
-                color="text.secondary"
-                fontWeight="bold"
-                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
-              >
-                {t("checkout.customerPhone")}
-              </MDTypography>
-              <MDTypography
-                variant="body2"
-                fontWeight={500}
-                color="dark"
-                sx={{ fontSize: "0.8125rem" }}
-              >
-                {customer.phone}
-              </MDTypography>
-            </Box>
-            <Box sx={{ gridColumn: { xs: "1", sm: "1 / -1", md: "1 / -1" } }}>
-              <MDTypography
-                variant="caption"
-                color="text.secondary"
-                fontWeight="bold"
-                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
-              >
-                {t("checkout.customerAddress")}
-              </MDTypography>
-              <MDTypography
-                variant="body2"
-                fontWeight={500}
-                color="dark"
-                sx={{ fontSize: "0.8125rem" }}
-              >
-                {customer.address}
-              </MDTypography>
-            </Box>
-          </MDBox>
-        </MDBox>
+        <CustomerInfoCard customer={customer} />
 
         <MDBox
           sx={{
