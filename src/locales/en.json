@@ -8,7 +8,24 @@
     "english": "English"
   },
   "home": {
-    "title": "Hala to Meena"
+    "title": "Hala to Meena",
+    "heroTitle": "Manage Your Medications Easily",
+    "heroDescription": "Search by drug code and manage your orders quickly. Enter a valid drug code below to add medications to your cart.",
+    "drugCodePlaceholder": "Enter drug code (e.g. 123456)",
+    "addButton": "Add",
+    "helperText": "Sample codes: 123456, 234567, 345678, 456789, 567890",
+    "drugCode": "Drug Code",
+    "drugName": "Drug Name",
+    "quantity": "Quantity",
+    "actions": "Actions",
+    "emptyMessage": "No medications added yet",
+    "itemsInCart": "items in cart",
+    "proceedToCheckout": "Proceed to Checkout",
+    "errors": {
+      "required": "Drug code is required",
+      "invalid": "Invalid drug code format",
+      "notFound": "Drug not found"
+    }
   },
   "auth": {
     "signIn": "Sign in",
