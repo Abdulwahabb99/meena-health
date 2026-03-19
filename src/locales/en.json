@@ -9,8 +9,8 @@
   },
   "home": {
     "title": "Hala to Meena",
-    "heroTitle": "Manage Your Medications Easily",
-    "heroDescription": "Search by drug code and manage your orders quickly. Enter a valid drug code below to add medications to your cart.",
+    "heroTitle": "Add Medications to Your Insurance",
+    "heroDescription": "Search by drug code and add the medications you need to your insurance coverage. When you're done, proceed to checkout to pay your premium.",
     "drugCodePlaceholder": "Enter drug code (e.g. 123456)",
     "addButton": "Add",
     "helperText": "",
@@ -19,7 +19,7 @@
     "quantity": "Quantity",
     "actions": "Actions",
     "emptyMessage": "No medications added yet",
-    "itemsInCart": "items in cart",
+    "itemsInCart": "items",
     "proceedToCheckout": "Proceed to Checkout",
     "errors": {
       "required": "Drug code is required",
