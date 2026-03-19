@@ -6,13 +6,12 @@ import PropTypes from "prop-types";
 import { useMaterialUIController } from "context";
 import useLocales from "shared/hooks/useLocales";
 
-const formatPrice = (amount) =>
-  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "0.00 ر.س";
+import { formatPriceWithCurrency } from "utils/formatPrice";
 
 function CheckoutBar({ itemCount, totalPrice = 0, onCheckout, itemsLabel, checkoutLabel }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
-  const { isRTL } = useLocales();
+  const { isRTL, locale } = useLocales();
   const disabled = itemCount === 0;
   const sidenavMargin = miniSidenav ? 73 : 240;
 
@@ -62,7 +61,7 @@ function CheckoutBar({ itemCount, totalPrice = 0, onCheckout, itemsLabel, checko
           fontWeight="bold"
           sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}
         >
-          {formatPrice(totalPrice)}
+          {formatPriceWithCurrency(totalPrice, locale)}
         </MDTypography>
       </Box>
       <MDButton

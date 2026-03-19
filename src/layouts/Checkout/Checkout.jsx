@@ -13,12 +13,11 @@ import useLocales from "shared/hooks/useLocales";
 import { useMaterialUIController } from "context";
 import { useCart } from "shared/context/CartContext";
 
-const formatPrice = (amount) =>
-  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "0.00 ر.س";
+import { formatPriceNumber, formatPriceWithCurrency } from "utils/formatPrice";
 
 function Checkout() {
   const { t } = useTranslate();
-  const { isRTL } = useLocales();
+  const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
@@ -187,7 +186,7 @@ function Checkout() {
                         {m.name}
                       </MDTypography>
                       <MDTypography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.25 }}>
-                        {formatPrice(m.price)} × {m.quantity} = {formatPrice((m.price || 0) * m.quantity)}
+                        {m.quantity} × {formatPriceNumber(m.price)} = {formatPriceWithCurrency((m.price || 0) * m.quantity, locale)}
                       </MDTypography>
                     </Box>
                   </Box>
@@ -256,12 +255,12 @@ function Checkout() {
                         </td>
                         <td style={{ textAlign: isRTL ? "left" : "right" }}>
                           <MDTypography variant="body2" color="dark">
-                            {formatPrice(m.price)}
+                            {formatPriceNumber(m.price)}
                           </MDTypography>
                         </td>
                         <td style={{ textAlign: isRTL ? "left" : "right" }}>
                           <MDTypography variant="body2" fontWeight="bold" color="primary.main">
-                            {formatPrice((m.price || 0) * m.quantity)}
+                            {formatPriceNumber((m.price || 0) * m.quantity)}
                           </MDTypography>
                         </td>
                       </tr>
@@ -312,7 +311,7 @@ function Checkout() {
               color="primary.main"
               sx={{ fontSize: { xs: "1rem", sm: "1.25rem" } }}
             >
-              {formatPrice(totalPrice)}
+              {formatPriceWithCurrency(totalPrice, locale)}
             </MDTypography>
           </Box>
           <MDButton

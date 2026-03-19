@@ -9,8 +9,8 @@ import DataTable from "examples/Tables/DataTable";
 import QuantityControl from "./QuantityControl";
 import PropTypes from "prop-types";
 
-const formatPrice = (amount) =>
-  amount != null ? `${Number(amount).toFixed(2)} ر.س` : "—";
+import { formatPriceNumber, formatPriceWithCurrency } from "utils/formatPrice";
+import useLocales from "shared/hooks/useLocales";
 
 function MedicationTable({
   medications,
@@ -20,6 +20,7 @@ function MedicationTable({
   columns,
   isRTL,
 }) {
+  const { locale } = useLocales();
   const table = useMemo(() => {
     const cols = [
       {
@@ -78,7 +79,7 @@ function MedicationTable({
         align: isRTL ? "left" : "right",
         Cell: ({ value }) => (
           <MDTypography variant="body2" color="dark" fontWeight={500}>
-            {formatPrice(value)}
+            {formatPriceNumber(value)}
           </MDTypography>
         ),
       },
@@ -91,7 +92,7 @@ function MedicationTable({
           const subtotal = (row.original.price || 0) * (row.original.quantity || 0);
           return (
             <MDTypography variant="body2" color="primary.main" fontWeight={600}>
-              {formatPrice(subtotal)}
+              {formatPriceNumber(subtotal)}
             </MDTypography>
           );
         },
@@ -184,7 +185,7 @@ function MedicationTable({
                 {m.name}
               </MDTypography>
               <MDTypography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.25 }}>
-                {formatPrice(m.price)} × {m.quantity} = {formatPrice((m.price || 0) * m.quantity)}
+                {m.quantity} × {formatPriceNumber(m.price)} = {formatPriceWithCurrency((m.price || 0) * m.quantity, locale)}
               </MDTypography>
             </Box>
             <QuantityControl
