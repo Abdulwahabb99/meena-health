@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Box, TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { alpha } from "@mui/material/styles";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import PropTypes from "prop-types";
@@ -14,7 +16,7 @@ function MedicationInput({
   isRTL,
   errorMessages = {},
 }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("123456");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
@@ -57,54 +59,89 @@ function MedicationInput({
       <Box
         sx={{
           display: "flex",
-          flexDirection: isRTL ? "row-reverse" : "row",
-          gap: 1,
-          alignItems: "flex-start",
-          flexWrap: "wrap",
+          flexDirection: "row",
+          direction: "inherit",
+          gap: 1.5,
+          alignItems: "stretch",
+          width: "100%",
         }}
       >
         <TextField
-          fullWidth
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
           error={Boolean(error)}
           helperText={error}
+          variant="outlined"
           size="medium"
-          sx={{
-            flex: "1 1 200px",
-            "& .MuiOutlinedInput-root": {
+          InputProps={{
+            sx: (theme) => ({
+              height: 48,
               borderRadius: 2,
-              bgcolor: "grey.50",
-              "&.Mui-focused": {
-                bgcolor: "background.paper",
-                "& fieldset": { borderColor: "primary.main", borderWidth: 2 },
+              bgcolor: "#F4F5F7",
+              "& fieldset": {
+                border: "none",
               },
-            },
+              "&.Mui-focused": {
+                bgcolor: "#F4F5F7",
+                "& fieldset": {
+                  border: "none",
+                  boxShadow: `0 0 0 2px ${theme.palette.primary.main}, 0 0 0 6px ${alpha(theme.palette.primary.main, 0.2)}`,
+                },
+              },
+              "&.Mui-focused:hover": {
+                bgcolor: "#F4F5F7",
+                "& fieldset": {
+                  border: "none",
+                  boxShadow: `0 0 0 2px ${theme.palette.primary.main}, 0 0 0 6px ${alpha(theme.palette.primary.main, 0.2)}`,
+                },
+              },
+              "&:hover fieldset": {
+                border: "none",
+              },
+            }),
+          }}
+          sx={{
+            width: 480,
+            maxWidth: "100%",
+            flexShrink: 1,
+            minWidth: 0,
           }}
         />
         <MDButton
-          variant="gradient"
+          variant="contained"
           color="primary"
+          disableElevation
           onClick={handleSubmit}
           sx={{
+            height: 48,
             borderRadius: 2,
-            px: 2,
-            py: 1.5,
-            minHeight: 56,
+            px: 2.5,
             flexShrink: 0,
+            fontWeight: 600,
+            display: "flex",
+            alignItems: "center",
+            direction: "inherit",
+            gap: 1,
+            "&:hover": {
+              backgroundColor: "primary.main",
+            },
           }}
         >
-          <Box component="span" sx={{ mr: 0.5, fontSize: "1.25rem", lineHeight: 1 }}>
-            +
-          </Box>
           {addLabel}
+          <AddIcon sx={{ fontSize: 22, color: "#FFFFFF" }} />
         </MDButton>
       </Box>
-      <MDTypography variant="caption" color="text.secondary" sx={{ mt: 1, display: "block" }}>
-        {helperText}
-      </MDTypography>
+      {helperText && (
+        <MDTypography
+          variant="caption"
+          color="text.secondary"
+          sx={{ mt: 1, display: "block" }}
+        >
+          {helperText}
+        </MDTypography>
+      )}
     </Box>
   );
 }

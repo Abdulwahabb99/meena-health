@@ -13,7 +13,7 @@
     "heroDescription": "Search by drug code and manage your orders quickly. Enter a valid drug code below to add medications to your cart.",
     "drugCodePlaceholder": "Enter drug code (e.g. 123456)",
     "addButton": "Add",
-    "helperText": "Sample codes: 123456, 234567, 345678, 456789, 567890",
+    "helperText": "",
     "drugCode": "Drug Code",
     "drugName": "Drug Name",
     "quantity": "Quantity",
