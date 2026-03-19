@@ -72,51 +72,66 @@ function Home() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox p={3} sx={{ pb: 10 }}>
-        <MDTypography variant="h4" fontWeight="bold" color="dark" mb={3}>
-          {t("home.title")}
-        </MDTypography>
+      <MDBox
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "calc(100vh - 120px)",
+          p: 3,
+          pb: 20,
+        }}
+      >
+        <MDBox
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+          }}
+        >
+          <MDTypography variant="h4" fontWeight="bold" color="dark" mb={3}>
+            {t("home.title")}
+          </MDTypography>
 
-        <MDBox sx={{ ...cardStyle }}>
-          <MedicationInput
-            onAdd={handleAddMedication}
-            title={t("home.heroTitle")}
-            description={t("home.heroDescription")}
-            placeholder={t("home.drugCodePlaceholder")}
-            addLabel={t("home.addButton")}
-            helperText={t("home.helperText")}
-            isRTL={isRTL}
-            errorMessages={{
-              required: t("home.errors.required"),
-              invalid: t("home.errors.invalid"),
-              notFound: t("home.errors.notFound"),
-            }}
-          />
-          <MDBox sx={{ borderTop: 1, borderColor: "grey.200", mt: 3, pt: 3 }}>
-            <MedicationTable
-            medications={medications}
-            onUpdateQuantity={handleUpdateQuantity}
-            onRemove={handleRemove}
-            emptyMessage={t("home.emptyMessage")}
-            columns={{
-              drugCode: t("home.drugCode"),
-              drugName: t("home.drugName"),
-              quantity: t("home.quantity"),
-              actions: t("home.actions"),
-            }}
-            isRTL={isRTL}
-          />
+          <MDBox sx={{ ...cardStyle }}>
+            <MedicationInput
+              onAdd={handleAddMedication}
+              title={t("home.heroTitle")}
+              description={t("home.heroDescription")}
+              placeholder={t("home.drugCodePlaceholder")}
+              addLabel={t("home.addButton")}
+              helperText={t("home.helperText")}
+              isRTL={isRTL}
+              errorMessages={{
+                required: t("home.errors.required"),
+                invalid: t("home.errors.invalid"),
+                notFound: t("home.errors.notFound"),
+              }}
+            />
+            <MDBox sx={{ borderTop: 1, borderColor: "grey.200", mt: 3, pt: 3 }}>
+              <MedicationTable
+                medications={medications}
+                onUpdateQuantity={handleUpdateQuantity}
+                onRemove={handleRemove}
+                emptyMessage={t("home.emptyMessage")}
+                columns={{
+                  drugCode: t("home.drugCode"),
+                  drugName: t("home.drugName"),
+                  quantity: t("home.quantity"),
+                  actions: t("home.actions"),
+                }}
+                isRTL={isRTL}
+              />
+            </MDBox>
           </MDBox>
         </MDBox>
-
-        <CheckoutBar
-          itemCount={totalItems}
-          onCheckout={handleCheckout}
-          itemsLabel={t("home.itemsInCart")}
-          checkoutLabel={t("home.proceedToCheckout")}
-          isRTL={isRTL}
-        />
       </MDBox>
+
+      <CheckoutBar
+        itemCount={totalItems}
+        onCheckout={handleCheckout}
+        itemsLabel={t("home.itemsInCart")}
+        checkoutLabel={t("home.proceedToCheckout")}
+      />
     </DashboardLayout>
   );
 }
