@@ -27,6 +27,16 @@
       "notFound": "الدواء غير موجود"
     }
   },
+  "checkout": {
+    "title": "الدفع",
+    "orderSummary": "ملخص الطلب",
+    "items": "عناصر",
+    "total": "الإجمالي",
+    "payNow": "ادفع الآن",
+    "backToHome": "العودة للرئيسية",
+    "emptyCart": "السلة فارغة",
+    "successMessage": "تم الدفع بنجاح! شكراً لطلبك."
+  },
   "auth": {
     "signIn": "تسجيل الدخول",
     "welcome": "مرحباً بعودتك",

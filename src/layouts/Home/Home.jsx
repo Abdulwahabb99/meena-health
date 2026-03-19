@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -7,6 +8,7 @@ import MDTypography from "components/MDTypography";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
 import { getDrugByCode } from "services/drugApi";
+import { useCart } from "shared/context/CartContext";
 import MedicationInput from "./components/MedicationInput";
 import MedicationTable from "./components/MedicationTable";
 import CheckoutBar from "./components/CheckoutBar";
@@ -16,51 +18,46 @@ function Home() {
   const meena = theme.palette?.meena || {};
   const { t } = useTranslate();
   const { isRTL } = useLocales();
+  const navigate = useNavigate();
+  const {
+    medications,
+    addMedication,
+    updateQuantity,
+    removeMedication,
+    totalItems,
+  } = useCart();
 
-  const [medications, setMedications] = useState([]);
-
-  const handleAddMedication = useCallback(async (code) => {
-    const drug = await getDrugByCode(code);
-    if (!drug) {
-      return { success: false, error: t("home.errors.notFound") };
-    }
-
-    setMedications((prev) => {
-      const existing = prev.findIndex((m) => m.code === drug.code);
-      if (existing >= 0) {
-        const next = [...prev];
-        next[existing] = {
-          ...next[existing],
-          quantity: next[existing].quantity + 1,
-        };
-        return next;
+  const handleAddMedication = useCallback(
+    async (code) => {
+      const drug = await getDrugByCode(code);
+      if (!drug) {
+        return { success: false, error: t("home.errors.notFound") };
       }
-      return [...prev, { code: drug.code, name: drug.name, quantity: 1 }];
-    });
-    return { success: true };
-  }, [t]);
+      addMedication(drug);
+      return { success: true };
+    },
+    [t, addMedication]
+  );
 
-  const handleUpdateQuantity = useCallback((index, newQuantity) => {
-    setMedications((prev) => {
-      const next = [...prev];
-      if (index >= 0 && index < next.length) {
-        next[index] = { ...next[index], quantity: Math.max(1, newQuantity) };
-      }
-      return next;
-    });
-  }, []);
+  const handleUpdateQuantity = useCallback(
+    (index, newQuantity) => {
+      updateQuantity(index, newQuantity);
+    },
+    [updateQuantity]
+  );
 
-  const handleRemove = useCallback((index) => {
-    setMedications((prev) => prev.filter((_, i) => i !== index));
-  }, []);
+  const handleRemove = useCallback(
+    (index) => {
+      removeMedication(index);
+    },
+    [removeMedication]
+  );
 
   const handleCheckout = useCallback(() => {
     if (medications.length === 0) return;
-    // TODO: Navigate to checkout or open modal
-    alert(`Checkout with ${medications.reduce((sum, m) => sum + m.quantity, 0)} items`);
-  }, [medications]);
+    navigate("/checkout");
+  }, [medications.length, navigate]);
 
-  const totalItems = medications.reduce((sum, m) => sum + m.quantity, 0);
   const cardStyle = {
     p: { xs: 2, sm: 3 },
     borderRadius: 2,

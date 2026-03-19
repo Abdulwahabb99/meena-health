@@ -5,6 +5,7 @@ import "i18n";
 import App from "App";
 import { MaterialUIControllerProvider } from "context";
 import { AuthProvider } from "shared/context/AuthContext";
+import { CartProvider } from "shared/context/CartContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const container = document.getElementById("app");
 const root = createRoot(container);
@@ -27,7 +28,9 @@ root.render(
     <MaterialUIControllerProvider>
       <QueryClientProvider client={mainQueryClient}>
         <AuthProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </AuthProvider>
       </QueryClientProvider>
     </MaterialUIControllerProvider>
