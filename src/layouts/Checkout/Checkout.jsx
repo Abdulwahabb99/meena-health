@@ -10,7 +10,7 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
-import { useMaterialUIController } from "context";
+import CartFooterBar from "components/CartFooterBar";
 import { useCart } from "shared/context/CartContext";
 import { useAuth } from "shared/hooks/useAuth";
 
@@ -21,10 +21,7 @@ function Checkout() {
   const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [controller] = useMaterialUIController();
-  const { miniSidenav } = controller;
   const { medications, totalItems, totalPrice, clearCart } = useCart();
-  const sidenavMargin = miniSidenav ? 73 : 240;
 
   const customer = {
     name: user?.name || "محمد عبدالله العتيبي",
@@ -425,71 +422,12 @@ function Checkout() {
           </MDBox>
         </MDBox>
 
-        <Box
-          sx={({ breakpoints, functions: { pxToRem } }) => ({
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            [breakpoints.up("xl")]: {
-              ...(isRTL
-                ? { right: pxToRem(sidenavMargin) }
-                : { left: pxToRem(sidenavMargin) }),
-            },
-            display: "flex",
-            flexDirection: isRTL ? "row-reverse" : "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            px: { xs: 2, sm: 4, md: 6 },
-            py: { xs: 1.5, sm: 2 },
-            bgcolor: "#FFF",
-            borderTop: "1px solid",
-            borderColor: "grey.200",
-            zIndex: 1200,
-          })}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: { xs: "flex-start", sm: "center" },
-              gap: 0.25,
-            }}
-          >
-            <MDTypography
-              variant="body1"
-              fontWeight="bold"
-              color="dark"
-              sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
-            >
-              {t("checkout.total")}: {totalItems} {t("checkout.items")}
-            </MDTypography>
-            <MDTypography
-              variant="h6"
-              fontWeight="bold"
-              color="primary.main"
-              sx={{ fontSize: { xs: "1rem", sm: "1.25rem" } }}
-            >
-              {formatPriceWithCurrency(totalPrice, locale)}
-            </MDTypography>
-          </Box>
-          <MDButton
-            variant="gradient"
-            color="primary"
-            onClick={handlePay}
-            sx={{
-              borderRadius: 2,
-              px: { xs: 2, sm: 3 },
-              py: { xs: 1.25, sm: 1.5 },
-              fontSize: { xs: "0.875rem", sm: "1rem" },
-              fontWeight: 600,
-              flexShrink: 0,
-              minWidth: { xs: 120, sm: 180 },
-            }}
-          >
-            {t("checkout.payNow")}
-          </MDButton>
-        </Box>
+        <CartFooterBar
+          summaryText={`${t("checkout.total")}: ${totalItems} ${t("checkout.items")}`}
+          totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
+          actionLabel={t("checkout.payNow")}
+          onAction={handlePay}
+        />
       </MDBox>
     </DashboardLayout>
   );

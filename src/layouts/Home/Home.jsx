@@ -11,13 +11,14 @@ import { getDrugByCode } from "services/drugApi";
 import { useCart } from "shared/context/CartContext";
 import MedicationInput from "./components/MedicationInput";
 import MedicationTable from "./components/MedicationTable";
-import CheckoutBar from "./components/CheckoutBar";
+import CartFooterBar from "components/CartFooterBar";
+import { formatPriceWithCurrency } from "utils/formatPrice";
 
 function Home() {
   const theme = useTheme();
   const meena = theme.palette?.meena || {};
   const { t } = useTranslate();
-  const { isRTL } = useLocales();
+  const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
   const {
     medications,
@@ -132,12 +133,13 @@ function Home() {
         </MDBox>
       </MDBox>
 
-      <CheckoutBar
-        itemCount={totalItems}
-        totalPrice={totalPrice}
-        onCheckout={handleCheckout}
-        itemsLabel={t("home.itemsInCart")}
-        checkoutLabel={t("home.proceedToCheckout")}
+      <CartFooterBar
+        leftIcon="shopping_cart"
+        summaryText={`${totalItems} ${t("home.itemsInCart")}`}
+        totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
+        actionLabel={t("home.proceedToCheckout")}
+        onAction={handleCheckout}
+        disabled={totalItems === 0}
       />
     </DashboardLayout>
   );
