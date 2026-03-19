@@ -137,12 +137,22 @@ function Checkout() {
                 p: { xs: 2, sm: 3 },
                 borderBottom: 1,
                 borderColor: "grey.200",
+                bgcolor: "grey.50",
               }}
             >
-              <MDTypography variant="h6" fontWeight="bold" color="dark">
+              <MDTypography
+                variant="h6"
+                fontWeight="bold"
+                color="dark"
+                sx={{ fontSize: "1rem" }}
+              >
                 {t("checkout.orderSummary")}
               </MDTypography>
-              <MDTypography variant="body2" color="text.secondary">
+              <MDTypography
+                variant="caption"
+                color="text.secondary"
+                sx={{ display: "block", mt: 0.25 }}
+              >
                 {totalItems} {t("checkout.items")}
               </MDTypography>
             </MDBox>
