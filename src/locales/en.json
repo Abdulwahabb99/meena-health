@@ -31,6 +31,12 @@
   },
   "checkout": {
     "title": "Checkout",
+    "customerInfo": "Customer Information",
+    "customerInfoSubtitle": "Contact and delivery details",
+    "customerName": "Full Name",
+    "customerEmail": "Email",
+    "customerPhone": "Phone",
+    "customerAddress": "Address",
     "orderSummary": "Order Summary",
     "items": "items",
     "total": "Total",

@@ -43,7 +43,10 @@ function SignIn() {
         login({
           data: {
             id: 1,
-            email: values.email || "dev@meena.com",
+            name: "محمد عبدالله العتيبي",
+            email: values.email || "user@meenahealth.com",
+            phone: "+966 50 123 4567",
+            address: "الرياض، شارع الملك فهد، حي العليا، مبنى 123",
             role: "user",
           },
         });

@@ -31,6 +31,12 @@
   },
   "checkout": {
     "title": "الدفع",
+    "customerInfo": "معلومات العميل",
+    "customerInfoSubtitle": "بيانات التواصل والتوصيل",
+    "customerName": "الاسم الكامل",
+    "customerEmail": "البريد الإلكتروني",
+    "customerPhone": "رقم الهاتف",
+    "customerAddress": "العنوان",
     "orderSummary": "ملخص الطلب",
     "items": "عناصر",
     "total": "الإجمالي",

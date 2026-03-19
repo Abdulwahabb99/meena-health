@@ -12,6 +12,7 @@ import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
 import { useMaterialUIController } from "context";
 import { useCart } from "shared/context/CartContext";
+import { useAuth } from "shared/hooks/useAuth";
 
 import { formatPriceNumber, formatPriceWithCurrency } from "utils/formatPrice";
 
@@ -19,10 +20,18 @@ function Checkout() {
   const { t } = useTranslate();
   const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
   const { medications, totalItems, totalPrice, clearCart } = useCart();
   const sidenavMargin = miniSidenav ? 73 : 240;
+
+  const customer = {
+    name: user?.name || "محمد عبدالله العتيبي",
+    email: user?.email || "user@meenahealth.com",
+    phone: user?.phone || "+966 50 123 4567",
+    address: user?.address || "الرياض، شارع الملك فهد، حي العليا، مبنى 123",
+  };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -106,6 +115,128 @@ function Checkout() {
 
         <MDBox
           sx={{
+            mb: 3,
+            borderRadius: 2,
+            bgcolor: "white",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            border: "1px solid",
+            borderColor: "grey.200",
+            overflow: "hidden",
+          }}
+        >
+          <MDBox
+            sx={{
+              p: { xs: 2, sm: 3 },
+              borderBottom: 1,
+              borderColor: "grey.200",
+              bgcolor: "grey.50",
+            }}
+          >
+            <MDTypography
+              variant="h6"
+              fontWeight="bold"
+              color="dark"
+              sx={{ fontSize: "1rem" }}
+            >
+              {t("checkout.customerInfo")}
+            </MDTypography>
+            <MDTypography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 0.25 }}
+            >
+              {t("checkout.customerInfoSubtitle")}
+            </MDTypography>
+          </MDBox>
+          <MDBox
+            sx={{
+              p: { xs: 2, sm: 3 },
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "1fr 1fr",
+                md: "1fr 1fr 1fr",
+              },
+              gap: 2,
+            }}
+          >
+            <Box>
+              <MDTypography
+                variant="caption"
+                color="text.secondary"
+                fontWeight="bold"
+                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
+              >
+                {t("checkout.customerName")}
+              </MDTypography>
+              <MDTypography
+                variant="body2"
+                fontWeight={500}
+                color="dark"
+                sx={{ fontSize: "0.8125rem" }}
+              >
+                {customer.name}
+              </MDTypography>
+            </Box>
+            <Box>
+              <MDTypography
+                variant="caption"
+                color="text.secondary"
+                fontWeight="bold"
+                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
+              >
+                {t("checkout.customerEmail")}
+              </MDTypography>
+              <MDTypography
+                variant="body2"
+                fontWeight={500}
+                color="dark"
+                sx={{ fontSize: "0.8125rem" }}
+              >
+                {customer.email}
+              </MDTypography>
+            </Box>
+            <Box>
+              <MDTypography
+                variant="caption"
+                color="text.secondary"
+                fontWeight="bold"
+                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
+              >
+                {t("checkout.customerPhone")}
+              </MDTypography>
+              <MDTypography
+                variant="body2"
+                fontWeight={500}
+                color="dark"
+                sx={{ fontSize: "0.8125rem" }}
+              >
+                {customer.phone}
+              </MDTypography>
+            </Box>
+            <Box sx={{ gridColumn: { xs: "1", sm: "1 / -1", md: "1 / -1" } }}>
+              <MDTypography
+                variant="caption"
+                color="text.secondary"
+                fontWeight="bold"
+                sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
+              >
+                {t("checkout.customerAddress")}
+              </MDTypography>
+              <MDTypography
+                variant="body2"
+                fontWeight={500}
+                color="dark"
+                sx={{ fontSize: "0.8125rem" }}
+              >
+                {customer.address}
+              </MDTypography>
+            </Box>
+          </MDBox>
+        </MDBox>
+
+        <MDBox
+          sx={{
             flex: 1,
             borderRadius: 2,
             bgcolor: "white",
@@ -185,8 +316,16 @@ function Checkout() {
                       >
                         {m.name}
                       </MDTypography>
-                      <MDTypography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.25 }}>
-                        {m.quantity} × {formatPriceNumber(m.price)} = {formatPriceWithCurrency((m.price || 0) * m.quantity, locale)}
+                      <MDTypography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ display: "block", mt: 0.25 }}
+                      >
+                        {m.quantity} × {formatPriceNumber(m.price)} ={" "}
+                        {formatPriceWithCurrency(
+                          (m.price || 0) * m.quantity,
+                          locale,
+                        )}
                       </MDTypography>
                     </Box>
                   </Box>
@@ -218,9 +357,15 @@ function Checkout() {
                     <tr>
                       <th>{t("home.drugCode")}</th>
                       <th>{t("home.drugName")}</th>
-                      <th style={{ textAlign: "center" }}>{t("home.quantity")}</th>
-                      <th style={{ textAlign: isRTL ? "left" : "right" }}>{t("home.price")}</th>
-                      <th style={{ textAlign: isRTL ? "left" : "right" }}>{t("home.subtotal")}</th>
+                      <th style={{ textAlign: "center" }}>
+                        {t("home.quantity")}
+                      </th>
+                      <th style={{ textAlign: isRTL ? "left" : "right" }}>
+                        {t("home.price")}
+                      </th>
+                      <th style={{ textAlign: isRTL ? "left" : "right" }}>
+                        {t("home.subtotal")}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -249,7 +394,11 @@ function Checkout() {
                           </MDTypography>
                         </td>
                         <td style={{ textAlign: "center" }}>
-                          <MDTypography variant="body2" fontWeight="bold" color="dark">
+                          <MDTypography
+                            variant="body2"
+                            fontWeight="bold"
+                            color="dark"
+                          >
                             {m.quantity}
                           </MDTypography>
                         </td>
@@ -259,7 +408,11 @@ function Checkout() {
                           </MDTypography>
                         </td>
                         <td style={{ textAlign: isRTL ? "left" : "right" }}>
-                          <MDTypography variant="body2" fontWeight="bold" color="primary.main">
+                          <MDTypography
+                            variant="body2"
+                            fontWeight="bold"
+                            color="primary.main"
+                          >
                             {formatPriceNumber((m.price || 0) * m.quantity)}
                           </MDTypography>
                         </td>
@@ -289,14 +442,20 @@ function Checkout() {
             alignItems: "center",
             px: { xs: 2, sm: 4, md: 6 },
             py: { xs: 1.5, sm: 2 },
-            bgcolor: "white",
-            boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
+            bgcolor: "#FFF",
             borderTop: "1px solid",
             borderColor: "grey.200",
             zIndex: 1200,
           })}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "flex-start", sm: "center" }, gap: 0.25 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: { xs: "flex-start", sm: "center" },
+              gap: 0.25,
+            }}
+          >
             <MDTypography
               variant="body1"
               fontWeight="bold"
