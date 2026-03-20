@@ -32,7 +32,9 @@ export default styled(Drawer)(({ theme, ownerState }) => {
 
   const drawerCloseStyles = () => ({
     background: meena?.sidenavBg || "#F3EEFF",
-    transform: isRTL ? `translateX(${pxToRem(320)})` : `translateX(${pxToRem(-320)})`,
+    transform: isRTL
+      ? `translateX(${pxToRem(320)})`
+      : `translateX(${pxToRem(-320)})`,
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,
       duration: transitions.duration.shorter,
@@ -52,8 +54,12 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     },
   });
 
+  const aboveChrome = theme.zIndex.drawer + 50;
+
   return {
+    zIndex: aboveChrome,
     "& .MuiDrawer-paper": {
+      zIndex: `${aboveChrome} !important`,
       boxShadow: "none",
       border: "none",
       height: "100vh",

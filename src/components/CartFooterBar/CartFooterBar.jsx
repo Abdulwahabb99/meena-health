@@ -25,26 +25,30 @@ function CartFooterBar({
 
   return (
     <Box
-      sx={({ breakpoints, functions: { pxToRem } }) => ({
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        [breakpoints.up("xl")]: {
-          ...(isRTL ? { right: pxToRem(sidenavMargin) } : { left: pxToRem(sidenavMargin) }),
-        },
-        display: "flex",
-        flexDirection: isRTL ? "row-reverse" : "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        px: { xs: 2, sm: 4, md: 6 },
-        py: { xs: 1.5, sm: 2 },
-        bgcolor: "#FFF",
-        boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
-        borderTop: "1px solid",
-        borderColor: "grey.200",
-        zIndex: 1200,
-      })}
+      sx={(theme) => {
+        const { breakpoints, functions: { pxToRem }, zIndex } = theme;
+        return {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          [breakpoints.up("xl")]: {
+            ...(isRTL ? { right: pxToRem(sidenavMargin) } : { left: pxToRem(sidenavMargin) }),
+          },
+          display: "flex",
+          flexDirection: isRTL ? "row-reverse" : "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          px: { xs: 2, sm: 4, md: 6 },
+          py: { xs: 1.5, sm: 2 },
+          bgcolor: "#FFF",
+          boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
+          borderTop: "1px solid",
+          borderColor: "grey.200",
+          // تحت الـ Drawer (1200+) عشان الـ sidenav يفضل فوق الشريط
+          zIndex: zIndex.appBar,
+        };
+      }}
     >
       <Box
         sx={{
