@@ -21,7 +21,7 @@ function MedicationInput({
   isRTL,
   errorMessages = {},
 }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("123456");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
