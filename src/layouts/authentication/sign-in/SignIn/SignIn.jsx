@@ -84,24 +84,28 @@ function SignIn() {
           width: "50%",
           height: "100vh",
           display: { xs: "none", lg: "flex" },
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "background.paper",
           p: 4,
+          boxSizing: "border-box",
         }}
       >
         <Box
           sx={{
             width: "100%",
-            height: "100%",
-            maxHeight: "100vh",
+            maxWidth: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: 4,
             overflow: "hidden",
+            flexShrink: 0,
           }}
         >
           <SignInHeroLottie
-            sx={{ minHeight: { lg: 400 } }}
-            maxWidth={560}
+            sizes={{ lg: 420, xl: 540, xxl: 660 }}
           />
         </Box>
       </Box>

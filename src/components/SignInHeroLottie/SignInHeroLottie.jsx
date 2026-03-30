@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 /** Default animation from LottieFiles (dotlottie hosted URL). */
@@ -7,23 +7,42 @@ export const DEFAULT_SIGN_IN_LOTTIE_SRC =
   "https://lottie.host/5221fc84-ee03-44e1-baeb-f9aea40acee3/Hi91VyL4G5.lottie";
 
 /**
- * Sign-in hero illustration: DotLottie animation (replaces static image panel).
+ * Sign-in hero: square size steps by breakpoint (like CSS min-width media queries).
  */
+const DEFAULT_SIZES = { lg: 400, xl: 520, xxl: 640 };
+
 function SignInHeroLottie({
   src,
   loop,
   autoplay,
   sx,
-  maxWidth,
+  sizes,
 }) {
+  const theme = useTheme();
+  const { lg: sizeLg, xl: sizeXl, xxl: sizeXxl } = {
+    ...DEFAULT_SIZES,
+    ...sizes,
+  };
+
   return (
     <Box
       sx={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        position: "relative",
+        flexShrink: 0,
+        mx: "auto",
+        overflow: "hidden",
+        // default / من أول lg (اللوحة أصلاً مخفية تحته)
+        width: sizeLg,
+        height: sizeLg,
+        maxWidth: "100%",
+        [theme.breakpoints.up("xl")]: {
+          width: sizeXl,
+          height: sizeXl,
+        },
+        [theme.breakpoints.up(1920)]: {
+          width: sizeXxl,
+          height: sizeXxl,
+        },
         ...sx,
       }}
     >
@@ -31,11 +50,13 @@ function SignInHeroLottie({
         src={src}
         loop={loop}
         autoplay={autoplay}
+        layout={{ fit: "contain", align: [0.5, 0.5] }}
+        renderConfig={{ autoResize: true }}
         style={{
+          position: "absolute",
+          inset: 0,
           width: "100%",
-          maxWidth:
-            typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
-          height: "auto",
+          height: "100%",
           display: "block",
         }}
       />
@@ -48,7 +69,11 @@ SignInHeroLottie.propTypes = {
   loop: PropTypes.bool,
   autoplay: PropTypes.bool,
   sx: PropTypes.object,
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  sizes: PropTypes.shape({
+    lg: PropTypes.number,
+    xl: PropTypes.number,
+    xxl: PropTypes.number,
+  }),
 };
 
 SignInHeroLottie.defaultProps = {
@@ -56,7 +81,7 @@ SignInHeroLottie.defaultProps = {
   loop: true,
   autoplay: true,
   sx: undefined,
-  maxWidth: 520,
+  sizes: undefined,
 };
 
 export default SignInHeroLottie;
