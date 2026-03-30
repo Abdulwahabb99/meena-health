@@ -20,10 +20,10 @@ import EmailIcon from "icons/EmailIcon";
 import PasswordIcon from "icons/PasswordIcon";
 import EyeIcon from "icons/EyeIcon";
 import EyeOutlineIcon from "icons/EyeOutlineicon";
+import SignInHeroLottie from "components/SignInHeroLottie";
 
 const SKIP_API_LOGIN = true;
 const LOGO_PATH = "/meena-logo.png";
-const LOGIN_IMAGE_PATH = "/login-image.png";
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -99,17 +99,9 @@ function SignIn() {
             overflow: "hidden",
           }}
         >
-          <Box
-            component="img"
-            src={LOGIN_IMAGE_PATH}
-            alt="Meena Intranet"
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "",
-              display: "block",
-              verticalAlign: "middle",
-            }}
+          <SignInHeroLottie
+            sx={{ minHeight: { lg: 400 } }}
+            maxWidth={560}
           />
         </Box>
       </Box>
