@@ -30,6 +30,7 @@
     }
   },
   "orderFlow": {
+    "progressAria": "Order step progress",
     "stepMedications": "Medications",
     "stepYourDetails": "Your details",
     "stepCheckout": "Checkout",

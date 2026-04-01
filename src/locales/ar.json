@@ -30,6 +30,7 @@
     }
   },
   "orderFlow": {
+    "progressAria": "تقدم خطوات الطلب",
     "stepMedications": "الأدوية",
     "stepYourDetails": "بياناتك",
     "stepCheckout": "الدفع",
