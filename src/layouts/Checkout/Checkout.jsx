@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "@mui/material/Icon";
+import { toast } from "react-toastify";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
@@ -13,6 +14,9 @@ import CustomerInfoCard from "components/CustomerInfoCard";
 import MedicationOrderList from "components/MedicationOrderList";
 import OrderStepper from "components/OrderStepper/OrderStepper";
 import { useCart } from "shared/context/CartContext";
+import { useMoyasarPaymentMutation } from "services/mutations/useMoyasarPaymentMutation";
+import { buildMoyasarPaymentPayload } from "services/payment/buildMoyasarPayload";
+import { PAYMENT_API_BASE } from "services/payment/paymentConfig";
 
 import { formatPriceWithCurrency } from "utils/formatPrice";
 
@@ -42,11 +46,33 @@ function Checkout() {
       navigate("/order/customer", { replace: true });
     }
   }, [medications.length, customerDetails, navigate]);
+
+  const payMutation = useMoyasarPaymentMutation({
+    onSuccess: () => {
+      clearCart();
+      toast.success(t("checkout.successMessage"));
+      navigate("/");
+    },
+    onError: (error) => {
+      const apiMsg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message;
+      toast.error(apiMsg || t("checkout.paymentFailed"));
+    },
+  });
+
   const handlePay = () => {
-    clearCart();
-    // TODO: Integrate with real payment gateway
-    alert(t("checkout.successMessage"));
-    navigate("/");
+    if (!PAYMENT_API_BASE) {
+      toast.error(t("checkout.paymentNotConfigured"));
+      return;
+    }
+    const payload = buildMoyasarPaymentPayload({
+      medications,
+      totalPrice,
+      customerDetails,
+    });
+    payMutation.mutate(payload);
   };
 
   const handleBackToDetails = () => {
@@ -186,6 +212,7 @@ function Checkout() {
           totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
           actionLabel={t("checkout.payNow")}
           onAction={handlePay}
+          disabled={payMutation.isPending}
         />
       </MDBox>
     </DashboardLayout>

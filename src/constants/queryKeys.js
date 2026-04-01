@@ -16,4 +16,5 @@ export const QUERY_KEYS = {
   USERS_REPORTS : "usersReports",
   PRODUCTS_REPORTS : "productsReports",
   ORDERS_REPORTS : "ordersReports",
+  MOYASAR_PAYMENT: "moyasarPayment",
 };

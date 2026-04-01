@@ -132,6 +132,7 @@ function CartFooterBar({
         </MDTypography>
       </Box>
       <MDButton
+        type="button"
         variant="gradient"
         color="primary"
         disabled={disabled}
