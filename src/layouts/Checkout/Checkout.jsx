@@ -16,7 +16,6 @@ import OrderStepper from "components/OrderStepper/OrderStepper";
 import { useCart } from "shared/context/CartContext";
 import { useMoyasarPaymentMutation } from "services/mutations/useMoyasarPaymentMutation";
 import { buildMoyasarPaymentPayload } from "services/payment/buildMoyasarPayload";
-import { PAYMENT_API_BASE } from "services/payment/paymentConfig";
 
 import { formatPriceWithCurrency } from "utils/formatPrice";
 
@@ -63,10 +62,6 @@ function Checkout() {
   });
 
   const handlePay = () => {
-    if (!PAYMENT_API_BASE) {
-      toast.error(t("checkout.paymentNotConfigured"));
-      return;
-    }
     const payload = buildMoyasarPaymentPayload({
       medications,
       totalPrice,

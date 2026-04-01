@@ -1,14 +1,15 @@
-const DEFAULT_DEV_BASE = "https://payment.meena-health.com/api";
+/**
+ * Default payment API root when `REACT_APP_PAYMENT_API_BASE` is unset.
+ * Used in production (e.g. Vercel) if you forget env — override in Vercel → Settings → Environment Variables.
+ */
+const DEFAULT_PAYMENT_API_BASE = "https://payment.meena-health.com/api";
 
 function resolvePaymentBase() {
   const fromEnv = process.env.REACT_APP_PAYMENT_API_BASE?.trim() ?? "";
   if (fromEnv) {
     return fromEnv.replace(/\/+$/, "");
   }
-  if (process.env.NODE_ENV === "development") {
-    return DEFAULT_DEV_BASE.replace(/\/+$/, "");
-  }
-  return "";
+  return DEFAULT_PAYMENT_API_BASE.replace(/\/+$/, "");
 }
 
 export const PAYMENT_API_BASE = resolvePaymentBase();
@@ -23,7 +24,7 @@ export function getMoyasarPaymentUrl() {
 export function assertPaymentApiConfigured() {
   if (!PAYMENT_API_BASE) {
     throw new Error(
-      "REACT_APP_PAYMENT_API_BASE is missing. Set it in .env (see .env.example) and rebuild.",
+      "Payment API base URL is missing. Set REACT_APP_PAYMENT_API_BASE or use the default in paymentConfig.js.",
     );
   }
 }
