@@ -12,6 +12,7 @@ import { useCart } from "shared/context/CartContext";
 import MedicationInput from "./components/MedicationInput";
 import MedicationTable from "./components/MedicationTable";
 import CartFooterBar from "components/CartFooterBar";
+import OrderStepper from "components/OrderStepper/OrderStepper";
 import { formatPriceWithCurrency } from "utils/formatPrice";
 
 function Home() {
@@ -55,9 +56,9 @@ function Home() {
     [removeMedication],
   );
 
-  const handleCheckout = useCallback(() => {
+  const handleContinueToDetails = useCallback(() => {
     if (medications.length === 0) return;
-    navigate("/checkout");
+    navigate("/order/customer");
   }, [medications.length, navigate]);
 
   const cardStyle = {
@@ -77,7 +78,7 @@ function Home() {
           flexDirection: "column",
           minHeight: "calc(100vh - 120px)",
           p: { xs: 1.5, sm: 2, md: 3 },
-          pb: { xs: 16, sm: 20 },
+          pb: { xs: 26, sm: 30 },
         }}
       >
         <MDBox
@@ -85,6 +86,7 @@ function Home() {
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
+            overflowX: "hidden",
             // Scrollable padding so the last row(s) sit above the fixed footer with a clear gap
             pb: { xs: 4, sm: 5 },
           }}
@@ -143,11 +145,12 @@ function Home() {
         </MDBox>
 
         <CartFooterBar
+          stepper={<OrderStepper activeStep={0} />}
           leftIcon="shopping_cart"
           summaryText={`${totalItems} ${t("home.itemsInCart")}`}
           totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
-          actionLabel={t("home.proceedToCheckout")}
-          onAction={handleCheckout}
+          actionLabel={t("orderFlow.continueToDetails")}
+          onAction={handleContinueToDetails}
           disabled={totalItems === 0}
         />
       </MDBox>

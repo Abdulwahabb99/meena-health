@@ -3,8 +3,16 @@ import PropTypes from "prop-types";
 
 const CartContext = createContext(null);
 
+const emptyCustomerDetails = () => ({
+  firstName: "",
+  lastName: "",
+  phone: "",
+  idNumber: "",
+});
+
 export function CartProvider({ children }) {
   const [medications, setMedications] = useState([]);
+  const [customerDetails, setCustomerDetailsState] = useState(emptyCustomerDetails);
 
   const addMedication = useCallback((medication) => {
     setMedications((prev) => {
@@ -39,8 +47,13 @@ export function CartProvider({ children }) {
     setMedications(meds || []);
   }, []);
 
+  const setCustomerDetails = useCallback((partial) => {
+    setCustomerDetailsState((prev) => ({ ...prev, ...partial }));
+  }, []);
+
   const clearCart = useCallback(() => {
     setMedications([]);
+    setCustomerDetailsState(emptyCustomerDetails());
   }, []);
 
   const totalPrice = medications.reduce(
@@ -55,6 +68,8 @@ export function CartProvider({ children }) {
     updateQuantity,
     removeMedication,
     clearCart,
+    customerDetails,
+    setCustomerDetails,
     totalItems: medications.reduce((sum, m) => sum + m.quantity, 0),
     totalPrice,
   };

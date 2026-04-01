@@ -29,14 +29,32 @@
       "notFound": "الدواء غير موجود"
     }
   },
+  "orderFlow": {
+    "stepMedications": "الأدوية",
+    "stepYourDetails": "بياناتك",
+    "stepCheckout": "الدفع",
+    "continueToDetails": "متابعة",
+    "continueToCheckout": "متابعة للدفع",
+    "backToMedications": "العودة للأدوية",
+    "backToDetails": "العودة للبيانات",
+    "detailsTitle": "بياناتك الشخصية",
+    "detailsSectionTitle": "أدخل بياناتك",
+    "detailsSectionDescription": "أدخل الاسم والهاتف ورقم الهوية لإكمال الطلب.",
+    "firstName": "الاسم الأول",
+    "lastName": "الاسم الأخير",
+    "phone": "رقم الهاتف",
+    "idNumber": "رقم الهوية",
+    "errors": {
+      "firstNameRequired": "الاسم الأول مطلوب",
+      "lastNameRequired": "الاسم الأخير مطلوب",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "idRequired": "رقم الهوية مطلوب"
+    }
+  },
   "checkout": {
     "title": "الدفع",
     "customerInfo": "معلومات العميل",
-    "customerInfoSubtitle": "بيانات التواصل والتوصيل",
-    "customerName": "الاسم الكامل",
-    "customerEmail": "البريد الإلكتروني",
-    "customerPhone": "رقم الهاتف",
-    "customerAddress": "العنوان",
+    "customerInfoSubtitle": "بيانات التواصل",
     "orderSummary": "ملخص الطلب",
     "items": "عناصر",
     "total": "الإجمالي",

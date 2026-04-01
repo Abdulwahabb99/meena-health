@@ -5,7 +5,7 @@ import MDTypography from "components/MDTypography";
 import useTranslate from "shared/hooks/useTranslate";
 
 /**
- * Read-only customer / delivery details card (checkout.* translation keys).
+ * Read-only customer details (checkout.* + orderFlow.* translation keys).
  */
 function CustomerInfoCard({ customer, sx }) {
   const { t } = useTranslate();
@@ -54,7 +54,7 @@ function CustomerInfoCard({ customer, sx }) {
           gridTemplateColumns: {
             xs: "1fr",
             sm: "1fr 1fr",
-            md: "1fr 1fr 1fr",
+            md: "1fr 1fr",
           },
           gap: 2,
         }}
@@ -66,7 +66,7 @@ function CustomerInfoCard({ customer, sx }) {
             fontWeight="bold"
             sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
           >
-            {t("checkout.customerName")}
+            {t("orderFlow.firstName")}
           </MDTypography>
           <MDTypography
             variant="body2"
@@ -74,7 +74,7 @@ function CustomerInfoCard({ customer, sx }) {
             color="dark"
             sx={{ fontSize: "0.8125rem" }}
           >
-            {customer.name}
+            {customer.firstName}
           </MDTypography>
         </Box>
         <Box>
@@ -84,7 +84,7 @@ function CustomerInfoCard({ customer, sx }) {
             fontWeight="bold"
             sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
           >
-            {t("checkout.customerEmail")}
+            {t("orderFlow.lastName")}
           </MDTypography>
           <MDTypography
             variant="body2"
@@ -92,7 +92,7 @@ function CustomerInfoCard({ customer, sx }) {
             color="dark"
             sx={{ fontSize: "0.8125rem" }}
           >
-            {customer.email}
+            {customer.lastName}
           </MDTypography>
         </Box>
         <Box>
@@ -102,7 +102,7 @@ function CustomerInfoCard({ customer, sx }) {
             fontWeight="bold"
             sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
           >
-            {t("checkout.customerPhone")}
+            {t("orderFlow.phone")}
           </MDTypography>
           <MDTypography
             variant="body2"
@@ -113,14 +113,14 @@ function CustomerInfoCard({ customer, sx }) {
             {customer.phone}
           </MDTypography>
         </Box>
-        <Box sx={{ gridColumn: { xs: "1", sm: "1 / -1", md: "1 / -1" } }}>
+        <Box>
           <MDTypography
             variant="caption"
             color="text.secondary"
             fontWeight="bold"
             sx={{ display: "block", mb: 0.5, fontSize: "0.8rem" }}
           >
-            {t("checkout.customerAddress")}
+            {t("orderFlow.idNumber")}
           </MDTypography>
           <MDTypography
             variant="body2"
@@ -128,7 +128,7 @@ function CustomerInfoCard({ customer, sx }) {
             color="dark"
             sx={{ fontSize: "0.8125rem" }}
           >
-            {customer.address}
+            {customer.idNumber}
           </MDTypography>
         </Box>
       </MDBox>
@@ -138,10 +138,10 @@ function CustomerInfoCard({ customer, sx }) {
 
 CustomerInfoCard.propTypes = {
   customer: PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
     phone: PropTypes.string,
-    address: PropTypes.string,
+    idNumber: PropTypes.string,
   }).isRequired,
   sx: PropTypes.object,
 };

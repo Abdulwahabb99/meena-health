@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import Icon from "@mui/material/Icon";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
@@ -8,7 +9,7 @@ import useLocales from "shared/hooks/useLocales";
 
 /**
  * Fixed bottom bar for cart (home) and checkout pages.
- * Pass summaryText, totalPriceText, actionLabel, onAction, and optional leftIcon.
+ * Optional `stepper` renders above the actions row (order flow progress).
  */
 function CartFooterBar({
   summaryText,
@@ -17,6 +18,7 @@ function CartFooterBar({
   onAction,
   disabled = false,
   leftIcon = null,
+  stepper = null,
 }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav } = controller;
@@ -36,20 +38,48 @@ function CartFooterBar({
             ...(isRTL ? { right: pxToRem(sidenavMargin) } : { left: pxToRem(sidenavMargin) }),
           },
           display: "flex",
+          flexDirection: "column",
+          maxWidth: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
+          bgcolor: "#FFF",
+          boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
+          borderTop: "1px solid",
+          borderColor: "grey.200",
+          zIndex: zIndex.appBar,
+        };
+      }}
+    >
+      {stepper ? (
+        <Box
+          sx={(theme) => ({
+            width: "100%",
+            maxWidth: "100%",
+            overflow: "hidden",
+            boxSizing: "border-box",
+            px: { xs: 0.5, sm: 1, md: 2 },
+            py: { xs: 1, sm: 1.25 },
+            borderBottom: "1px solid",
+            borderColor: "grey.200",
+            bgcolor: alpha(theme.palette.primary.main, 0.08),
+          })}
+        >
+          {stepper}
+        </Box>
+      ) : null}
+      <Box
+        sx={{
+          display: "flex",
           flexDirection: isRTL ? "row-reverse" : "row",
           justifyContent: "space-between",
           alignItems: "center",
           px: { xs: 2, sm: 4, md: 6 },
           py: { xs: 1.5, sm: 2 },
-          bgcolor: "#FFF",
-          boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
-          borderTop: "1px solid",
-          borderColor: "grey.200",
-          // تحت الـ Drawer (1200+) عشان الـ sidenav يفضل فوق الشريط
-          zIndex: zIndex.appBar,
-        };
-      }}
-    >
+          width: "100%",
+          maxWidth: "100%",
+          boxSizing: "border-box",
+        }}
+      >
       <Box
         sx={{
           display: "flex",
@@ -116,6 +146,7 @@ function CartFooterBar({
       >
         {actionLabel}
       </MDButton>
+      </Box>
     </Box>
   );
 }
@@ -127,6 +158,7 @@ CartFooterBar.propTypes = {
   onAction: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   leftIcon: PropTypes.string,
+  stepper: PropTypes.node,
 };
 
 export default CartFooterBar;

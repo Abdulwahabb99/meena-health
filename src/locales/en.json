@@ -29,14 +29,32 @@
       "notFound": "Drug not found"
     }
   },
+  "orderFlow": {
+    "stepMedications": "Medications",
+    "stepYourDetails": "Your details",
+    "stepCheckout": "Checkout",
+    "continueToDetails": "Continue",
+    "continueToCheckout": "Continue to checkout",
+    "backToMedications": "Back to medications",
+    "backToDetails": "Back to your details",
+    "detailsTitle": "Your details",
+    "detailsSectionTitle": "Enter your information",
+    "detailsSectionDescription": "Enter your name, phone, and ID to complete your order.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone number",
+    "idNumber": "National ID",
+    "errors": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "phoneRequired": "Phone number is required",
+      "idRequired": "ID number is required"
+    }
+  },
   "checkout": {
     "title": "Checkout",
     "customerInfo": "Customer Information",
-    "customerInfoSubtitle": "Contact and delivery details",
-    "customerName": "Full Name",
-    "customerEmail": "Email",
-    "customerPhone": "Phone",
-    "customerAddress": "Address",
+    "customerInfoSubtitle": "Contact details",
     "orderSummary": "Order Summary",
     "items": "items",
     "total": "Total",

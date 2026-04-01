@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "@mui/material/Icon";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -10,8 +11,8 @@ import useLocales from "shared/hooks/useLocales";
 import CartFooterBar from "components/CartFooterBar";
 import CustomerInfoCard from "components/CustomerInfoCard";
 import MedicationOrderList from "components/MedicationOrderList";
+import OrderStepper from "components/OrderStepper/OrderStepper";
 import { useCart } from "shared/context/CartContext";
-import { useAuth } from "shared/hooks/useAuth";
 
 import { formatPriceWithCurrency } from "utils/formatPrice";
 
@@ -19,15 +20,28 @@ function Checkout() {
   const { t } = useTranslate();
   const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { medications, totalItems, totalPrice, clearCart } = useCart();
+  const { medications, totalItems, totalPrice, clearCart, customerDetails } =
+    useCart();
 
   const customer = {
-    name: user?.name || "محمد عبدالله العتيبي",
-    email: user?.email || "user@meenahealth.com",
-    phone: user?.phone || "+966 50 123 4567",
-    address: user?.address || "الرياض، شارع الملك فهد، حي العليا، مبنى 123",
+    firstName: customerDetails.firstName,
+    lastName: customerDetails.lastName,
+    phone: customerDetails.phone,
+    idNumber: customerDetails.idNumber,
   };
+
+  useEffect(() => {
+    if (medications.length === 0) return;
+    const d = customerDetails;
+    if (
+      !d.firstName?.trim() ||
+      !d.lastName?.trim() ||
+      !d.phone?.trim() ||
+      !d.idNumber?.trim()
+    ) {
+      navigate("/order/customer", { replace: true });
+    }
+  }, [medications.length, customerDetails, navigate]);
   const handlePay = () => {
     clearCart();
     // TODO: Integrate with real payment gateway
@@ -35,7 +49,11 @@ function Checkout() {
     navigate("/");
   };
 
-  const handleBack = () => {
+  const handleBackToDetails = () => {
+    navigate("/order/customer");
+  };
+
+  const handleBackToHome = () => {
     navigate("/");
   };
 
@@ -56,7 +74,7 @@ function Checkout() {
           <MDTypography variant="h5" color="text.secondary" mb={2}>
             {t("checkout.emptyCart")}
           </MDTypography>
-          <MDButton variant="gradient" color="primary" onClick={handleBack}>
+          <MDButton variant="gradient" color="primary" onClick={handleBackToHome}>
             {t("checkout.backToHome")}
           </MDButton>
         </MDBox>
@@ -73,7 +91,7 @@ function Checkout() {
           flexDirection: "column",
           minHeight: "calc(100vh - 120px)",
           p: { xs: 1.5, sm: 2, md: 3 },
-          pb: { xs: 16, sm: 20 },
+          pb: { xs: 26, sm: 30 },
         }}
       >
         <MDBox
@@ -81,6 +99,7 @@ function Checkout() {
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
+            overflowX: "hidden",
             display: "flex",
             flexDirection: "column",
             // Scrollable padding so content sits above the fixed footer with a clear gap
@@ -97,13 +116,13 @@ function Checkout() {
               width: "fit-content",
               "&:hover": { opacity: 0.8 },
             }}
-            onClick={handleBack}
+            onClick={handleBackToDetails}
           >
             <Icon sx={{ fontSize: 24 }}>
               {isRTL ? "arrow_forward" : "arrow_back"}
             </Icon>
             <MDTypography variant="body1" fontWeight="medium" color="dark">
-              {t("checkout.backToHome")}
+              {t("orderFlow.backToDetails")}
             </MDTypography>
           </MDBox>
 
@@ -162,6 +181,7 @@ function Checkout() {
         </MDBox>
 
         <CartFooterBar
+          stepper={<OrderStepper activeStep={2} />}
           summaryText={`${t("checkout.total")}: ${totalItems} ${t("checkout.items")}`}
           totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
           actionLabel={t("checkout.payNow")}

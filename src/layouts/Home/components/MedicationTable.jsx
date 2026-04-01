@@ -209,16 +209,25 @@ function MedicationTable({
   }
 
   return (
-    <DataTable
-      table={table}
-      canSearch={false}
-      showTotalEntries={false}
-      showPagination={false}
-      entriesPerPage={{ defaultValue: 10, entries: [5, 10, 15, 20, 25] }}
-      isSorted={false}
-      isRTL={isRTL}
-      pagination={{ variant: "gradient", color: "info" }}
-    />
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        overflowX: "auto",
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
+      <DataTable
+        table={table}
+        canSearch={false}
+        showTotalEntries={false}
+        showPagination={false}
+        entriesPerPage={{ defaultValue: 10, entries: [5, 10, 15, 20, 25] }}
+        isSorted={false}
+        isRTL={isRTL}
+        pagination={{ variant: "gradient", color: "info" }}
+      />
+    </Box>
   );
 }
 
