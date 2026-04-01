@@ -51,7 +51,7 @@
       "phoneRequired": "رقم الهاتف مطلوب",
       "phoneInvalidSaudi": "رقم الجوال يجب أن يبدأ بـ 5 وأن يكون رقمًا سعوديًا صحيحًا",
       "idRequired": "رقم الهوية مطلوب",
-      "idDigitsOnly": "رقم الهوية يجب أن يحتوي على أرقام فقط"
+      "idDigitsOnly": "أرقام فقط"
     }
   },
   "checkout": {

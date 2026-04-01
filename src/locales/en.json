@@ -51,7 +51,7 @@
       "phoneRequired": "Phone number is required",
       "phoneInvalidSaudi": "Mobile number must start with 5 and be a valid Saudi number",
       "idRequired": "ID number is required",
-      "idDigitsOnly": "ID must contain digits only"
+      "idDigitsOnly": "Digits only"
     }
   },
   "checkout": {

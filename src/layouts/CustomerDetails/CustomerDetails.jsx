@@ -1,9 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/material/styles";
 import Icon from "@mui/material/Icon";
-import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
@@ -13,15 +15,20 @@ import useLocales from "shared/hooks/useLocales";
 import { useCart } from "shared/context/CartContext";
 import CartFooterBar from "components/CartFooterBar";
 import OrderStepper from "components/OrderStepper/OrderStepper";
+import { RHFTextField } from "components/hook-form";
 import { formatPriceWithCurrency } from "utils/formatPrice";
 import { createCustomerDetailsSchema } from "./customerDetailsSchema";
 
 function outlinedInputSlotProps(theme) {
   return {
     sx: {
-      height: 48,
       borderRadius: 2,
       bgcolor: theme.palette.common.white,
+      alignItems: "center",
+      "& .MuiOutlinedInput-input": {
+        py: 1.25,
+        height: "auto",
+      },
       "& fieldset": {
         borderWidth: 1,
         borderColor: theme.palette.grey[300],
@@ -47,69 +54,46 @@ function outlinedInputSlotProps(theme) {
   };
 }
 
-/** Outlined floating label: MUI handles shrink/focus; tint label on focus */
-function outlinedInputLabelProps(theme) {
-  return {
-    sx: {
-      "&.Mui-focused:not(.Mui-error)": {
-        color: theme.palette.primary.main,
-      },
-    },
-  };
-}
-
-function CustomerDetails() {
+/**
+ * Isolated so `key={locale}` remounts react-hook-form + yup resolver when language changes.
+ */
+function CustomerDetailsFormMain() {
   const theme = useTheme();
   const meena = theme.palette?.meena || {};
   const { t } = useTranslate();
   const { isRTL, locale } = useLocales();
   const navigate = useNavigate();
   const {
-    medications,
     customerDetails,
     setCustomerDetails,
     totalItems,
     totalPrice,
   } = useCart();
-  const [errors, setErrors] = useState({});
+
   const validationSchema = useMemo(() => createCustomerDetailsSchema(t), [t]);
+  const methods = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      firstName: customerDetails.firstName ?? "",
+      lastName: customerDetails.lastName ?? "",
+      phone: customerDetails.phone ?? "",
+      idNumber: customerDetails.idNumber ?? "",
+    },
+    mode: "onSubmit",
+  });
+  const { handleSubmit } = methods;
 
   const handleBack = useCallback(() => {
     navigate("/");
   }, [navigate]);
 
-  const handleChange = useCallback(
-    (field) => (e) => {
-      setCustomerDetails({ [field]: e.target.value });
-      setErrors((prev) => ({ ...prev, [field]: "" }));
+  const onSubmit = useCallback(
+    (data) => {
+      setCustomerDetails(data);
+      navigate("/checkout");
     },
-    [setCustomerDetails],
+    [setCustomerDetails, navigate],
   );
-
-  const validate = useCallback(async () => {
-    try {
-      await validationSchema.validate(customerDetails, { abortEarly: false });
-      setErrors({});
-      return true;
-    } catch (err) {
-      const next = {};
-      if (err.inner?.length) {
-        err.inner.forEach((e) => {
-          if (e.path) next[e.path] = e.message;
-        });
-      } else if (err.path) {
-        next[err.path] = err.message;
-      }
-      setErrors(next);
-      return false;
-    }
-  }, [customerDetails, validationSchema]);
-
-  const handleContinue = useCallback(async () => {
-    const ok = await validate();
-    if (!ok) return;
-    navigate("/checkout");
-  }, [validate, navigate]);
 
   const cardStyle = {
     p: { xs: 2, sm: 3 },
@@ -120,41 +104,18 @@ function CustomerDetails() {
   };
 
   const inputSlot = outlinedInputSlotProps(theme);
-  const labelSlot = outlinedInputLabelProps(theme);
 
-  if (medications.length === 0) {
-    return (
-      <DashboardLayout>
-        <DashboardNavbar />
-        <MDBox
-          sx={{
-            p: { xs: 1.5, sm: 2, md: 3 },
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "50vh",
-          }}
-        >
-          <MDTypography variant="h5" color="text.secondary" mb={2}>
-            {t("checkout.emptyCart")}
-          </MDTypography>
-          <MDTypography
-            variant="body2"
-            color="primary"
-            sx={{ cursor: "pointer" }}
-            onClick={handleBack}
-          >
-            {t("checkout.backToHome")}
-          </MDTypography>
-        </MDBox>
-      </DashboardLayout>
-    );
-  }
+  const fieldLabelSx = {
+    display: "block",
+    mb: 0.75,
+    fontWeight: 600,
+    color: "text.secondary",
+    fontSize: "0.8125rem",
+    cursor: "pointer",
+  };
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
+    <FormProvider {...methods}>
       <MDBox
         sx={{
           display: "flex",
@@ -222,56 +183,84 @@ function CustomerDetails() {
             </MDTypography>
 
             <MDBox
-              sx={{
-                display: "grid",
-                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-                gap: 2,
-              }}
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
             >
-              <TextField
-                label={t("orderFlow.firstName")}
-                value={customerDetails.firstName}
-                onChange={handleChange("firstName")}
-                error={Boolean(errors.firstName)}
-                helperText={errors.firstName}
-                variant="outlined"
-                fullWidth
-                InputLabelProps={labelSlot}
-                InputProps={inputSlot}
-              />
-              <TextField
-                label={t("orderFlow.lastName")}
-                value={customerDetails.lastName}
-                onChange={handleChange("lastName")}
-                error={Boolean(errors.lastName)}
-                helperText={errors.lastName}
-                variant="outlined"
-                fullWidth
-                InputLabelProps={labelSlot}
-                InputProps={inputSlot}
-              />
-              <TextField
-                label={t("orderFlow.phone")}
-                value={customerDetails.phone}
-                onChange={handleChange("phone")}
-                error={Boolean(errors.phone)}
-                helperText={errors.phone}
-                variant="outlined"
-                fullWidth
-                InputLabelProps={labelSlot}
-                InputProps={inputSlot}
-              />
-              <TextField
-                label={t("orderFlow.idNumber")}
-                value={customerDetails.idNumber}
-                onChange={handleChange("idNumber")}
-                error={Boolean(errors.idNumber)}
-                helperText={errors.idNumber}
-                variant="outlined"
-                fullWidth
-                InputLabelProps={labelSlot}
-                InputProps={inputSlot}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <MDTypography
+                    component="label"
+                    htmlFor="customer-firstName"
+                    variant="body2"
+                    sx={fieldLabelSx}
+                  >
+                    {t("orderFlow.firstName")}
+                  </MDTypography>
+                  <RHFTextField
+                    id="customer-firstName"
+                    name="firstName"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={inputSlot}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <MDTypography
+                    component="label"
+                    htmlFor="customer-lastName"
+                    variant="body2"
+                    sx={fieldLabelSx}
+                  >
+                    {t("orderFlow.lastName")}
+                  </MDTypography>
+                  <RHFTextField
+                    id="customer-lastName"
+                    name="lastName"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={inputSlot}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <MDTypography
+                    component="label"
+                    htmlFor="customer-phone"
+                    variant="body2"
+                    sx={fieldLabelSx}
+                  >
+                    {t("orderFlow.phone")}
+                  </MDTypography>
+                  <RHFTextField
+                    id="customer-phone"
+                    name="phone"
+                    variant="outlined"
+                    fullWidth
+                    digitsOnly
+                    inputProps={{ inputMode: "numeric", maxLength: 9 }}
+                    InputProps={inputSlot}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <MDTypography
+                    component="label"
+                    htmlFor="customer-idNumber"
+                    variant="body2"
+                    sx={fieldLabelSx}
+                  >
+                    {t("orderFlow.idNumber")}
+                  </MDTypography>
+                  <RHFTextField
+                    id="customer-idNumber"
+                    name="idNumber"
+                    variant="outlined"
+                    fullWidth
+                    digitsOnly
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    InputProps={inputSlot}
+                  />
+                </Grid>
+              </Grid>
             </MDBox>
           </MDBox>
         </MDBox>
@@ -282,9 +271,57 @@ function CustomerDetails() {
           summaryText={`${totalItems} ${t("home.itemsInCart")}`}
           totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
           actionLabel={t("orderFlow.continueToCheckout")}
-          onAction={handleContinue}
+          onAction={() => handleSubmit(onSubmit)()}
         />
       </MDBox>
+    </FormProvider>
+  );
+}
+
+function CustomerDetails() {
+  const { t } = useTranslate();
+  const { locale } = useLocales();
+  const navigate = useNavigate();
+  const { medications } = useCart();
+
+  const handleBack = useCallback(() => {
+    navigate("/");
+  }, [navigate]);
+
+  if (medications.length === 0) {
+    return (
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox
+          sx={{
+            p: { xs: 1.5, sm: 2, md: 3 },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "50vh",
+          }}
+        >
+          <MDTypography variant="h5" color="text.secondary" mb={2}>
+            {t("checkout.emptyCart")}
+          </MDTypography>
+          <MDTypography
+            variant="body2"
+            color="primary"
+            sx={{ cursor: "pointer" }}
+            onClick={handleBack}
+          >
+            {t("checkout.backToHome")}
+          </MDTypography>
+        </MDBox>
+      </DashboardLayout>
+    );
+  }
+
+  return (
+    <DashboardLayout>
+      <DashboardNavbar />
+      <CustomerDetailsFormMain key={locale} />
     </DashboardLayout>
   );
 }
