@@ -38,8 +38,8 @@
     "continueToCheckout": "متابعة للدفع",
     "backToMedications": "العودة للأدوية",
     "backToDetails": "العودة للبيانات",
-    "detailsTitle": "بياناتك الشخصية",
-    "detailsSectionTitle": "أدخل بياناتك",
+    "detailsTitle": "البيانات الشخصية",
+    "detailsSectionTitle": "أدخل البيانات",
     "detailsSectionDescription": "أدخل الاسم والهاتف ورقم الهوية لإكمال الطلب.",
     "firstName": "الاسم الأول",
     "lastName": "الاسم الأخير",
@@ -49,7 +49,9 @@
       "firstNameRequired": "الاسم الأول مطلوب",
       "lastNameRequired": "الاسم الأخير مطلوب",
       "phoneRequired": "رقم الهاتف مطلوب",
-      "idRequired": "رقم الهوية مطلوب"
+      "phoneInvalidSaudi": "رقم الجوال يجب أن يبدأ بـ 5 وأن يكون رقمًا سعوديًا صحيحًا",
+      "idRequired": "رقم الهوية مطلوب",
+      "idDigitsOnly": "رقم الهوية يجب أن يحتوي على أرقام فقط"
     }
   },
   "checkout": {

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/material/styles";
@@ -14,6 +14,7 @@ import { useCart } from "shared/context/CartContext";
 import CartFooterBar from "components/CartFooterBar";
 import OrderStepper from "components/OrderStepper/OrderStepper";
 import { formatPriceWithCurrency } from "utils/formatPrice";
+import { createCustomerDetailsSchema } from "./customerDetailsSchema";
 
 function outlinedInputSlotProps(theme) {
   return {
@@ -46,6 +47,17 @@ function outlinedInputSlotProps(theme) {
   };
 }
 
+/** Outlined floating label: MUI handles shrink/focus; tint label on focus */
+function outlinedInputLabelProps(theme) {
+  return {
+    sx: {
+      "&.Mui-focused:not(.Mui-error)": {
+        color: theme.palette.primary.main,
+      },
+    },
+  };
+}
+
 function CustomerDetails() {
   const theme = useTheme();
   const meena = theme.palette?.meena || {};
@@ -60,6 +72,7 @@ function CustomerDetails() {
     totalPrice,
   } = useCart();
   const [errors, setErrors] = useState({});
+  const validationSchema = useMemo(() => createCustomerDetailsSchema(t), [t]);
 
   const handleBack = useCallback(() => {
     navigate("/");
@@ -73,26 +86,28 @@ function CustomerDetails() {
     [setCustomerDetails],
   );
 
-  const validate = useCallback(() => {
-    const next = {};
-    if (!customerDetails.firstName?.trim()) {
-      next.firstName = t("orderFlow.errors.firstNameRequired");
+  const validate = useCallback(async () => {
+    try {
+      await validationSchema.validate(customerDetails, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (err) {
+      const next = {};
+      if (err.inner?.length) {
+        err.inner.forEach((e) => {
+          if (e.path) next[e.path] = e.message;
+        });
+      } else if (err.path) {
+        next[err.path] = err.message;
+      }
+      setErrors(next);
+      return false;
     }
-    if (!customerDetails.lastName?.trim()) {
-      next.lastName = t("orderFlow.errors.lastNameRequired");
-    }
-    if (!customerDetails.phone?.trim()) {
-      next.phone = t("orderFlow.errors.phoneRequired");
-    }
-    if (!customerDetails.idNumber?.trim()) {
-      next.idNumber = t("orderFlow.errors.idRequired");
-    }
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  }, [customerDetails, t]);
+  }, [customerDetails, validationSchema]);
 
-  const handleContinue = useCallback(() => {
-    if (!validate()) return;
+  const handleContinue = useCallback(async () => {
+    const ok = await validate();
+    if (!ok) return;
     navigate("/checkout");
   }, [validate, navigate]);
 
@@ -105,6 +120,7 @@ function CustomerDetails() {
   };
 
   const inputSlot = outlinedInputSlotProps(theme);
+  const labelSlot = outlinedInputLabelProps(theme);
 
   if (medications.length === 0) {
     return (
@@ -213,43 +229,47 @@ function CustomerDetails() {
               }}
             >
               <TextField
-                placeholder={t("orderFlow.firstName")}
+                label={t("orderFlow.firstName")}
                 value={customerDetails.firstName}
                 onChange={handleChange("firstName")}
                 error={Boolean(errors.firstName)}
                 helperText={errors.firstName}
                 variant="outlined"
                 fullWidth
+                InputLabelProps={labelSlot}
                 InputProps={inputSlot}
               />
               <TextField
-                placeholder={t("orderFlow.lastName")}
+                label={t("orderFlow.lastName")}
                 value={customerDetails.lastName}
                 onChange={handleChange("lastName")}
                 error={Boolean(errors.lastName)}
                 helperText={errors.lastName}
                 variant="outlined"
                 fullWidth
+                InputLabelProps={labelSlot}
                 InputProps={inputSlot}
               />
               <TextField
-                placeholder={t("orderFlow.phone")}
+                label={t("orderFlow.phone")}
                 value={customerDetails.phone}
                 onChange={handleChange("phone")}
                 error={Boolean(errors.phone)}
                 helperText={errors.phone}
                 variant="outlined"
                 fullWidth
+                InputLabelProps={labelSlot}
                 InputProps={inputSlot}
               />
               <TextField
-                placeholder={t("orderFlow.idNumber")}
+                label={t("orderFlow.idNumber")}
                 value={customerDetails.idNumber}
                 onChange={handleChange("idNumber")}
                 error={Boolean(errors.idNumber)}
                 helperText={errors.idNumber}
                 variant="outlined"
                 fullWidth
+                InputLabelProps={labelSlot}
                 InputProps={inputSlot}
               />
             </MDBox>

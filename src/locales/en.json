@@ -49,7 +49,9 @@
       "firstNameRequired": "First name is required",
       "lastNameRequired": "Last name is required",
       "phoneRequired": "Phone number is required",
-      "idRequired": "ID number is required"
+      "phoneInvalidSaudi": "Mobile number must start with 5 and be a valid Saudi number",
+      "idRequired": "ID number is required",
+      "idDigitsOnly": "ID must contain digits only"
     }
   },
   "checkout": {
