@@ -80,7 +80,7 @@ function Checkout() {
     const payload = buildMoyasarPaymentPayload({
       amountSar: totalPrice,
       description,
-      phoneNumber: customerDetails.phone,
+      mobileNumber: customerDetails.phone,
       nationalId: customerDetails.idNumber,
       firstName: customerDetails.firstName,
       lastName: customerDetails.lastName,

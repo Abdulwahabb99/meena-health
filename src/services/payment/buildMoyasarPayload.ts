@@ -1,23 +1,29 @@
+/**
+ * Static until user/profile integration sends the real creator from the backend.
+ */
+export const MOYASAR_PAYMENT_CREATED_BY = "Yazeed Admin";
+
 export interface MoyasarPaymentPayload {
   amount: number;
   description: string;
-  PhoneNumber: string;
+  firstName: string;
+  lastName: string;
+  mobileNumber: string;
   nationalId: string;
-  FirstName: string;
-  LastName: string;
+  createdBy: string;
 }
 
 export function buildMoyasarPaymentPayload({
   amountSar,
   description,
-  phoneNumber,
+  mobileNumber,
   nationalId,
   firstName,
   lastName,
 }: {
   amountSar: number;
   description: string;
-  phoneNumber: string;
+  mobileNumber: string;
   nationalId: string;
   firstName: string;
   lastName: string;
@@ -25,9 +31,10 @@ export function buildMoyasarPaymentPayload({
   return {
     amount: amountSar,
     description,
-    PhoneNumber: phoneNumber,
+    firstName,
+    lastName,
+    mobileNumber,
     nationalId,
-    FirstName: firstName,
-    LastName: lastName,
+    createdBy: MOYASAR_PAYMENT_CREATED_BY,
   };
 }
