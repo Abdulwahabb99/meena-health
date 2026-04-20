@@ -2,10 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 
 /**
- * Default API host when deploying to Vercel without REACT_APP_* in the dashboard.
- * CRA freezes env in DefinePlugin before our hook runs; mutating process.env alone is not enough.
+ * Same-origin proxy on Vercel (see vercel.json) avoids browser CORS when the API
+ * does not allow https://*.vercel.app in Access-Control-Allow-Origin.
  */
-const VERCEL_DEFAULT_API_BASE = "https://payment.meena-health.com/api";
+const VERCEL_API_PROXY_PATH = "/api-proxy";
 
 function isVercelBuildEnvironment() {
   return (
@@ -14,28 +14,40 @@ function isVercelBuildEnvironment() {
   );
 }
 
-/** Value baked into the client bundle for axios baseURL (must run at webpack compile time). */
-function resolveApiBaseForClientBundle() {
-  const fromEnv =
-    process.env.REACT_APP_API_BASE?.trim() ||
-    process.env.REACT_APP_BASE_URL?.trim() ||
-    process.env.REACT_APP_PAYMENT_API_BASE?.trim() ||
-    "";
-  if (fromEnv) return fromEnv;
-  if (isVercelBuildEnvironment()) return VERCEL_DEFAULT_API_BASE;
-  return "";
+/**
+ * Baked into the client bundle via DefinePlugin (CRA reads env before craco runs).
+ * On Vercel without env: use relative proxy path. Locally: full URL from .env.
+ */
+function resolveApiBasesForClientBundle() {
+  const envApi = process.env.REACT_APP_API_BASE?.trim() || "";
+  const envPayment = process.env.REACT_APP_PAYMENT_API_BASE?.trim() || "";
+
+  if (isVercelBuildEnvironment() && !envApi && !envPayment) {
+    return {
+      api: VERCEL_API_PROXY_PATH,
+      payment: VERCEL_API_PROXY_PATH,
+    };
+  }
+
+  let api = envApi;
+  let payment = envPayment;
+  if (!api) api = payment;
+  if (!payment) payment = api;
+
+  return { api, payment };
 }
 
 /** Ensure absolute imports (`services/...`, `components/...`) and .ts/.tsx resolve reliably. */
 module.exports = {
   webpack: {
     configure(config) {
-      const resolvedApiBase = resolveApiBaseForClientBundle();
+      const { api, payment } = resolveApiBasesForClientBundle();
 
       config.plugins = config.plugins || [];
       config.plugins.push(
         new webpack.DefinePlugin({
-          "process.env.REACT_APP_API_BASE": JSON.stringify(resolvedApiBase),
+          "process.env.REACT_APP_API_BASE": JSON.stringify(api),
+          "process.env.REACT_APP_PAYMENT_API_BASE": JSON.stringify(payment),
         }),
       );
 
