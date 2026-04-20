@@ -2,10 +2,11 @@ const path = require("path");
 const webpack = require("webpack");
 
 /**
- * Same-origin proxy on Vercel (see vercel.json) avoids browser CORS when the API
- * does not allow https://*.vercel.app in Access-Control-Allow-Origin.
+ * Must match your `.env` (REACT_APP_API_BASE / REACT_APP_PAYMENT_API_BASE).
+ * Used only when building on Vercel if those vars are not set in the project
+ * Environment Variables (`.env` is not committed, so CI has no file to read).
  */
-const VERCEL_API_PROXY_PATH = "/api-proxy";
+const DEFAULT_API_BASE = "https://payment.meena-health.com/api";
 
 function isVercelBuildEnvironment() {
   return (
@@ -14,19 +15,14 @@ function isVercelBuildEnvironment() {
   );
 }
 
-/**
- * Baked into the client bundle via DefinePlugin (CRA reads env before craco runs).
- * On Vercel without env: use relative proxy path. Locally: full URL from .env.
- */
+/** Values inlined into the client bundle (CRA’s DefinePlugin runs before this; we override with a second plugin). */
 function resolveApiBasesForClientBundle() {
   const envApi = process.env.REACT_APP_API_BASE?.trim() || "";
   const envPayment = process.env.REACT_APP_PAYMENT_API_BASE?.trim() || "";
 
   if (isVercelBuildEnvironment() && !envApi && !envPayment) {
-    return {
-      api: VERCEL_API_PROXY_PATH,
-      payment: VERCEL_API_PROXY_PATH,
-    };
+    const d = DEFAULT_API_BASE.replace(/\/+$/, "");
+    return { api: d, payment: d };
   }
 
   let api = envApi;
@@ -37,7 +33,6 @@ function resolveApiBasesForClientBundle() {
   return { api, payment };
 }
 
-/** Ensure absolute imports (`services/...`, `components/...`) and .ts/.tsx resolve reliably. */
 module.exports = {
   webpack: {
     configure(config) {

@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api-proxy/:path*",
-      "destination": "https://payment.meena-health.com/api/:path*"
-    }
-  ]
-}
