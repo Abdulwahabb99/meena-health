@@ -4,10 +4,12 @@ import { getAppApiBaseUrl } from "constants/appApiBase";
 
 const appApiBase = getAppApiBaseUrl();
 
-if (process.env.NODE_ENV === "development" && !appApiBase) {
+if (!appApiBase) {
   // eslint-disable-next-line no-console
   console.error(
-    "Meena: Set REACT_APP_API_BASE (and/or REACT_APP_PAYMENT_API_BASE) in your .env file, then restart `npm start`.",
+    process.env.NODE_ENV === "development"
+      ? "Meena: Set REACT_APP_API_BASE (and/or REACT_APP_PAYMENT_API_BASE) in .env, then restart npm start."
+      : "Meena: API base URL missing in this build. Set REACT_APP_API_BASE in Vercel Environment Variables and redeploy.",
   );
 }
 
