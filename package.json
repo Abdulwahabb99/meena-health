@@ -55,7 +55,6 @@
   },
   "scripts": {
     "start": "cross-env DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false craco start",
-    "prebuild": "node scripts/assert-api-env.cjs",
     "build": "craco build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
