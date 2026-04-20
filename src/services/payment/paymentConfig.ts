@@ -1,6 +1,5 @@
 /**
  * Default payment API root when `REACT_APP_PAYMENT_API_BASE` is unset.
- * Used in production (e.g. Vercel) if you forget env — override in Vercel → Settings → Environment Variables.
  */
 const DEFAULT_PAYMENT_API_BASE = "https://payment.meena-health.com/api";
 
