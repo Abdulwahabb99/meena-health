@@ -1,5 +1,15 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getAppApiBaseUrl } from "constants/appApiBase";
+
+const appApiBase = getAppApiBaseUrl();
+
+if (process.env.NODE_ENV === "development" && !appApiBase) {
+  // eslint-disable-next-line no-console
+  console.error(
+    "Meena: Set REACT_APP_API_BASE (and/or REACT_APP_PAYMENT_API_BASE) in your .env file, then restart `npm start`.",
+  );
+}
 
 let onUnauthorized;
 export const setOnUnauthorized = (fn) => {
@@ -7,15 +17,16 @@ export const setOnUnauthorized = (fn) => {
 };
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: appApiBase || undefined,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
 
 API.interceptors.request.use((config) => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  if (user?.accessToken)
-    config.headers.Authorization = `Bearer ${user.accessToken}`;
+  const token = localStorage.getItem("auth_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
@@ -24,6 +35,7 @@ function handleUnauthorized() {
     if (typeof onUnauthorized === "function") onUnauthorized();
   } catch {}
   localStorage.removeItem("user");
+  localStorage.removeItem("auth_token");
   console.log("Unauthorized access - redirecting to sign-in");
 
   window.location.href = "/sign-in";

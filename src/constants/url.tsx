@@ -1,1 +1,4 @@
-export const URL = process.env.REACT_APP_BASE_URL;
+import { getAppApiBaseUrl } from "./appApiBase";
+
+/** @deprecated Prefer importing getAppApiBaseUrl from constants/appApiBase */
+export const URL = getAppApiBaseUrl();

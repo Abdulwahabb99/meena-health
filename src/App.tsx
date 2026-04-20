@@ -13,7 +13,7 @@ import { useMaterialUIController, setMiniSidenav } from "context";
 import ProtectedRoutes from "shared/component/ProtectedRoutes";
 import pageRoutes from "page.routes";
 import SignIn from "layouts/authentication/sign-in/SignIn/SignIn";
-import SignUp from "layouts/authentication/sign-up/cover";
+import Register from "layouts/authentication/register/Register";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -30,7 +30,10 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const { pathname } = useLocation();
-  const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
+  const isAuthPage =
+    pathname === "/sign-in" ||
+    pathname === "/sign-up" ||
+    pathname === "/register";
   const { ready } = useAuth();
 
   useEffect(() => {
@@ -132,7 +135,8 @@ export default function App() {
       <Suspense fallback={<SuspenseLoading />}>
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-up" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           {getRoutes(MENU_ITEMS)}
           {pageRoutes.map((route) => (
             <Route

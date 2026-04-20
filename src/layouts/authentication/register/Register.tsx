@@ -8,13 +8,11 @@ import {
   CircularProgress,
   Link as MuiLink,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MDButton from "components/MDButton";
 import { useFormik } from "formik";
-import { getSignInValidationSchema } from "./signInValidation";
-import { useAuth } from "shared/hooks/useAuth";
-import type { AuthUser } from "shared/context/AuthContext";
-import { useLoginMutation } from "services/mutations/useLoginMutation";
+import { getRegisterValidationSchema } from "./registerValidation";
+import { useRegisterMutation } from "services/mutations/useRegisterMutation";
 import { toast } from "react-toastify";
 import axios from "axios";
 import useTranslate from "shared/hooks/useTranslate";
@@ -28,30 +26,29 @@ import SignInHeroLottie from "components/SignInHeroLottie";
 
 const LOGO_PATH = "/meena-logo.png";
 
-function SignIn() {
+function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslate();
   const { isRTL } = useLocales();
-  const { login } = useAuth();
-  const loginMutation = useLoginMutation();
+  const navigate = useNavigate();
+  const registerMutation = useRegisterMutation();
 
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
-    validationSchema: getSignInValidationSchema(t),
-    onSubmit: (values, { setSubmitting }) => {
-      loginMutation.mutate(values, {
-        onSuccess: (data) => {
-          login({
-            token: data.token,
-            user: data.user as AuthUser,
-          });
-          toast.success(t("auth.loginSuccess"));
+    validationSchema: getRegisterValidationSchema(t),
+    onSubmit: async (values, { setSubmitting }) => {
+      registerMutation.mutate(values, {
+        onSuccess: () => {
+          toast.success(t("auth.registerSuccess"));
+          navigate("/sign-in", { replace: true });
         },
         onError: (error) => {
-          let msg = t("auth.loginFailed");
+          let msg = t("auth.registerFailed");
           if (axios.isAxiosError(error)) {
             const d = error.response?.data as { message?: string } | undefined;
             msg = d?.message || error.message || msg;
@@ -134,7 +131,6 @@ function SignIn() {
           }}
         >
           <AuthLanguageSwitcher />
-
           <Box
             component="img"
             src={LOGO_PATH}
@@ -170,7 +166,7 @@ function SignIn() {
               color: "text.primary",
             }}
           >
-            {t("auth.welcome")}
+            {t("auth.registerTitle")}
           </Typography>
           <Typography
             variant="body2"
@@ -180,7 +176,7 @@ function SignIn() {
               textAlign: isRTL ? "right" : "left",
             }}
           >
-            {t("auth.description")}
+            {t("auth.registerDescription")}
           </Typography>
 
           <Box
@@ -188,6 +184,86 @@ function SignIn() {
             onSubmit={formik.handleSubmit}
             sx={{ width: "100%" }}
           >
+            <Box mb={2}>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 1,
+                  fontWeight: 500,
+                  color: "text.primary",
+                  textAlign: isRTL ? "right" : "left",
+                }}
+              >
+                {t("auth.firstName")}
+              </Typography>
+              <TextField
+                name="firstName"
+                placeholder={t("auth.firstNamePlaceholder")}
+                fullWidth
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={Boolean(
+                  formik.touched.firstName && formik.errors.firstName,
+                )}
+                helperText={
+                  formik.touched.firstName && formik.errors.firstName
+                }
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                    bgcolor: "grey.50",
+                    "&.Mui-focused": {
+                      bgcolor: "background.paper",
+                      "& fieldset": {
+                        borderColor: "primary.main",
+                        borderWidth: 2,
+                      },
+                    },
+                  },
+                }}
+              />
+            </Box>
+
+            <Box mb={2}>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 1,
+                  fontWeight: 500,
+                  color: "text.primary",
+                  textAlign: isRTL ? "right" : "left",
+                }}
+              >
+                {t("auth.lastName")}
+              </Typography>
+              <TextField
+                name="lastName"
+                placeholder={t("auth.lastNamePlaceholder")}
+                fullWidth
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={Boolean(
+                  formik.touched.lastName && formik.errors.lastName,
+                )}
+                helperText={formik.touched.lastName && formik.errors.lastName}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                    bgcolor: "grey.50",
+                    "&.Mui-focused": {
+                      bgcolor: "background.paper",
+                      "& fieldset": {
+                        borderColor: "primary.main",
+                        borderWidth: 2,
+                      },
+                    },
+                  },
+                }}
+              />
+            </Box>
+
             <Box mb={2}>
               <Typography
                 variant="body2"
@@ -318,7 +394,7 @@ function SignIn() {
               size="large"
               type="submit"
               fullWidth
-              disabled={loginMutation.isPending}
+              disabled={registerMutation.isPending}
               sx={{
                 py: 1.5,
                 borderRadius: 2,
@@ -326,18 +402,18 @@ function SignIn() {
                 fontWeight: 600,
               }}
             >
-              {loginMutation.isPending ? (
+              {registerMutation.isPending ? (
                 <CircularProgress size={24} sx={{ color: "white" }} />
               ) : (
-                t("auth.submit")
+                t("auth.registerSubmit")
               )}
             </MDButton>
 
             <Box mt={3} textAlign="center">
               <Typography variant="body2" color="text.secondary">
-                {t("auth.needAccount")}{" "}
-                <MuiLink component={Link} to="/register" fontWeight={600}>
-                  {t("auth.registerLink")}
+                {t("auth.alreadyHaveAccount")}{" "}
+                <MuiLink component={Link} to="/sign-in" fontWeight={600}>
+                  {t("auth.signInInstead")}
                 </MuiLink>
               </Typography>
             </Box>
@@ -359,4 +435,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Register;

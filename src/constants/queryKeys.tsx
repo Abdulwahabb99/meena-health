@@ -1,5 +1,7 @@
 export const QUERY_KEYS = {
   LOG_IN: "logIn",
+  REGISTER: "register",
+  ITEMS: "items",
   PERMISSIONS: "permissions",
   ROLES: "roles",
   ROLE_DETAILS: "roleDetails",

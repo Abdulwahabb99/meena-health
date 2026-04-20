@@ -9,16 +9,19 @@ import {
   type ReactNode,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import type { ApiAuthUser } from "services/api/authApi";
 
-export interface AuthUser {
-  role?: string;
+const AUTH_TOKEN_KEY = "auth_token";
+const USER_KEY = "user";
+
+export type AuthUser = ApiAuthUser & {
   permissions?: string[];
-  [key: string]: unknown;
-}
+};
 
 export interface AuthContextValue {
   user: AuthUser | null;
-  login: (params?: { data?: AuthUser }) => void;
+  token: string | null;
+  login: (params: { token: string; user: AuthUser }) => void;
   logout: () => void;
   ready: boolean;
   IS_ADMIN: boolean;
@@ -31,40 +34,57 @@ export const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser) as AuthUser);
+    const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+    const storedUser = localStorage.getItem(USER_KEY);
+    if (storedToken && storedUser) {
+      try {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser) as AuthUser);
+      } catch {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+      }
     }
     setReady(true);
   }, []);
 
-  const login = (params: { data?: AuthUser } = {}) => {
-    if (!params?.data) return;
-
-    const { data } = params;
-    localStorage.setItem("user", JSON.stringify(data));
-    setUser(data);
+  const login = (params: { token: string; user: AuthUser }) => {
+    const { token: nextToken, user: nextUser } = params;
+    localStorage.setItem(AUTH_TOKEN_KEY, nextToken);
+    localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
+    setToken(nextToken);
+    setUser(nextUser);
     navigate("/", { replace: true });
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(AUTH_TOKEN_KEY);
     setUser(null);
+    setToken(null);
     navigate("/sign-in", { replace: true });
   };
 
-  const IS_ADMIN = user?.role === ADMIN;
-  const IS_SUPER_ADMIN = user?.role === SUPER_ADMIN;
-  const IS_SELLER = user?.role === SELLER;
-  const IS_OPERATOR = user?.role === OPERATOR;
+  const roleStr =
+    user?.role !== undefined && user?.role !== null
+      ? String(user.role)
+      : undefined;
+
+  const IS_ADMIN = roleStr === ADMIN;
+  const IS_SUPER_ADMIN = roleStr === SUPER_ADMIN;
+  const IS_SELLER = roleStr === SELLER;
+  const IS_OPERATOR = roleStr === OPERATOR;
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,
         login,
         logout,
         ready,

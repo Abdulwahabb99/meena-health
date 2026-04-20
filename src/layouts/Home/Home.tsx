@@ -1,19 +1,21 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { toast } from "react-toastify";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
-import { getDrugByCode } from "services/drugApi";
 import { useCart } from "shared/context/CartContext";
-import MedicationInput from "./components/MedicationInput";
+import ItemSearchInput from "./components/ItemSearchInput";
 import MedicationTable from "./components/MedicationTable";
 import CartFooterBar from "components/CartFooterBar";
 import OrderStepper from "components/OrderStepper/OrderStepper";
 import { formatPriceWithCurrency } from "utils/formatPrice";
+import { useItemsQuery } from "services/queries/items/useItemsQuery";
+import type { CatalogItem } from "services/api/itemsApi";
 
 function Home() {
   const theme = useTheme();
@@ -30,27 +32,36 @@ function Home() {
     totalPrice,
   } = useCart();
 
-  const handleAddMedication = useCallback(
-    async (code) => {
-      const drug = await getDrugByCode(code);
-      if (!drug) {
-        return { success: false, error: t("home.errors.notFound") };
-      }
-      addMedication(drug);
-      return { success: true };
+  const { data: items = [], isLoading, isError, error } = useItemsQuery();
+
+  useEffect(() => {
+    if (!isError || !error) return;
+    const msg =
+      error instanceof Error ? error.message : t("home.itemsLoadFailed");
+    toast.error(msg);
+  }, [isError, error, t]);
+
+  const handleSelectItem = useCallback(
+    (item: CatalogItem) => {
+      addMedication({
+        code: String(item.id),
+        name: item.name,
+        price: item.price,
+        vatPrice: item.vatPrice,
+      });
     },
-    [t, addMedication],
+    [addMedication],
   );
 
   const handleUpdateQuantity = useCallback(
-    (index, newQuantity) => {
+    (index: number, newQuantity: number) => {
       updateQuantity(index, newQuantity);
     },
     [updateQuantity],
   );
 
   const handleRemove = useCallback(
-    (index) => {
+    (index: number) => {
       removeMedication(index);
     },
     [removeMedication],
@@ -87,7 +98,6 @@ function Home() {
             minHeight: 0,
             overflowY: "auto",
             overflowX: "hidden",
-            // Scrollable padding so the last row(s) sit above the fixed footer with a clear gap
             pb: { xs: 4, sm: 5 },
           }}
         >
@@ -102,23 +112,18 @@ function Home() {
           </MDTypography>
 
           <MDBox sx={{ ...cardStyle }}>
-            <MedicationInput
-              onAdd={handleAddMedication}
+            <ItemSearchInput
+              items={items}
+              loading={isLoading}
               title={t("home.heroTitle")}
               description={t("home.heroDescription")}
-              placeholder={t("home.drugCodePlaceholder")}
-              addLabel={t("home.addButton")}
-              helperText={t("home.helperText")}
+              placeholder={t("home.searchPlaceholder")}
+              noResultsText={t("home.searchNoResults")}
               isRTL={isRTL}
-              errorMessages={{
-                required: t("home.errors.required"),
-                invalid: t("home.errors.invalid"),
-                notFound: t("home.errors.notFound"),
-              }}
+              onSelectItem={handleSelectItem}
             />
             <MDBox
               sx={{
-                // my: 2,
                 borderTop: 1,
                 borderColor: "grey.200",
                 mt: { xs: 2, sm: 3 },
@@ -131,8 +136,8 @@ function Home() {
                 onRemove={handleRemove}
                 emptyMessage={t("home.emptyMessage")}
                 columns={{
-                  drugCode: t("home.drugCode"),
-                  drugName: t("home.drugName"),
+                  drugCode: t("home.itemCode"),
+                  drugName: t("home.itemName"),
                   quantity: t("home.quantity"),
                   price: t("home.price"),
                   subtotal: t("home.subtotal"),
