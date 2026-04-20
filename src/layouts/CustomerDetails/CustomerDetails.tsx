@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/material/styles";
-import Icon from "@mui/material/Icon";
 import Grid from "@mui/material/Grid";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -61,7 +60,7 @@ function CustomerDetailsFormMain() {
   const theme = useTheme();
   const meena = theme.palette?.meena || {};
   const { t } = useTranslate();
-  const { isRTL, locale } = useLocales();
+  const { locale } = useLocales();
   const navigate = useNavigate();
   const {
     customerDetails,
@@ -83,14 +82,10 @@ function CustomerDetailsFormMain() {
   });
   const { handleSubmit } = methods;
 
-  const handleBack = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
-
   const onSubmit = useCallback(
     (data) => {
       setCustomerDetails(data);
-      navigate("/checkout");
+      navigate("/");
     },
     [setCustomerDetails, navigate],
   );
@@ -134,26 +129,6 @@ function CustomerDetailsFormMain() {
             pb: { xs: 4, sm: 5 },
           }}
         >
-          <MDBox
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              mb: 2,
-              cursor: "pointer",
-              width: "fit-content",
-              "&:hover": { opacity: 0.8 },
-            }}
-            onClick={handleBack}
-          >
-            <Icon sx={{ fontSize: 24 }}>
-              {isRTL ? "arrow_forward" : "arrow_back"}
-            </Icon>
-            <MDTypography variant="body1" fontWeight="medium" color="dark">
-              {t("orderFlow.backToMedications")}
-            </MDTypography>
-          </MDBox>
-
           <MDTypography
             variant="h4"
             fontWeight="bold"
@@ -266,57 +241,19 @@ function CustomerDetailsFormMain() {
         </MDBox>
 
         <CartFooterBar
-          stepper={<OrderStepper activeStep={1} />}
-          leftIcon="shopping_cart"
-          summaryText={`${totalItems} ${t("home.itemsInCart")}`}
-          totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
-          actionLabel={t("orderFlow.continueToCheckout")}
-          onAction={() => handleSubmit(onSubmit)()}
-        />
+            stepper={<OrderStepper activeStep={0}/>}
+            leftIcon="shopping_cart"
+            summaryText={`${totalItems} ${t("home.itemsInCart")}`}
+            totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
+            actionLabel={t("orderFlow.continueToDetails")}
+            onAction={() => handleSubmit(onSubmit)()} onSecondaryAction={undefined}        />
       </MDBox>
     </FormProvider>
   );
 }
 
 function CustomerDetails() {
-  const { t } = useTranslate();
   const { locale } = useLocales();
-  const navigate = useNavigate();
-  const { medications } = useCart();
-
-  const handleBack = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
-
-  if (medications.length === 0) {
-    return (
-      <DashboardLayout>
-        <DashboardNavbar />
-        <MDBox
-          sx={{
-            p: { xs: 1.5, sm: 2, md: 3 },
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "50vh",
-          }}
-        >
-          <MDTypography variant="h5" color="text.secondary" mb={2}>
-            {t("checkout.emptyCart")}
-          </MDTypography>
-          <MDTypography
-            variant="body2"
-            color="primary"
-            sx={{ cursor: "pointer" }}
-            onClick={handleBack}
-          >
-            {t("checkout.backToHome")}
-          </MDTypography>
-        </MDBox>
-      </DashboardLayout>
-    );
-  }
 
   return (
     <DashboardLayout>

@@ -16,6 +16,9 @@ function CartFooterBar({
   totalPriceText,
   actionLabel,
   onAction,
+  secondaryActionLabel = "",
+  onSecondaryAction,
+  secondaryDisabled = false,
   disabled = false,
   leftIcon = null,
   stepper = null,
@@ -131,24 +134,52 @@ function CartFooterBar({
           {totalPriceText}
         </MDTypography>
       </Box>
-      <MDButton
-        type="button"
-        variant="gradient"
-        color="primary"
-        disabled={disabled}
-        onClick={onAction}
+      <Box
         sx={{
-          borderRadius: 2,
-          px: { xs: 2, sm: 3 },
-          py: { xs: 1.25, sm: 1.5 },
-          fontSize: { xs: "0.875rem", sm: "1rem" },
-          fontWeight: 600,
+          display: "flex",
+          flexDirection: isRTL ? "row-reverse" : "row",
+          alignItems: "center",
+          gap: 1,
           flexShrink: 0,
-          minWidth: { xs: 120, sm: 180 },
         }}
       >
-        {actionLabel}
-      </MDButton>
+        {secondaryActionLabel && typeof onSecondaryAction === "function" ? (
+          <MDButton
+            type="button"
+            variant="outlined"
+            color="dark"
+            disabled={secondaryDisabled}
+            onClick={onSecondaryAction}
+            sx={{
+              borderRadius: 2,
+              px: { xs: 2, sm: 3 },
+              py: { xs: 1.25, sm: 1.5 },
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+              fontWeight: 600,
+              minWidth: { xs: 100, sm: 140 },
+            }}
+          >
+            {secondaryActionLabel}
+          </MDButton>
+        ) : null}
+        <MDButton
+          type="button"
+          variant="gradient"
+          color="primary"
+          disabled={disabled}
+          onClick={onAction}
+          sx={{
+            borderRadius: 2,
+            px: { xs: 2, sm: 3 },
+            py: { xs: 1.25, sm: 1.5 },
+            fontSize: { xs: "0.875rem", sm: "1rem" },
+            fontWeight: 600,
+            minWidth: { xs: 120, sm: 180 },
+          }}
+        >
+          {actionLabel}
+        </MDButton>
+      </Box>
       </Box>
     </Box>
   );
@@ -159,6 +190,9 @@ CartFooterBar.propTypes = {
   totalPriceText: PropTypes.string.isRequired,
   actionLabel: PropTypes.string.isRequired,
   onAction: PropTypes.func.isRequired,
+  secondaryActionLabel: PropTypes.string,
+  onSecondaryAction: PropTypes.func,
+  secondaryDisabled: PropTypes.bool,
   disabled: PropTypes.bool,
   leftIcon: PropTypes.string,
   stepper: PropTypes.node,

@@ -220,13 +220,12 @@ function Checkout() {
         </MDBox>
 
         <CartFooterBar
-          stepper={<OrderStepper activeStep={2} />}
-          summaryText={`${t("checkout.total")}: ${totalItems} ${t("checkout.items")}`}
-          totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
-          actionLabel={t("checkout.payNow")}
-          onAction={handlePay}
-          disabled={payMutation.isPending}
-        />
+            stepper={<OrderStepper activeStep={2}/>}
+            summaryText={`${t("checkout.total")}: ${totalItems} ${t("checkout.items")}`}
+            totalPriceText={formatPriceWithCurrency(totalPrice, locale)}
+            actionLabel={t("checkout.payNow")}
+            onAction={handlePay}
+            disabled={payMutation.isPending} onSecondaryAction={undefined}        />
       </MDBox>
     </DashboardLayout>
   );
