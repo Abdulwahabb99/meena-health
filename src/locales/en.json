@@ -9,8 +9,8 @@
   },
   "home": {
     "title": "Hala to Meena",
-    "heroTitle": "Search for a medication",
-    "heroDescription": "Search by name and pick from the list to add to your order.",
+    "heroTitle": "Add medications to your insurance",
+    "heroDescription": "Search by medication name and add the medications you need for your insurance coverage. When you're done, proceed to checkout.",
     "searchPlaceholder": "Search by medication name…",
     "searchNoResults": "No matches.",
     "itemsLoadFailed": "Could not load medications. Please try again.",
