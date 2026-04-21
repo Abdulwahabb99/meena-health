@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   TextField,
@@ -91,7 +91,11 @@ function Register() {
         {t("auth.registerDescription")}
       </Typography>
 
-      <Box component="form" onSubmit={formik.handleSubmit} sx={{ width: "100%" }}>
+      <Box
+        component="form"
+        onSubmit={formik.handleSubmit}
+        sx={{ width: "100%" }}
+      >
         <Box mb={2}>
           <Typography
             variant="body2"
@@ -111,9 +115,7 @@ function Register() {
             value={formik.values.firstName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(
-              formik.touched.firstName && formik.errors.firstName,
-            )}
+            error={Boolean(formik.touched.firstName && formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
             sx={outlinedSx}
           />
