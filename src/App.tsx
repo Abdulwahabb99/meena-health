@@ -14,6 +14,7 @@ import ProtectedRoutes from "shared/component/ProtectedRoutes";
 import pageRoutes from "page.routes";
 import SignIn from "layouts/authentication/sign-in/SignIn/SignIn";
 import Register from "layouts/authentication/register/Register";
+import VerifyOtp from "layouts/authentication/verify-otp/VerifyOtp";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -33,7 +34,8 @@ export default function App() {
   const isAuthPage =
     pathname === "/sign-in" ||
     pathname === "/sign-up" ||
-    pathname === "/register";
+    pathname === "/register" ||
+    pathname === "/verify-otp";
   const { ready } = useAuth();
 
   useEffect(() => {
@@ -137,6 +139,7 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<Register />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
           {getRoutes(MENU_ITEMS)}
           {pageRoutes.map((route) => (
             <Route

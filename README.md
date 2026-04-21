@@ -1,4 +1,4 @@
-Tajhiz-react-project
+Meena-health-project
 ├── public
 │   ├── apple-icon.png
 │   ├── favicon.png

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getAppApiBaseUrl } from "constants/appApiBase";
+import { OTP_VERIFIED_KEY } from "constants/storageKeys";
 
 const appApiBase = getAppApiBaseUrl();
 
@@ -38,6 +39,7 @@ function handleUnauthorized() {
   } catch {}
   localStorage.removeItem("user");
   localStorage.removeItem("auth_token");
+  localStorage.removeItem(OTP_VERIFIED_KEY);
   console.log("Unauthorized access - redirecting to sign-in");
 
   window.location.href = "/sign-in";

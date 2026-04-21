@@ -109,6 +109,14 @@
     "alreadyHaveAccount": "لديك حساب بالفعل؟",
     "signInInstead": "تسجيل الدخول",
     "needAccount": "ليس لديك حساب؟",
-    "registerLink": "إنشاء حساب"
+    "registerLink": "إنشاء حساب",
+    "otpTitle": "رمز التحقق",
+    "otpDescription": "أدخل الرمز لمرة واحدة للمتابعة إلى التطبيق.",
+    "otpLabel": "الرمز لمرة واحدة",
+    "otpPlaceholder": "أدخل الرمز المكوّن من 5 أرقام",
+    "otpSubmit": "تحقق ومتابعة",
+    "otpInvalid": "رمز غير صحيح. حاول مرة أخرى.",
+    "otpRequired": "الرمز مطلوب",
+    "otpLength": "أدخل الرمز كاملاً (5 أرقام)"
   }
 }

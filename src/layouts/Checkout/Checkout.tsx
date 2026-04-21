@@ -15,6 +15,7 @@ import CustomerInfoCard from "components/CustomerInfoCard";
 import MedicationOrderList from "components/MedicationOrderList";
 import OrderStepper from "components/OrderStepper/OrderStepper";
 import { useCart } from "shared/context/CartContext";
+import { useAuth } from "shared/hooks/useAuth";
 import { useMoyasarPaymentMutation } from "services/mutations/useMoyasarPaymentMutation";
 import { buildMoyasarPaymentPayload } from "services/payment/buildMoyasarPayload";
 
@@ -26,6 +27,7 @@ function Checkout() {
   const navigate = useNavigate();
   const { medications, totalItems, totalPrice, clearCart, customerDetails } =
     useCart();
+  const { user } = useAuth();
 
   const customer = {
     firstName: customerDetails.firstName,
@@ -77,6 +79,7 @@ function Checkout() {
         `${m.name || m.code || "?"} ×${m.quantity ?? 1}`,
       )
       .join(", ");
+    const createdBy = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
     const payload = buildMoyasarPaymentPayload({
       amountSar: totalPrice,
       description,
@@ -84,6 +87,8 @@ function Checkout() {
       nationalId: customerDetails.idNumber,
       firstName: customerDetails.firstName,
       lastName: customerDetails.lastName,
+      mail: user?.email ?? "",
+      createdBy: createdBy || "Unknown",
     });
     payMutation.mutate(payload);
   };

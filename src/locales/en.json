@@ -109,6 +109,14 @@
     "alreadyHaveAccount": "Already have an account?",
     "signInInstead": "Sign in",
     "needAccount": "Don't have an account?",
-    "registerLink": "Register"
+    "registerLink": "Register",
+    "otpTitle": "Verification code",
+    "otpDescription": "Enter the one-time code to continue to the app.",
+    "otpLabel": "One-time code",
+    "otpPlaceholder": "Enter 5-digit code",
+    "otpSubmit": "Verify and continue",
+    "otpInvalid": "Invalid code. Please try again.",
+    "otpRequired": "Code is required",
+    "otpLength": "Enter the full 5-digit code"
   }
 }
