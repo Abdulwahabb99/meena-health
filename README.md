@@ -37,8 +37,7 @@ src/
 ├── locales/                # en.json, ar.json
 ├── services/               # API clients, React Query mutations/queries, payment helpers
 ├── shared/
-│   ├── component/          # Small barrel (e.g. ProtectedRoutes)
-│   ├── components/         # Cross-feature UI (AuthSplitLayout, AuthPasswordField)
+│   ├── components/         # ProtectedRoutes, AuthSplitLayout, AuthPasswordField
 │   ├── context/            # Auth, cart providers
 │   ├── functions/          # Shared axios instance
 │   ├── hooks/              # useAuth, useTranslate, permissions, …

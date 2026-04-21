@@ -10,7 +10,7 @@ import themeDark from "assets/theme-dark";
 import themeDarkRtl from "assets/theme-dark/theme-rtl";
 import { routes } from "routes";
 import { useMaterialUIController, setMiniSidenav } from "context";
-import ProtectedRoutes from "shared/component/ProtectedRoutes";
+import ProtectedRoutes from "shared/components/ProtectedRoutes";
 import pageRoutes from "page.routes";
 import SignIn from "layouts/authentication/sign-in/SignIn/SignIn";
 import Register from "layouts/authentication/register/Register";
