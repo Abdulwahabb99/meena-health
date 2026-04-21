@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -79,7 +79,11 @@ function SignIn() {
         {t("auth.description")}
       </Typography>
 
-      <Box component="form" onSubmit={formik.handleSubmit} sx={{ width: "100%" }}>
+      <Box
+        component="form"
+        onSubmit={formik.handleSubmit}
+        sx={{ width: "100%" }}
+      >
         <Box mb={2}>
           <Typography
             variant="body2"
