@@ -18,7 +18,8 @@ import axios from "axios";
 import useTranslate from "shared/hooks/useTranslate";
 import useLocales from "shared/hooks/useLocales";
 import AuthLanguageSwitcher from "layouts/authentication/components/AuthLanguageSwitcher";
-import EmailIcon from "icons/EmailIcon";
+import MeenaLocalEmailField from "components/MeenaLocalEmailField/MeenaLocalEmailField";
+import { buildMeenaFullEmail } from "constants/meenaEmailDomain";
 import PasswordIcon from "icons/PasswordIcon";
 import EyeIcon from "icons/EyeIcon";
 import EyeOutlineIcon from "icons/EyeOutlineicon";
@@ -42,23 +43,28 @@ function Register() {
     },
     validationSchema: getRegisterValidationSchema(t),
     onSubmit: async (values, { setSubmitting }) => {
-      registerMutation.mutate(values, {
-        onSuccess: () => {
-          toast.success(t("auth.registerSuccess"));
-          navigate("/sign-in", { replace: true });
+      registerMutation.mutate(
+        { ...values, email: buildMeenaFullEmail(values.email) },
+        {
+          onSuccess: () => {
+            toast.success(t("auth.registerSuccess"));
+            navigate("/sign-in", { replace: true });
+          },
+          onError: (error) => {
+            let msg = t("auth.registerFailed");
+            if (axios.isAxiosError(error)) {
+              const d = error.response?.data as
+                | { message?: string }
+                | undefined;
+              msg = d?.message || error.message || msg;
+            } else if (error instanceof Error) {
+              msg = error.message;
+            }
+            toast.error(msg);
+          },
+          onSettled: () => setSubmitting(false),
         },
-        onError: (error) => {
-          let msg = t("auth.registerFailed");
-          if (axios.isAxiosError(error)) {
-            const d = error.response?.data as { message?: string } | undefined;
-            msg = d?.message || error.message || msg;
-          } else if (error instanceof Error) {
-            msg = error.message;
-          }
-          toast.error(msg);
-        },
-        onSettled: () => setSubmitting(false),
-      });
+      );
     },
   });
 
@@ -276,44 +282,16 @@ function Register() {
               >
                 {t("auth.email")}
               </Typography>
-              <TextField
+              <MeenaLocalEmailField
                 name="email"
                 placeholder={t("auth.emailPlaceholder")}
-                fullWidth
                 value={formik.values.email}
-                onChange={formik.handleChange}
+                onValueChange={(local) =>
+                  formik.setFieldValue("email", local)
+                }
                 onBlur={formik.handleBlur}
                 error={Boolean(formik.touched.email && formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginInlineEnd: 0,
-                        "& svg": { width: 20, height: 20, flexShrink: 0 },
-                      }}
-                    >
-                      <EmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                    bgcolor: "grey.50",
-                    alignItems: "center",
-                    "&.Mui-focused": {
-                      bgcolor: "background.paper",
-                      "& fieldset": {
-                        borderColor: "primary.main",
-                        borderWidth: 2,
-                      },
-                    },
-                  },
-                }}
               />
             </Box>
 

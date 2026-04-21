@@ -1,11 +1,14 @@
 import * as yup from "yup";
 
+const localPartRegex = /^[a-zA-Z0-9._-]+$/;
+
 export const getSignInValidationSchema = (t) =>
   yup.object({
     email: yup
       .string()
-      .email(t("auth.emailInvalid"))
-      .required(t("auth.emailRequired")),
+      .trim()
+      .required(t("auth.emailRequired"))
+      .matches(localPartRegex, t("auth.emailLocalInvalid")),
     password: yup.string().required(t("auth.passwordRequired")),
   });
 
@@ -13,7 +16,8 @@ export const getSignInValidationSchema = (t) =>
 export const signInValidationSchema = yup.object({
   email: yup
     .string()
-    .email("Please enter a valid email")
-    .required("Email is required"),
+    .trim()
+    .required("Email is required")
+    .matches(localPartRegex, "Use only letters, numbers, dots, hyphens, and underscores"),
   password: yup.string().required("Password is required"),
 });
