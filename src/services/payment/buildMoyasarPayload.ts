@@ -5,7 +5,6 @@ export interface MoyasarPaymentPayload {
   lastName: string;
   mobileNumber: string;
   nationalId: string;
-  mail: string;
   createdBy: string;
 }
 
@@ -16,7 +15,6 @@ export function buildMoyasarPaymentPayload({
   nationalId,
   firstName,
   lastName,
-  mail,
   createdBy,
 }: {
   amountSar: number;
@@ -25,7 +23,6 @@ export function buildMoyasarPaymentPayload({
   nationalId: string;
   firstName: string;
   lastName: string;
-  mail: string;
   createdBy: string;
 }): MoyasarPaymentPayload {
   return {
@@ -35,7 +32,6 @@ export function buildMoyasarPaymentPayload({
     lastName,
     mobileNumber,
     nationalId,
-    mail,
     createdBy,
   };
 }

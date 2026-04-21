@@ -87,7 +87,6 @@ function Checkout() {
       nationalId: customerDetails.idNumber,
       firstName: customerDetails.firstName,
       lastName: customerDetails.lastName,
-      mail: user?.email ?? "",
       createdBy: createdBy || "Unknown",
     });
     payMutation.mutate(payload);
