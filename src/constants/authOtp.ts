@@ -1,0 +1,1 @@
+export const AUTH_OTP_PLACEHOLDER_CODE = "00000";

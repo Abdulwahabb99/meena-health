@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Icon from "@mui/material/Icon";
 import { toast } from "react-toastify";
@@ -20,6 +19,7 @@ import { useMoyasarPaymentMutation } from "services/mutations/useMoyasarPaymentM
 import { buildMoyasarPaymentPayload } from "services/payment/buildMoyasarPayload";
 
 import { formatPriceWithCurrency } from "utils/formatPrice";
+import { getApiErrorMessage } from "shared/utils/getApiErrorMessage";
 
 function Checkout() {
   const { t } = useTranslate();
@@ -56,20 +56,7 @@ function Checkout() {
       navigate("/");
     },
     onError: (error) => {
-      let apiMsg: string | undefined;
-      if (axios.isAxiosError(error)) {
-        const d = error.response?.data as
-          | { message?: string; error?: string }
-          | undefined;
-        apiMsg = d?.message || d?.error;
-      } else if (
-        typeof error === "object" &&
-        error !== null &&
-        "message" in error
-      ) {
-        apiMsg = String((error as { message?: string }).message);
-      }
-      toast.error(apiMsg || t("checkout.paymentFailed"));
+      toast.error(getApiErrorMessage(error, t("checkout.paymentFailed")));
     },
   });
 
